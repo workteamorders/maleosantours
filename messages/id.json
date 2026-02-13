@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "infoTravel": "Info Travel",
+    "paketTour": "Paket Tour",
+    "hotels": "Hotels",
+    "transport": "Transport",
+    "testimoni": "Testimoni",
+    "kontak": "Kontak"
+  },
+  "hero": {
+    "scrollToExplore": "Scroll untuk Menjelajah"
+  },
+  "infoTravel": {
+    "title": "Info Travel",
+    "description": "Temukan informasi lengkap tentang destinasi wisata, sejarah, budaya, transportasi, dan kuliner di Manado dan sekitarnya.",
+    "destinations": "Destinasi Wisata",
+    "history": "Sejarah & Budaya",
+    "historyDesc": "Manado memiliki sejarah yang kaya dengan warisan budaya Minahasa yang unik. Jelajahi situs-situs bersejarah dan tradisi lokal yang masih terjaga hingga saat ini.",
+    "transport": "Transportasi",
+    "transportDesc": "Berbagai pilihan transportasi tersedia untuk memudahkan perjalanan Anda, mulai dari sewa mobil pribadi hingga bus pariwisata untuk rombongan.",
+    "food": "Kuliner Khas",
+    "foodDesc": "Nikmati hidangan khas Manado seperti Tinutuan, Cakalang Fufu, dan berbagai seafood segar dari perairan Sulawesi Utara."
+  },
+  "paketTour": {
+    "title": "Paket Tour",
+    "description": "Pilih paket wisata terbaik untuk menjelajahi keindahan Manado dan sekitarnya",
+    "minahasa": "Minahasa Highland Tour",
+    "minahasaDesc": "Jelajahi keindahan dataran tinggi Minahasa dengan danau berwarna, waruga kuno, dan pemandangan gunung yang menakjubkan.",
+    "bunaken": "Bunaken Snorkeling Tour",
+    "bunakenDesc": "Nikmati keindahan bawah laut Bunaken, salah satu spot diving terbaik di dunia dengan terumbu karang yang spektakuler.",
+    "likupang": "Likupang Beach Tour",
+    "likupangDesc": "Bersantai di pantai-pantai indah Likupang dengan pasir putih dan air jernih yang mempesona.",
+    "manadoCity": "Manado City Tour",
+    "manadoCityDesc": "Kenali kota Manado lebih dekat dengan mengunjungi landmark penting dan pusat perbelanjaan lokal.",
+    "tomohon": "Tomohon & Mahawu Volcano",
+    "tomohonDesc": "Kunjungi kota sejuk Tomohon dan mendaki gunung berapi Mahawu dengan pemandangan kawah yang menakjubkan.",
+    "custom": "Custom Tour",
+    "customDesc": "Rancang perjalanan sesuai keinginan Anda dengan bantuan tim profesional kami."
+  },
+  "hotels": {
+    "title": "Hotels & Resort",
+    "description": "Temukan akomodasi terbaik untuk kenyamanan menginap selama liburan Anda",
+    "luxury": "Luxury Hotels",
+    "luxuryDesc": "Hotel bintang 5 dengan fasilitas lengkap, kolam renang, spa, dan pemandangan laut yang spektakuler.",
+    "boutique": "Boutique Hotels",
+    "boutiqueDesc": "Hotel dengan desain unik dan pelayanan personal yang memberikan pengalaman menginap yang istimewa.",
+    "beach": "Beach Resorts",
+    "beachDesc": "Resort tepi pantai dengan akses langsung ke pantai, aktivitas air, dan suasana tropis yang menenangkan.",
+    "budget": "Budget Hotels",
+    "budgetDesc": "Pilihan ekonomis dengan fasilitas dasar yang nyaman, cocok untuk backpacker dan wisatawan hemat.",
+    "family": "Family Friendly",
+    "familyDesc": "Hotel dengan fasilitas ramah keluarga, kamar luas, area bermain anak, dan paket keluarga.",
+    "business": "Business Hotels",
+    "businessDesc": "Hotel dengan fasilitas bisnis lengkap, ruang meeting, WiFi cepat, dan lokasi strategis."
+  },
+  "transport": {
+    "title": "Transportasi",
+    "description": "Layanan sewa kendaraan untuk kenyamanan perjalanan Anda",
+    "car": "Sewa Mobil Pribadi",
+    "carDesc": "Pilihan kendaraan nyaman untuk perjalanan keluarga atau rombongan kecil",
+    "includes": "Termasuk: Kendaraan, BBM, dan supir berpengalaman",
+    "bus": "Bus Pariwisata",
+    "busDesc": "Bus nyaman untuk rombongan besar dengan kapasitas hingga 40 orang",
+    "busIncludes": "Termasuk: Bus, supir profesional, dan asisten perjalanan",
+    "airport": "Antar Jemput Bandara",
+    "airportDesc": "Layanan antar jemput dari bandara ke hotel atau destinasi wisata",
+    "airportIncludes": "Tersedia 24 jam dengan kendaraan bersih dan nyaman",
+    "motor": "Motor Rental",
+    "motorDesc": "Sewa motor untuk eksplorasi bebas dengan harga terjangkau",
+    "motorIncludes": "Termasuk: Motor, helm, dan perlengkapan safety"
+  },
+  "testimoni": {
+    "title": "Testimoni",
+    "description": "Apa kata pelanggan kami tentang pengalaman wisata bersama Maleosan Travel"
+  },
+  "kontak": {
+    "title": "Kontak",
+    "description": "Hubungi kami untuk informasi lebih lanjut atau pemesanan",
+    "contactInfo": "Informasi Kontak",
+    "phone": "Telepon",
+    "email": "Email",
+    "address": "Alamat",
+    "social": "Media Sosial",
+    "sendMessage": "Kirim Pesan",
+    "name": "Nama",
+    "emailPlaceholder": "email@example.com",
+    "subject": "Subjek",
+    "message": "Pesan",
+    "messagePlaceholder": "Tulis pesan Anda di sini...",
+    "sendButton": "Kirim Pesan"
+  },
+  "footer": {
+    "letsTalk": "Mari Berbicara",
+    "contact": "Kontak",
+    "socials": "Sosial Media",
+    "allRights": "Hak Cipta Dilindungi"
+  }
+}

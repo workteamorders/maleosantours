@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "home": "Home",
+    "infoTravel": "Info Travel",
+    "paketTour": "Tour Packages",
+    "hotels": "Hotels",
+    "transport": "Transport",
+    "testimoni": "Testimonials",
+    "kontak": "Contact"
+  },
+  "hero": {
+    "scrollToExplore": "Scroll to Explore"
+  },
+  "infoTravel": {
+    "title": "Info Travel",
+    "description": "Discover comprehensive information about destinations, history, culture, transportation, and cuisine in Manado and surrounding areas.",
+    "destinations": "Tourist Destinations",
+    "history": "History & Culture",
+    "historyDesc": "Manado has a rich history with unique Minahasa cultural heritage. Explore historical sites and local traditions that are still preserved today.",
+    "transport": "Transportation",
+    "transportDesc": "Various transportation options available to facilitate your journey, from private car rentals to tourist buses for groups.",
+    "food": "Local Cuisine",
+    "foodDesc": "Enjoy Manado's signature dishes like Tinutuan, Cakalang Fufu, and various fresh seafood from North Sulawesi waters."
+  },
+  "paketTour": {
+    "title": "Tour Packages",
+    "description": "Choose the best tour packages to explore the beauty of Manado and its surroundings",
+    "minahasa": "Minahasa Highland Tour",
+    "minahasaDesc": "Explore the beauty of Minahasa highlands with colorful lakes, ancient waruga, and stunning mountain views.",
+    "bunaken": "Bunaken Snorkeling Tour",
+    "bunakenDesc": "Enjoy the underwater beauty of Bunaken, one of the world's best diving spots with spectacular coral reefs.",
+    "likupang": "Likupang Beach Tour",
+    "likupangDesc": "Relax on Likupang's beautiful beaches with white sand and crystal clear water.",
+    "manadoCity": "Manado City Tour",
+    "manadoCityDesc": "Get to know Manado city better by visiting important landmarks and local shopping centers.",
+    "tomohon": "Tomohon & Mahawu Volcano",
+    "tomohonDesc": "Visit the cool city of Tomohon and hike Mount Mahawu volcano with stunning crater views.",
+    "custom": "Custom Tour",
+    "customDesc": "Design your journey according to your preferences with the help of our professional team."
+  },
+  "hotels": {
+    "title": "Hotels & Resort",
+    "description": "Find the best accommodation for your comfort during your stay",
+    "luxury": "Luxury Hotels",
+    "luxuryDesc": "5-star hotels with complete facilities, swimming pool, spa, and spectacular ocean views.",
+    "boutique": "Boutique Hotels",
+    "boutiqueDesc": "Hotels with unique design and personal service providing exceptional stay experiences.",
+    "beach": "Beach Resorts",
+    "beachDesc": "Beachfront resorts with direct beach access, water activities, and relaxing tropical atmosphere.",
+    "budget": "Budget Hotels",
+    "budgetDesc": "Economical options with basic comfortable facilities, suitable for backpackers and budget travelers.",
+    "family": "Family Friendly",
+    "familyDesc": "Hotels with family-friendly facilities, spacious rooms, kids' play areas, and family packages.",
+    "business": "Business Hotels",
+    "businessDesc": "Hotels with complete business facilities, meeting rooms, fast WiFi, and strategic locations."
+  },
+  "transport": {
+    "title": "Transportation",
+    "description": "Vehicle rental services for your comfortable journey",
+    "car": "Private Car Rental",
+    "carDesc": "Comfortable vehicle options for family trips or small groups",
+    "includes": "Includes: Vehicle, fuel, and experienced driver",
+    "bus": "Tourist Bus",
+    "busDesc": "Comfortable buses for large groups with capacity up to 40 people",
+    "busIncludes": "Includes: Bus, professional driver, and travel assistant",
+    "airport": "Airport Transfer",
+    "airportDesc": "Airport pickup and drop-off service to hotels or tourist destinations",
+    "airportIncludes": "Available 24 hours with clean and comfortable vehicles",
+    "motor": "Motorcycle Rental",
+    "motorDesc": "Motorcycle rental for free exploration at affordable prices",
+    "motorIncludes": "Includes: Motorcycle, helmet, and safety equipment"
+  },
+  "testimoni": {
+    "title": "Testimonials",
+    "description": "What our customers say about their travel experience with Maleosan Travel"
+  },
+  "kontak": {
+    "title": "Contact",
+    "description": "Contact us for more information or booking",
+    "contactInfo": "Contact Information",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "social": "Social Media",
+    "sendMessage": "Send Message",
+    "name": "Name",
+    "emailPlaceholder": "email@example.com",
+    "subject": "Subject",
+    "message": "Message",
+    "messagePlaceholder": "Write your message here...",
+    "sendButton": "Send Message"
+  },
+  "footer": {
+    "letsTalk": "Let's Talk",
+    "contact": "Contact",
+    "socials": "Socials",
+    "allRights": "All Rights Reserved"
+  }
+}

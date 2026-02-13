@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "home": "首页",
+    "infoTravel": "旅游信息",
+    "paketTour": "旅游套餐",
+    "hotels": "酒店",
+    "transport": "交通",
+    "testimoni": "客户评价",
+    "kontak": "联系我们"
+  },
+  "hero": {
+    "scrollToExplore": "滚动探索"
+  },
+  "infoTravel": {
+    "title": "旅游信息",
+    "description": "探索万鸦及其周边地区的目的地、历史、文化、交通和美食的全面信息。",
+    "destinations": "旅游目的地",
+    "history": "历史与文化",
+    "historyDesc": "万鸦拥有丰富的历史和独特的米纳哈萨文化遗产。探索至今仍保存的历史遗址和当地传统。",
+    "transport": "交通",
+    "transportDesc": "提供多种交通选择，方便您的旅程，从私人租车到旅游巴士。",
+    "food": "当地美食",
+    "foodDesc": "享受万鸦特色菜肴，如Tinutuan、Cakalang Fufu以及来自北苏拉威西海域的各种新鲜海鲜。"
+  },
+  "paketTour": {
+    "title": "旅游套餐",
+    "description": "选择最佳旅游套餐，探索万鸦及其周边地区的美景",
+    "minahasa": "米纳哈萨高地之旅",
+    "minahasaDesc": "探索米纳哈萨高地的美景，有色彩斑斓的湖泊、古老的Waruga和壮观的山景。",
+    "bunaken": "布纳肯浮潜之旅",
+    "bunakenDesc": "享受布纳肯的水下美景，这是世界上最好的潜水点之一，拥有壮观的珊瑚礁。",
+    "likupang": "利库潘海滩之旅",
+    "likupangDesc": "在利库潘美丽的海滩上放松，享受白沙和清澈的海水。",
+    "manadoCity": "万鸦市区游",
+    "manadoCityDesc": "通过参观重要地标和当地购物中心，更好地了解万鸦市区。",
+    "tomohon": "托莫洪与马哈乌火山",
+    "tomohonDesc": "访问凉爽的托莫洪市，攀登马哈乌火山，欣赏壮观的火山口景色。",
+    "custom": "定制旅游",
+    "customDesc": "根据您的喜好，在我们专业团队的帮助下设计您的旅程。"
+  },
+  "hotels": {
+    "title": "酒店与度假村",
+    "description": "找到最佳住宿，让您住宿期间舒适无忧",
+    "luxury": "豪华酒店",
+    "luxuryDesc": "五星级酒店，设施齐全，有游泳池、水疗中心和壮观的海景。",
+    "boutique": "精品酒店",
+    "boutiqueDesc": "设计独特的酒店，提供个性化服务和卓越的住宿体验。",
+    "beach": "海滩度假村",
+    "beachDesc": "海滨度假村，可直接进入海滩，有水上活动和轻松的热带氛围。",
+    "budget": "经济型酒店",
+    "budgetDesc": "价格实惠，设施基本舒适，适合背包客和预算有限的旅行者。",
+    "family": "家庭友好",
+    "familyDesc": "家庭友好型酒店，设施齐全，房间宽敞，有儿童游乐区和家庭套餐。",
+    "business": "商务酒店",
+    "businessDesc": "商务设施齐全，有会议室、快速WiFi和战略位置。"
+  },
+  "transport": {
+    "title": "交通",
+    "description": "车辆租赁服务，让您的旅程舒适无忧",
+    "car": "私人租车",
+    "carDesc": "为家庭旅行或小团体提供舒适的车辆选择",
+    "includes": "包括：车辆、燃油和经验丰富的司机",
+    "bus": "旅游巴士",
+    "busDesc": "舒适的大巴，可容纳多达40人的大型团体",
+    "busIncludes": "包括：巴士、专业司机和旅行助理",
+    "airport": "机场接送",
+    "airportDesc": "机场接送服务，前往酒店或旅游目的地",
+    "airportIncludes": "24小时可用，提供干净舒适的车辆",
+    "motor": "摩托车租赁",
+    "motorDesc": "价格实惠的摩托车租赁，自由探索",
+    "motorIncludes": "包括：摩托车、头盔和安全装备"
+  },
+  "testimoni": {
+    "title": "客户评价",
+    "description": "客户对与Maleosan Travel旅行体验的评价"
+  },
+  "kontak": {
+    "title": "联系我们",
+    "description": "联系我们获取更多信息或预订",
+    "contactInfo": "联系信息",
+    "phone": "电话",
+    "email": "邮箱",
+    "address": "地址",
+    "social": "社交媒体",
+    "sendMessage": "发送消息",
+    "name": "姓名",
+    "emailPlaceholder": "email@example.com",
+    "subject": "主题",
+    "message": "消息",
+    "messagePlaceholder": "在此输入您的消息...",
+    "sendButton": "发送消息"
+  },
+  "footer": {
+    "letsTalk": "联系我们",
+    "contact": "联系",
+    "socials": "社交",
+    "allRights": "版权所有"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "home": "首頁",
+    "infoTravel": "旅遊資訊",
+    "paketTour": "旅遊套裝",
+    "hotels": "酒店",
+    "transport": "交通",
+    "testimoni": "客戶評價",
+    "kontak": "聯繫我們"
+  },
+  "hero": {
+    "scrollToExplore": "滾動探索"
+  },
+  "infoTravel": {
+    "title": "旅遊資訊",
+    "description": "探索萬鴉及其周邊地區的目的地、歷史、文化、交通和美食的全面資訊。",
+    "destinations": "旅遊目的地",
+    "history": "歷史與文化",
+    "historyDesc": "萬鴉擁有豐富的歷史和獨特的米納哈薩文化遺產。探索至今仍保存的歷史遺址和當地傳統。",
+    "transport": "交通",
+    "transportDesc": "提供多種交通選擇，方便您的旅程，從私人租車到旅遊巴士。",
+    "food": "當地美食",
+    "foodDesc": "享受萬鴉特色菜餚，如Tinutuan、Cakalang Fufu以及來自北蘇拉威西海域的各種新鮮海鮮。"
+  },
+  "paketTour": {
+    "title": "旅遊套裝",
+    "description": "選擇最佳旅遊套裝，探索萬鴉及其周邊地區的美景",
+    "minahasa": "米納哈薩高地之旅",
+    "minahasaDesc": "探索米納哈薩高地的美景，有色彩斑斕的湖泊、古老的Waruga和壯觀的山景。",
+    "bunaken": "布納肯浮潛之旅",
+    "bunakenDesc": "享受布納肯的水下美景，這是世界上最好的潛水點之一，擁有壯觀的珊瑚礁。",
+    "likupang": "利庫潘海灘之旅",
+    "likupangDesc": "在利庫潘美麗的海灘上放鬆，享受白沙和清澈的海水。",
+    "manadoCity": "萬鴉市區遊",
+    "manadoCityDesc": "通過參觀重要地標和當地購物中心，更好地了解萬鴉市區。",
+    "tomohon": "托莫洪與馬哈烏火山",
+    "tomohonDesc": "訪問涼爽的托莫洪市，攀登馬哈烏火山，欣賞壯觀的火山口景色。",
+    "custom": "定制旅遊",
+    "customDesc": "根據您的喜好，在我們專業團隊的幫助下設計您的旅程。"
+  },
+  "hotels": {
+    "title": "酒店與度假村",
+    "description": "找到最佳住宿，讓您住宿期間舒適無憂",
+    "luxury": "豪華酒店",
+    "luxuryDesc": "五星級酒店，設施齊全，有游泳池、水療中心和壯觀的海景。",
+    "boutique": "精品酒店",
+    "boutiqueDesc": "設計獨特的酒店，提供個性化服務和卓越的住宿體驗。",
+    "beach": "海灘度假村",
+    "beachDesc": "海濱度假村，可直接進入海灘，有水上活動和輕鬆的熱帶氛圍。",
+    "budget": "經濟型酒店",
+    "budgetDesc": "價格實惠，設施基本舒適，適合背包客和預算有限的旅行者。",
+    "family": "家庭友好",
+    "familyDesc": "家庭友好型酒店，設施齊全，房間寬敞，有兒童遊樂區和家庭套裝。",
+    "business": "商務酒店",
+    "businessDesc": "商務設施齊全，有會議室、快速WiFi和戰略位置。"
+  },
+  "transport": {
+    "title": "交通",
+    "description": "車輛租賃服務，讓您的旅程舒適無憂",
+    "car": "私人租車",
+    "carDesc": "為家庭旅行或小團體提供舒適的車輛選擇",
+    "includes": "包括：車輛、燃油和經驗豐富的司機",
+    "bus": "旅遊巴士",
+    "busDesc": "舒適的大巴，可容納多達40人的大型團體",
+    "busIncludes": "包括：巴士、專業司機和旅行助理",
+    "airport": "機場接送",
+    "airportDesc": "機場接送服務，前往酒店或旅遊目的地",
+    "airportIncludes": "24小時可用，提供乾淨舒適的車輛",
+    "motor": "摩托車租賃",
+    "motorDesc": "價格實惠的摩托車租賃，自由探索",
+    "motorIncludes": "包括：摩托車、頭盔和安全裝備"
+  },
+  "testimoni": {
+    "title": "客戶評價",
+    "description": "客戶對與Maleosan Travel旅行體驗的評價"
+  },
+  "kontak": {
+    "title": "聯繫我們",
+    "description": "聯繫我們獲取更多資訊或預訂",
+    "contactInfo": "聯繫資訊",
+    "phone": "電話",
+    "email": "電子郵件",
+    "address": "地址",
+    "social": "社交媒體",
+    "sendMessage": "發送訊息",
+    "name": "姓名",
+    "emailPlaceholder": "email@example.com",
+    "subject": "主題",
+    "message": "訊息",
+    "messagePlaceholder": "在此輸入您的訊息...",
+    "sendButton": "發送訊息"
+  },
+  "footer": {
+    "letsTalk": "聯繫我們",
+    "contact": "聯繫",
+    "socials": "社交",
+    "allRights": "版權所有"
+  }
+}
