@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 export default function Footer() {
     const [time, setTime] = useState<string>('');
@@ -54,6 +55,9 @@ export default function Footer() {
                 <div className="col-span-1 text-left md:text-left">
                     <p>© 2026 Maleosan Travel</p>
                     <p>{t('allRights')}</p>
+                    <Link href="/admin/login" className="mt-4 inline-block hover:text-background transition-colors opacity-40 hover:opacity-100 text-[10px]">
+                        {t('adminLogin')}
+                    </Link>
                 </div>
             </div>
         </footer>
