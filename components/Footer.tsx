@@ -5,8 +5,22 @@ import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
+interface CompanyInfo {
+    phone?: string;
+    phoneDisplay?: string;
+    email?: string;
+    addressId?: string;
+    addressEn?: string;
+    whatsapp?: string;
+    facebook?: string;
+    instagram?: string;
+    twitter?: string;
+    youtube?: string;
+}
+
 export default function Footer() {
     const [time, setTime] = useState<string>('');
+    const [companyInfo, setCompanyInfo] = useState<CompanyInfo | null>(null);
     const t = useTranslations('footer');
 
     useEffect(() => {
@@ -17,6 +31,20 @@ export default function Footer() {
         const interval = setInterval(updateTime, 1000);
         return () => clearInterval(interval);
     }, []);
+
+    useEffect(() => {
+        fetch('/api/company-info')
+            .then(res => res.json())
+            .then(data => {
+                if (!data.error) setCompanyInfo(data);
+            })
+            .catch(() => {});
+    }, []);
+
+    const phone = companyInfo?.phone || '+62-852-4108-5050';
+    const phoneDisplay = companyInfo?.phoneDisplay || phone;
+    const email = companyInfo?.email || 'info@maleosan.com';
+    const addressShort = companyInfo?.addressId?.split('\n')[0] || 'Manado, Indonesia';
 
     return (
         <footer className="bg-foreground text-background py-16 md:py-32 px-6 md:px-20 min-h-[50vh] md:min-h-[80vh] flex flex-col justify-between">
@@ -35,21 +63,36 @@ export default function Footer() {
             {/* Grid Info */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-10 border-t border-background/20 pt-10 text-xs md:text-sm font-sans uppercase tracking-widest text-background/60">
                 <div className="col-span-1">
-                    <p className="text-background">Manado, Indonesia</p>
+                    <p className="text-background">{addressShort}</p>
                     <p>{time} WITA</p>
                 </div>
                 <div className="col-span-1">
                     <p>{t('contact')}</p>
-                    <a href="tel:+6282173738822" className="block hover:text-background transition-colors">+62 821-7373-8822</a>
-                    <a href="mailto:info@maleosantravel.com" className="block hover:text-background transition-colors lowercase">info@maleosantravel.com</a>
+                    <a href={`tel:${phone}`} className="block hover:text-background transition-colors">{phoneDisplay}</a>
+                    <a href={`mailto:${email}`} className="block hover:text-background transition-colors lowercase">{email}</a>
                 </div>
                 <div className="col-span-1">
                     <p>{t('socials')}</p>
                     <div className="flex flex-col gap-1">
-                        <a href="https://instagram.com/maleosantravel" className="hover:text-background transition-colors">Instagram</a>
-                        <a href="https://facebook.com/maleosantravel" className="hover:text-background transition-colors">Facebook</a>
-                        <a href="https://tiktok.com/@maleosantravel" className="hover:text-background transition-colors">TikTok</a>
-                        <a href="https://youtube.com/channel/UCFjvpEJe9QTYuBJ-0IrW03w" className="hover:text-background transition-colors">YouTube</a>
+                        {companyInfo?.instagram && (
+                            <a href={companyInfo.instagram} className="hover:text-background transition-colors">Instagram</a>
+                        )}
+                        {companyInfo?.facebook && (
+                            <a href={companyInfo.facebook} className="hover:text-background transition-colors">Facebook</a>
+                        )}
+                        {companyInfo?.twitter && (
+                            <a href={companyInfo.twitter} className="hover:text-background transition-colors">TikTok</a>
+                        )}
+                        {companyInfo?.youtube && (
+                            <a href={companyInfo.youtube} className="hover:text-background transition-colors">YouTube</a>
+                        )}
+                        {!companyInfo && (
+                            <>
+                                <span className="text-background/30">Instagram</span>
+                                <span className="text-background/30">Facebook</span>
+                                <span className="text-background/30">YouTube</span>
+                            </>
+                        )}
                     </div>
                 </div>
                 <div className="col-span-1 text-left md:text-left">

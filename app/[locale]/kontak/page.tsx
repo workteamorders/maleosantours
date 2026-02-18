@@ -1,10 +1,17 @@
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
+import { getLocale } from 'next-intl/server';
+import { prisma } from '@/lib/prisma';
 
-export default function KontakPage() {
-    const t = useTranslations('kontak');
+export default async function KontakPage() {
+    const t = await getTranslations('kontak');
+    const locale = await getLocale();
+    const companyInfo = await prisma.companyInfo.findFirst();
+
+    // Determine address based on locale
+    const address = locale === 'id' ? companyInfo?.addressId : companyInfo?.addressEn;
 
     return (
         <main className="relative bg-background">
@@ -34,53 +41,69 @@ export default function KontakPage() {
                             <div className="space-y-6">
                                 <div>
                                     <h3 className="font-semibold text-lg mb-2">{t('phone')}</h3>
-                                    <a href="tel:+6282173738822" className="text-gray-600 hover:text-blue-600">
-                                        +62 821-7373-8822
+                                    <a href={`tel:${companyInfo?.phone || ''}`} className="text-gray-600 hover:text-blue-600">
+                                        {companyInfo?.phoneDisplay || companyInfo?.phone || '-'}
                                     </a>
                                 </div>
 
                                 <div>
                                     <h3 className="font-semibold text-lg mb-2">{t('email')}</h3>
-                                    <a href="mailto:info@maleosantravel.com" className="text-gray-600 hover:text-blue-600">
-                                        info@maleosantravel.com
+                                    <a href={`mailto:${companyInfo?.email || ''}`} className="text-gray-600 hover:text-blue-600">
+                                        {companyInfo?.email || '-'}
                                     </a>
                                 </div>
 
+                                {companyInfo?.whatsapp && (
+                                    <div>
+                                        <h3 className="font-semibold text-lg mb-2">WhatsApp</h3>
+                                        <a href={`https://wa.me/${companyInfo.whatsapp}`} target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-green-600">
+                                            +{companyInfo.whatsapp}
+                                        </a>
+                                    </div>
+                                )}
+
                                 <div>
                                     <h3 className="font-semibold text-lg mb-2">{t('address')}</h3>
-                                    <p className="text-gray-600">
-                                        Manado, Sulawesi Utara<br />
-                                        Indonesia
+                                    <p className="text-gray-600 whitespace-pre-line">
+                                        {address || '-'}
                                     </p>
                                 </div>
 
                                 <div>
                                     <h3 className="font-semibold text-lg mb-4">{t('social')}</h3>
                                     <div className="flex gap-4">
-                                        <a href="https://www.facebook.com/maleosantravel"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-gray-600 hover:text-blue-600">
-                                            Facebook
-                                        </a>
-                                        <a href="https://www.youtube.com/channel/UCFjvpEJe9QTYuBJ-0IrW03w"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-gray-600 hover:text-red-600">
-                                            YouTube
-                                        </a>
-                                        <a href="https://www.instagram.com/maleosantravel"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-gray-600 hover:text-pink-600">
-                                            Instagram
-                                        </a>
-                                        <a href="https://www.tiktok.com/@maleosantravel"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-gray-600 hover:text-black">
-                                            TikTok
-                                        </a>
+                                        {companyInfo?.facebook && (
+                                            <a href={companyInfo.facebook}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-gray-600 hover:text-blue-600">
+                                                Facebook
+                                            </a>
+                                        )}
+                                        {companyInfo?.youtube && (
+                                            <a href={companyInfo.youtube}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-gray-600 hover:text-red-600">
+                                                YouTube
+                                            </a>
+                                        )}
+                                        {companyInfo?.instagram && (
+                                            <a href={companyInfo.instagram}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-gray-600 hover:text-pink-600">
+                                                Instagram
+                                            </a>
+                                        )}
+                                        {companyInfo?.twitter && (
+                                            <a href={companyInfo.twitter}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-gray-600 hover:text-black">
+                                                TikTok
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -135,6 +158,24 @@ export default function KontakPage() {
                             </form>
                         </div>
                     </div>
+
+                    {/* Google Maps embed */}
+                    {companyInfo?.googleMaps && (
+                        <div className="mt-12">
+                            <h2 className="font-serif text-3xl mb-6">{t('address')}</h2>
+                            <div className="w-full h-96 rounded-lg overflow-hidden">
+                                <iframe
+                                    src={companyInfo.googleMaps}
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: 0 }}
+                                    allowFullScreen
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                ></iframe>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
             <Footer />

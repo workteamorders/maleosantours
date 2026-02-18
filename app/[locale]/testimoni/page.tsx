@@ -1,10 +1,10 @@
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
-export default function TestimoniPage() {
-    const t = useTranslations('testimoni');
+export default async function TestimoniPage() {
+    const t = await getTranslations('testimoni');
 
     return (
         <main className="relative bg-background">

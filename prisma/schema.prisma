@@ -1,0 +1,270 @@
+// Prisma Schema for Maleosan Travel CMS
+// Run: npx prisma generate && npx prisma db push
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// AUTHENTICATION
+// ============================================
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // Hashed with bcrypt
+  name      String
+  role      String   @default("admin")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  adminId   String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+// ============================================
+// CONTENT MANAGEMENT
+// ============================================
+
+// 1️⃣ INFO TRAVEL
+model InfoTravel {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  category    String   // 'destination', 'history', 'transport', 'food'
+  
+  // Multi-language content
+  titleId     String
+  titleEn     String
+  titleZh     String
+  titleZhCn   String
+  
+  descId      String   @db.Text
+  descEn      String   @db.Text
+  descZh      String   @db.Text
+  descZhCn    String   @db.Text
+  
+  images      String   @db.Text // JSON array of image URLs
+  videoUrl    String?  @db.Text // YouTube/video embed URL
+  icon        String?
+  order       Int      @default(0)
+  
+  published   Boolean  @default(false)
+  featured    Boolean  @default(false)
+  
+  // SEO
+  metaTitleEn String?
+  metaDescEn  String?  @db.Text
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// 2️⃣ TOUR PACKAGES
+model TourPackage {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  
+  // Multi-language content
+  nameId       String
+  nameEn       String
+  nameZh       String
+  nameZhCn     String
+  
+  descId       String   @db.Text
+  descEn       String   @db.Text
+  descZh       String   @db.Text
+  descZhCn     String   @db.Text
+  
+  // Tour details
+  duration     String   // "1 Day", "3D2N", etc.
+  type         String   // 'day-tour', 'multi-day', 'custom'
+  price        Float?
+  priceUnit    String?  // "per person", "per group"
+  
+  // Itinerary (JSON)
+  itineraryId  String?  @db.Text
+  itineraryEn  String?  @db.Text
+  itineraryZh  String?  @db.Text
+  itineraryZhCn String? @db.Text
+  
+  // Included/Excluded (JSON arrays)
+  includedId   String?  @db.Text
+  includedEn   String?  @db.Text
+  excludedId   String?  @db.Text
+  excludedEn   String?  @db.Text
+  
+  images       String   @db.Text // JSON array
+  mainImage    String
+  
+  featured     Boolean  @default(false)
+  active       Boolean  @default(true)
+  order        Int      @default(0)
+  
+  // SEO
+  metaTitleEn  String?
+  metaDescEn   String?  @db.Text
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  testimonials Testimonial[]
+}
+
+// 3️⃣ HOTELS
+model Hotel {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  
+  // Multi-language content
+  nameId       String
+  nameEn       String
+  nameZh       String
+  nameZhCn     String
+  
+  descId       String   @db.Text
+  descEn       String   @db.Text
+  descZh       String   @db.Text
+  descZhCn     String   @db.Text
+  
+  category     String   // 'luxury', 'boutique', 'beach', 'budget', 'family', 'business'
+  stars        Int      @default(3)
+  location     String
+  
+  facilities   String   @db.Text // JSON array
+  images       String   @db.Text // JSON array
+  mainImage    String
+  
+  bookingUrl   String?  @db.Text
+  priceRange   String?  // "$$", "$$$", "$$$$"
+  
+  featured     Boolean  @default(false)
+  active       Boolean  @default(true)
+  order        Int      @default(0)
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// 4️⃣ TRANSPORT
+model Transport {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  
+  // Multi-language content
+  nameId       String
+  nameEn       String
+  nameZh       String
+  nameZhCn     String
+  
+  descId       String   @db.Text
+  descEn       String   @db.Text
+  descZh       String   @db.Text
+  descZhCn     String   @db.Text
+  
+  type         String   // 'car', 'bus', 'airport', 'motor'
+  capacity     Int?
+  
+  price        Float?
+  priceUnit    String?  // "per day", "per trip"
+  
+  includesId   String?  @db.Text
+  includesEn   String?  @db.Text
+  
+  images       String   @db.Text // JSON array
+  mainImage    String
+  
+  driverIncluded Boolean @default(true)
+  available    Boolean  @default(true)
+  order        Int      @default(0)
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// 5️⃣ TESTIMONIALS
+model Testimonial {
+  id            String   @id @default(cuid())
+  
+  customerName  String
+  country       String
+  rating        Int      @default(5)
+  
+  reviewId      String   @db.Text
+  reviewEn      String   @db.Text
+  reviewZh      String?  @db.Text
+  reviewZhCn    String?  @db.Text 
+  
+  tourPackageId String?
+  tourPackage   TourPackage? @relation(fields: [tourPackageId], references: [id], onDelete: SetNull)
+  
+  photo         String?
+  order         Int      @default(0)
+  approved      Boolean  @default(false)
+  featured      Boolean  @default(false)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// 6️⃣ CONTACT & COMPANY INFO
+model CompanyInfo {
+  id            String   @id @default(cuid())
+  
+  phone         String
+  phoneDisplay  String
+  email         String
+  addressId     String
+  addressEn     String
+  
+  whatsapp      String?
+  googleMaps    String?  @db.Text // Embed URL
+  
+  facebook      String?
+  instagram     String?
+  twitter       String?
+  youtube       String?
+  
+  updatedAt     DateTime @updatedAt
+}
+
+model ContactSubmission {
+  id         String   @id @default(cuid())
+  
+  name       String
+  email      String
+  subject    String
+  message    String   @db.Text
+  
+  status     String   @default("new") // 'new', 'read', 'replied', 'archived'
+  notes      String?  @db.Text 
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// 7️⃣ MEDIA LIBRARY (Optional but useful)
+model Media {
+  id         String   @id @default(cuid())
+  
+  filename   String
+  url        String
+  type       String   // 'image', 'video', 'document'
+  size       Int      // bytes
+  mimeType   String
+  
+  alt        String?
+  caption    String?
+  
+  createdAt  DateTime @default(now())
+}
