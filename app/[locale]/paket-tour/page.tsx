@@ -1,113 +1,92 @@
-/**
- * Tour Packages Page - Public
- * REFACTORED: Now fetches data from database instead of hardcoded translations
- */
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import StaticPageHeader from '@/components/StaticPageHeader';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import Image from 'next/image';
-import { getTranslations } from 'next-intl/server';
-import { prisma } from '@/lib/prisma';
-
-// Fetch active tour packages from database
-async function getTourPackages(locale: string) {
-  const packages = await prisma.tourPackage.findMany({
-    where: { active: true },
-    orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
-  });
-
-  // Map to locale-specific content
-  return packages.map((pkg) => ({
-    id: pkg.id,
-    name: locale === 'id' ? pkg.nameId : locale === 'zh' ? pkg.nameZh : locale === 'zh-CN' ? pkg.nameZhCn : pkg.nameEn,
-    description: locale === 'id' ? pkg.descId : locale === 'zh' ? pkg.descZh : locale === 'zh-CN' ? pkg.descZhCn : pkg.descEn,
-    duration: pkg.duration,
-    type: pkg.type,
-    price: pkg.price,
-    priceUnit: pkg.priceUnit,
-    mainImage: pkg.mainImage,
-    featured: pkg.featured,
-  }));
-}
-
-export default async function PaketTourPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  const t = await getTranslations('paketTour');
-  
-  // Fetch tour packages from database
-  const tourPackages = await getTourPackages(locale);
+export default function PaketTourPage() {
+    const categories = [
+        {
+            id: 'north-sulawesi',
+            title: "Manado - Minahasa - Likupang",
+            description: "Discover the breathtaking beauty of North Sulawesi. From the world-famous Bunaken Marine Park to the highlands of Minahasa and the pristine beaches of Likupang.",
+            image: "https://images.unsplash.com/photo-1544642050-46e2919aa74e?q=80&w=2000",
+            link: "/paket-tour/north-sulawesi"
+        },
+        {
+            id: 'tangkoko',
+            title: "Tangkoko Adventure Tour",
+            description: "Immerse yourself in nature at the Tangkoko Nature Reserve. Encounter unique wildlife like the spectral tarsier, black macaques, and hornbills in their natural habitat.",
+            image: "https://images.unsplash.com/photo-1588874138676-4dae3d64e9a8?q=80&w=2000",
+            link: "/paket-tour/tangkoko"
+        },
+        {
+            id: 'makassar-toraja',
+            title: "Makassar - Toraja",
+            description: "Experience the rich cultural heritage of South Sulawesi. Visit the mystical land of Tana Toraja with its unique funeral rites and traditional Tongkonan houses.",
+            image: "https://images.unsplash.com/photo-1605703813953-f7036a5b6f00?q=80&w=2000",
+            link: "/paket-tour/makassar-toraja"
+        }
+    ];
 
     return (
-        <main className="relative bg-background">
+        <main className="bg-neutral-50 min-h-screen font-sans">
             <Navbar />
-            <div className="min-h-screen pt-32 px-10">
-                <div className="relative h-96 mb-12 rounded-lg overflow-hidden">
-                    <Image
-                        src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&h=600&fit=crop"
-                        alt="Tour Package"
-                        fill
-                        className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                        <h1 className="font-serif text-6xl text-white">{t('title')}</h1>
+            <StaticPageHeader
+                title="Tour Packages"
+                current="Packages"
+                image="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&h=600&fit=crop"
+            />
+
+            <section className="py-24 px-4">
+                <div className="container mx-auto max-w-6xl">
+                    <div className="text-center max-w-3xl mx-auto mb-20">
+                        <span className="text-amber-600 uppercase tracking-[0.2em] text-sm font-semibold">Choose Your Adventure</span>
+                        <h2 className="text-4xl md:text-5xl font-serif font-medium text-gray-900 mt-4 mb-8">Curated Journeys</h2>
+                        <p className="text-gray-600 leading-relaxed text-lg">
+                            We have carefully selected the best destinations in Sulawesi for you. Whether you love the sea, the mountains, or cultural experiences, we have the perfect package.
+                        </p>
                     </div>
-                </div>
 
-                <div className="max-w-6xl">
-                    <p className="text-xl text-gray-600 mb-12">
-                        {t('description')}
-                    </p>
-
-                    {/* Dynamic Tour Packages from Database */}
-                    {tourPackages.length === 0 ? (
-                        <div className="text-center py-12">
-                            <p className="text-gray-500 text-lg">
-                                {locale === 'id' ? 'Belum ada paket tour tersedia.' : 'No tour packages available yet.'}
-                            </p>
-                        </div>
-                    ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {tourPackages.map((pkg) => (
-                                <div
-                                    key={pkg.id}
-                                    className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
-                                >
-                                    <div className="relative h-48">
-                                        <Image
-                                            src={pkg.mainImage}
-                                            alt={pkg.name}
-                                            fill
-                                            className="object-cover"
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                        {categories.map((category) => (
+                            <Link href={category.link} key={category.id} className="group cursor-pointer">
+                                <div className="bg-white rounded-sm overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 h-full flex flex-col">
+                                    <div className="h-80 overflow-hidden relative">
+                                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors z-10"></div>
+                                        <img
+                                            src={category.image}
+                                            alt={category.title}
+                                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-in-out"
                                         />
-                                        {pkg.featured && (
-                                            <div className="absolute top-3 right-3 bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                                                {locale === 'id' ? 'Unggulan' : 'Featured'}
-                                            </div>
-                                        )}
                                     </div>
-                                    <div className="p-6">
-                                        <h3 className="font-serif text-2xl mb-4">{pkg.name}</h3>
-                                        <p className="text-gray-600 mb-4">{pkg.description}</p>
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-sm text-gray-500">{pkg.duration}</span>
-                                            {pkg.price && (
-                                                <span className="text-lg font-semibold text-blue-600">
-                                                    ${pkg.price} {pkg.priceUnit && <span className="text-sm text-gray-500">/ {pkg.priceUnit}</span>}
-                                                </span>
-                                            )}
+                                    <div className="p-8 flex flex-col flex-grow relative bg-white">
+                                        <div className="absolute -top-10 right-8 bg-amber-500 w-16 h-16 flex items-center justify-center text-white shadow-lg group-hover:bg-gray-900 transition-colors duration-300">
+                                            <ArrowRight size={24} className="transform -rotate-45 group-hover:rotate-0 transition-transform duration-300" />
+                                        </div>
+
+                                        <h3 className="text-2xl font-serif font-bold text-gray-900 mb-4 group-hover:text-amber-600 transition-colors">
+                                            {category.title}
+                                        </h3>
+                                        <p className="text-gray-500 mb-8 leading-relaxed text-sm flex-grow">
+                                            {category.description}
+                                        </p>
+
+                                        <div className="mt-auto">
+                                            <span className="inline-block text-xs font-bold uppercase tracking-widest border-b-2 border-amber-200 pb-1 group-hover:border-amber-500 transition-colors">
+                                                Explore Packages
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    )}
+                            </Link>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            </section>
+
             <Footer />
         </main>
     );
 }
+

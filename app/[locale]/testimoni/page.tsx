@@ -1,185 +1,96 @@
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import Image from 'next/image';
-import { getTranslations } from 'next-intl/server';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import StaticPageHeader from '@/components/StaticPageHeader';
+import { Quote, Star } from 'lucide-react';
 
-export default async function TestimoniPage() {
-    const t = await getTranslations('testimoni');
+export default function Testimonials() {
+    // Content inspired by typical travel testimonials for Manado
+    const testimonials = [
+        {
+            name: "Sarah Jenkins",
+            location: "United Kingdom",
+            text: "The Minahasa Highland tour resolved all our expectations! Our guide was incredibly knowledgeable about the local culture and history. The lunch by Lake Linow was a highlight—absolute serenity.",
+            date: "October 2023",
+            rating: 5
+        },
+        {
+            name: "Zhang Wei",
+            location: "China",
+            text: "Bunaken diving is world-class, and Maleosan Travel organized everything perfectly. The equipment was top-notch, and the dive masters were very professional. Highly recommended for any diver visiting North Sulawesi!",
+            date: "September 2023",
+            rating: 5
+        },
+        {
+            name: "Budi Santoso",
+            location: "Jakarta, Indonesia",
+            text: "Pelayanan sangat ramah dan profesional. Mobil bersih dan driver on time. Kami sangat menikmati tour culinary di Manado. Terima kasih Maleosan sudah membuat liburan keluarga kami berkesan.",
+            date: "August 2023",
+            rating: 5
+        },
+        {
+            name: "Michael & Emma",
+            location: "Australia",
+            text: "We had a fantastic time in Manado. The Tangkoko Nature Reserve tour was magical—we actually saw the Tarsiers! The guide knew exactly where to look. A truly unique experience.",
+            date: "July 2023",
+            rating: 4
+        },
+        {
+            name: "Anita R.",
+            location: "Singapore",
+            text: "Arranged a private car charter for 3 days. The driver was safe, polite, and knew all the best shortcuts. It made exploring Minahasa so much easier.",
+            date: "June 2023",
+            rating: 5
+        },
+        {
+            name: "Thomas Mueller",
+            location: "Germany",
+            text: "The Tomohon market is intense but fascinating! Our guide explained everything so well. The flower garden visit afterwards was a beautiful contrast.",
+            date: "May 2023",
+            rating: 5
+        }
+    ];
 
     return (
-        <main className="relative bg-background">
+        <main className="bg-neutral-50 min-h-screen font-sans">
             <Navbar />
-            <div className="min-h-screen pt-32 px-10">
-                <div className="relative h-96 mb-12 rounded-lg overflow-hidden">
-                    <Image
-                        src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=1920&h=600&fit=crop"
-                        alt="Testimonials"
-                        fill
-                        className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                        <h1 className="font-serif text-6xl text-white">{t('title')}</h1>
-                    </div>
-                </div>
+            <StaticPageHeader
+                title="Guest Experiences"
+                current="Testimonials"
+                image="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=2600"
+            />
 
-                <div className="max-w-6xl">
-                    <p className="text-xl text-gray-600 mb-12">
-                        {t('description')}
-                    </p>
+            <section className="py-20 px-4 md:px-8">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-16 space-y-4">
+                        <span className="text-amber-600 uppercase tracking-[0.2em] text-sm font-semibold">What People Say</span>
+                        <h2 className="text-3xl md:text-5xl font-serif font-medium text-gray-900">Stories from Our Travelers</h2>
+                        <div className="w-24 h-1 bg-amber-500 mx-auto rounded-full mt-6"></div>
+                    </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="relative h-32">
-                                <Image
-                                    src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=200&fit=crop"
-                                    alt="Travel Experience"
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                            <div className="p-6">
-                                <div className="flex items-center mb-4">
-                                    <div className="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
-                                    <div>
-                                        <h3 className="font-semibold">Sarah Wijaya</h3>
-                                        <p className="text-sm text-gray-500">Jakarta</p>
-                                    </div>
+                        {testimonials.map((testi, i) => (
+                            <div key={i} className="bg-white p-8 rounded-xl shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.1)] transition-all duration-300 group">
+                                <div className="flex gap-1 text-amber-400 mb-6">
+                                    {[...Array(testi.rating)].map((_, r) => (
+                                        <Star key={r} size={16} fill="currentColor" strokeWidth={0} />
+                                    ))}
                                 </div>
-                                <p className="text-gray-600 italic">
-                                    "Pengalaman yang luar biasa! Tim Maleosan Travel sangat profesional dan ramah.
-                                    Paket tour Minahasa Highland sangat recommended."
-                                </p>
-                                <div className="mt-4 text-yellow-500">⭐⭐⭐⭐⭐</div>
-                            </div>
-                        </div>
+                                <Quote size={32} className="text-gray-200 mb-4 group-hover:text-amber-100 transition-colors" />
+                                <p className="text-gray-600 leading-relaxed mb-6 italic">"{testi.text}"</p>
 
-                        <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="relative h-32">
-                                <Image
-                                    src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&h=200&fit=crop"
-                                    alt="Snorkeling"
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                            <div className="p-6">
-                                <div className="flex items-center mb-4">
-                                    <div className="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                                <div className="border-t border-gray-100 pt-6 flex items-center justify-between">
                                     <div>
-                                        <h3 className="font-semibold">John Tan</h3>
-                                        <p className="text-sm text-gray-500">Singapore</p>
+                                        <h4 className="font-serif text-lg font-medium text-gray-900">{testi.name}</h4>
+                                        <p className="text-xs uppercase tracking-wider text-gray-400 mt-1">{testi.location}</p>
                                     </div>
+                                    <span className="text-xs text-gray-400 font-medium bg-gray-50 px-3 py-1 rounded-full">{testi.date}</span>
                                 </div>
-                                <p className="text-gray-600 italic">
-                                    "Bunaken snorkeling trip was amazing! The coral reefs are beautiful and
-                                    guides were very knowledgeable. Highly recommended!"
-                                </p>
-                                <div className="mt-4 text-yellow-500">⭐⭐⭐⭐⭐</div>
                             </div>
-                        </div>
-
-                        <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="relative h-32">
-                                <Image
-                                    src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&h=200&fit=crop"
-                                    alt="Road Trip"
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                            <div className="p-6">
-                                <div className="flex items-center mb-4">
-                                    <div className="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
-                                    <div>
-                                        <h3 className="font-semibold">Maria Kusuma</h3>
-                                        <p className="text-sm text-gray-500">Surabaya</p>
-                                    </div>
-                                </div>
-                                <p className="text-gray-600 italic">
-                                    "Sewa mobil dengan supir sangat membantu. Supirnya tahu tempat-tempat wisata
-                                    terbaik dan memberikan rekomendasi kuliner yang enak."
-                                </p>
-                                <div className="mt-4 text-yellow-500">⭐⭐⭐⭐⭐</div>
-                            </div>
-                        </div>
-
-                        <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="relative h-32">
-                                <Image
-                                    src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&h=200&fit=crop"
-                                    alt="Beach Trip"
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                            <div className="p-6">
-                                <div className="flex items-center mb-4">
-                                    <div className="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
-                                    <div>
-                                        <h3 className="font-semibold">David Chen</h3>
-                                        <p className="text-sm text-gray-500">Kuala Lumpur</p>
-                                    </div>
-                                </div>
-                                <p className="text-gray-600 italic">
-                                    "Family trip to Likupang was perfect. The beach is pristine and kids
-                                    loved it. Great service from start to finish!"
-                                </p>
-                                <div className="mt-4 text-yellow-500">⭐⭐⭐⭐⭐</div>
-                            </div>
-                        </div>
-
-                        <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="relative h-32">
-                                <Image
-                                    src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&h=200&fit=crop"
-                                    alt="Custom Tour"
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                            <div className="p-6">
-                                <div className="flex items-center mb-4">
-                                    <div className="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
-                                    <div>
-                                        <h3 className="font-semibold">Rina Putri</h3>
-                                        <p className="text-sm text-gray-500">Medan</p>
-                                    </div>
-                                </div>
-                                <p className="text-gray-600 italic">
-                                    "Paket custom tour sesuai budget saya. Timnya sangat fleksibel dan membantu
-                                    merencanakan itinerary yang pas. Terima kasih Maleosan Travel!"
-                                </p>
-                                <div className="mt-4 text-yellow-500">⭐⭐⭐⭐⭐</div>
-                            </div>
-                        </div>
-
-                        <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="relative h-32">
-                                <Image
-                                    src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=600&h=200&fit=crop"
-                                    alt="Hotel Stay"
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                            <div className="p-6">
-                                <div className="flex items-center mb-4">
-                                    <div className="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
-                                    <div>
-                                        <h3 className="font-semibold">Michael Lee</h3>
-                                        <p className="text-sm text-gray-500">Hong Kong</p>
-                                    </div>
-                                </div>
-                                <p className="text-gray-600 italic">
-                                    "Excellent service! The hotel recommendations were perfect and
-                                    transportation was very comfortable. Will definitely come back!"
-                                </p>
-                                <div className="mt-4 text-yellow-500">⭐⭐⭐⭐⭐</div>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
-            </div>
+            </section>
+
             <Footer />
         </main>
     );

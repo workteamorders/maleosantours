@@ -8,6 +8,7 @@ import { useAuth } from '@/src/hooks/useAuth';
 import { apiClient } from '@/src/services/api';
 import toast from 'react-hot-toast';
 import { Eye, EyeOff, Loader } from 'lucide-react';
+import { setCookie } from 'cookies-next';
 
 const loginSchema = z.object({
   email: z.string().email('Email tidak valid'),
@@ -33,6 +34,10 @@ export default function AdminLoginPage() {
     try {
       setIsLoading(true);
       const response = await apiClient.login(data);
+
+      // Set cookie for middleware
+      setCookie('admin_session', response.token, { maxAge: 60 * 60 * 24 }); // 24 hours
+
       login(response.token, response.user);
       toast.success('Login berhasil!');
     } catch (error: any) {

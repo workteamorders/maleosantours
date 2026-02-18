@@ -9,7 +9,6 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 const nextConfig = {
   reactStrictMode: true,
   typescript: {
-    // Disable strict React Server Component checks for function props
     ignoreBuildErrors: false,
   },
   images: {
@@ -21,8 +20,10 @@ const nextConfig = {
       },
     ],
   },
-  turbopack: {
-    root: __dirname,
+  // Tambahkan blok ini untuk memastikan Webpack selalu digunakan
+  webpack: (config, { isServer }) => {
+    // Anda bisa membiarkannya kosong atau menambahkan kustomisasi di sini
+    return config;
   },
 };
 

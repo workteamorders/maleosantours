@@ -1,136 +1,49 @@
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
-import Image from 'next/image';
-import { getTranslations } from 'next-intl/server';
+import StaticPageHeader from '../../../components/StaticPageHeader';
+import { Users, Briefcase } from 'lucide-react';
 
-export default async function TransportPage() {
-    const t = await getTranslations('transport');
+export default function Transport() {
+    const fleet = [
+        { name: "Toyota Innova Reborn", type: "MPV", capacity: "6 Pax", image: "https://images.unsplash.com/photo-1619682817481-e994891cd1f5?q=80&w=800&auto=format&fit=crop" },
+        { name: "Toyota Hiace Commuter", type: "Minibus", capacity: "14 Pax", image: "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=800&auto=format&fit=crop" },
+        { name: "Toyota Alphard", type: "Luxury MPV", capacity: "5 Pax", image: "https://images.unsplash.com/photo-1626668893632-6f3a4466d22f?q=80&w=800&auto=format&fit=crop" },
+        { name: "Medium Bus", type: "Bus", capacity: "30 Pax", image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800&auto=format&fit=crop" },
+    ];
 
     return (
-        <main className="relative bg-background">
+        <main className="bg-white min-h-screen">
             <Navbar />
-            <div className="min-h-screen pt-32 px-10">
-                <div className="relative h-96 mb-12 rounded-lg overflow-hidden">
-                    <Image
-                        src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1920&h=600&fit=crop"
-                        alt="Transportation"
-                        fill
-                        className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                        <h1 className="font-serif text-6x1 text-white">{t('title')}</h1>
-                    </div>
-                </div>
-
-                <div className="max-w-6xl">
-                    <p className="text-xl text-gray-600 mb-12">
-                        {t('description')}
+            <StaticPageHeader
+                title="Transport Services"
+                current="Transport"
+                image="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=2600"
+            />
+            <div className="container mx-auto px-6 py-20">
+                <div className="text-center max-w-3xl mx-auto mb-16">
+                    <p className="text-gray-600 text-lg">
+                        Reliable and comfortable transportation for your journey in Manado. All our vehicles are well-maintained, air-conditioned, and include professional drivers.
                     </p>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="relative h-48">
-                                <Image
-                                    src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&h=400&fit=crop"
-                                    alt="Car Rental"
-                                    fill
-                                    className="object-cover"
-                                />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {fleet.map((car, i) => (
+                        <div key={i} className="flex flex-col md:flex-row bg-white border border-gray-100 shadow-sm hover:shadow-lg transition-all group">
+                            <div className="w-full md:w-1/2 h-64 overflow-hidden">
+                                <img src={car.image} alt={car.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                             </div>
-                            <div className="p-8">
-                                <h3 className="font-serif text-3xl mb-4">{t('car')}</h3>
-                                <p className="text-gray-600 mb-6">
-                                    {t('carDesc')}
-                                </p>
-                                <ul className="space-y-2 text-gray-700 mb-6">
-                                    <li>• Toyota Avanza</li>
-                                    <li>• Toyota Innova</li>
-                                    <li>• Toyota Fortuner</li>
-                                    <li>• Toyota Alphard (Premium)</li>
-                                </ul>
-                                <p className="text-sm text-gray-500">
-                                    {t('includes')}
-                                </p>
+                            <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
+                                <h3 className="text-2xl font-serif font-bold mb-2">{car.name}</h3>
+                                <p className="text-amber-600 font-bold uppercase text-xs tracking-widest mb-6">{car.type}</p>
+                                <div className="flex items-center gap-6 text-gray-500 text-sm mb-8">
+                                    <div className="flex items-center"><Users size={16} className="mr-2" /> {car.capacity}</div>
+                                    <div className="flex items-center"><Briefcase size={16} className="mr-2" /> Luggage OK</div>
+                                </div>
+                                <button className="self-start px-6 py-3 bg-gray-900 text-white font-bold uppercase text-xs tracking-widest hover:bg-amber-600 transition-colors">
+                                    Book Now
+                                </button>
                             </div>
                         </div>
-
-                        <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="relative h-48">
-                                <Image
-                                    src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&h=400&fit=crop"
-                                    alt="Bus"
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                            <div className="p-8">
-                                <h3 className="font-serif text-3xl mb-4">{t('bus')}</h3>
-                                <p className="text-gray-600 mb-6">
-                                    {t('busDesc')}
-                                </p>
-                                <ul className="space-y-2 text-gray-700 mb-6">
-                                    <li>• AC and Audio System</li>
-                                    <li>• Reclining Seats</li>
-                                    <li>• Toilet</li>
-                                    <li>• WiFi</li>
-                                </ul>
-                                <p className="text-sm text-gray-500">
-                                    {t('busIncludes')}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="relative h-48">
-                                <Image
-                                    src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&h=400&fit=crop"
-                                    alt="Airport Transfer"
-                                    fill
-                                    className="object-cover" />
-                            </div>
-                            <div className="p-8">
-                                <h3 className="font-serif text-3xl mb-4">{t('airport')}</h3>
-                                <p className="text-gray-600 mb-6">
-                                    {t('airportDesc')}
-                                </p>
-                                <ul className="space-y-2 text-gray-700 mb-6">
-                                    <li>• Sam Ratulangi Airport</li>
-                                    <li>• Hotels in Manado</li>
-                                    <li>• Hotels in Tomohon</li>
-                                    <li>• Hotels in Bitung</li>
-                                </ul>
-                                <p className="text-sm text-gray-500">
-                                    {t('airportIncludes')}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="relative h-48">
-                                <Image
-                                    src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=600&h=400&fit=crop"
-                                    alt="Motorcycle Rental"
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                            <div className="p-8">
-                                <h3 className="font-serif text-3xl mb-4">{t('motor')}</h3>
-                                <p className="text-gray-600 mb-6">
-                                    {t('motorDesc')}
-                                </p>
-                                <ul className="space-y-2 text-gray-700 mb-6">
-                                    <li>• Scooter (Matic)</li>
-                                    <li>• Manual</li>
-                                    <li>• Standard Helmet</li>
-                                    <li>• Raincoat</li>
-                                </ul>
-                                <p className="text-sm text-gray-500">
-                                    {t('motorIncludes')}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
             <Footer />
