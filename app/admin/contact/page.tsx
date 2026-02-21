@@ -19,8 +19,8 @@ export default async function ContactAdminPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Contact Messages</h1>
-        <p className="text-gray-600 mt-1">View and manage contact form submissions</p>
+        <h1 className="text-3xl font-bold text-gray-900">Pesan Kontak</h1>
+        <p className="text-gray-600 mt-1">Lihat dan kelola pengiriman formulir kontak</p>
       </div>
 
       <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -28,16 +28,16 @@ export default async function ContactAdminPage() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                Date
+                Tanggal
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                Name
+                Nama
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                 Email
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                Subject
+                Subjek
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                 Status
@@ -48,7 +48,7 @@ export default async function ContactAdminPage() {
             {submissions.length === 0 ? (
               <tr>
                 <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
-                  No contact submissions yet
+                  Belum ada pengiriman kontak
                 </td>
               </tr>
             ) : (

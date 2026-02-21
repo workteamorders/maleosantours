@@ -106,6 +106,7 @@ model TourPackage {
   
   images       String   @db.Text // JSON array
   mainImage    String
+  videoUrl     String?  @db.Text // Video URL (optional)
   
   featured     Boolean  @default(false)
   active       Boolean  @default(true)
@@ -144,6 +145,7 @@ model Hotel {
   facilities   String   @db.Text // JSON array
   images       String   @db.Text // JSON array
   mainImage    String
+  videoUrl     String?  @db.Text // Video URL (optional)
   
   bookingUrl   String?  @db.Text
   priceRange   String?  // "$$", "$$$", "$$$$"
@@ -183,6 +185,7 @@ model Transport {
   
   images       String   @db.Text // JSON array
   mainImage    String
+  videoUrl     String?  @db.Text // Video URL (optional)
   
   driverIncluded Boolean @default(true)
   available    Boolean  @default(true)
@@ -234,6 +237,7 @@ model CompanyInfo {
   instagram     String?
   twitter       String?
   youtube       String?
+  xiaohongshu   String?
   
   updatedAt     DateTime @updatedAt
 }
@@ -267,4 +271,24 @@ model Media {
   caption    String?
   
   createdAt  DateTime @default(now())
+}
+
+// 8️⃣ HOMEPAGE CONTENT (Editable sections)
+model HomepageItem {
+  id        String   @id @default(cuid())
+  
+  section   String   // 'hero', 'destination', 'journal'
+  
+  title     String?
+  subtitle  String?  // category for destinations, date for journals
+  desc      String?  @db.Text
+  image     String   @db.Text
+  link      String?
+  rotation  Int      @default(0) // Image rotation in degrees (0, 90, 180, 270)
+  
+  order     Int      @default(0)
+  active    Boolean  @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

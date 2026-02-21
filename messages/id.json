@@ -6,10 +6,38 @@
     "hotels": "Hotels",
     "transport": "Transport",
     "testimoni": "Testimoni",
-    "kontak": "Kontak"
+    "kontak": "Kontak",
+    "menu": "Menu",
+    "location": "Manado, Sulawesi Utara"
   },
   "hero": {
     "scrollToExplore": "Scroll untuk Menjelajah"
+  },
+  "philosophy": {
+    "title": "Filosofi Kami",
+    "tagline1": "Kami menciptakan perjalanan yang bernafas dengan",
+    "tagline2": "irama alam."
+  },
+  "services": {
+    "title": "Layanan Kami",
+    "travelInfo": "Info Travel",
+    "travelInfoDesc": "Destinasi, Sejarah, Budaya, Transportasi & Kuliner",
+    "dailyTours": "Paket Tour Harian",
+    "dailyToursDesc": "Wisata Harian & Ekskursi Pilihan",
+    "hotelsResorts": "Hotels & Resort",
+    "hotelsResortsDesc": "Akomodasi Mewah & Penginapan",
+    "transportation": "Transportasi",
+    "transportationDesc": "Sewa Mobil Pribadi & Bus"
+  },
+  "journal": {
+    "title": "Jurnal Terbaru"
+  },
+  "destinations": {
+    "island": "Pulau",
+    "beach": "Pantai",
+    "nature": "Alam",
+    "waterfall": "Air Terjun",
+    "culture": "Budaya"
   },
   "infoTravel": {
     "title": "Info Travel",
@@ -20,7 +48,9 @@
     "transport": "Transportasi",
     "transportDesc": "Berbagai pilihan transportasi tersedia untuk memudahkan perjalanan Anda, mulai dari sewa mobil pribadi hingga bus pariwisata untuk rombongan.",
     "food": "Kuliner Khas",
-    "foodDesc": "Nikmati hidangan khas Manado seperti Tinutuan, Cakalang Fufu, dan berbagai seafood segar dari perairan Sulawesi Utara."
+    "foodDesc": "Nikmati hidangan khas Manado seperti Tinutuan, Cakalang Fufu, dan berbagai seafood segar dari perairan Sulawesi Utara.",
+    "guide": "Panduan Manado",
+    "noInfo": "Belum ada informasi travel tersedia."
   },
   "paketTour": {
     "title": "Paket Tour",
@@ -36,7 +66,9 @@
     "tomohon": "Tomohon & Mahawu Volcano",
     "tomohonDesc": "Kunjungi kota sejuk Tomohon dan mendaki gunung berapi Mahawu dengan pemandangan kawah yang menakjubkan.",
     "custom": "Custom Tour",
-    "customDesc": "Rancang perjalanan sesuai keinginan Anda dengan bantuan tim profesional kami."
+    "customDesc": "Rancang perjalanan sesuai keinginan Anda dengan bantuan tim profesional kami.",
+    "noPackages": "Belum ada paket tour tersedia.",
+    "featured": "Unggulan"
   },
   "hotels": {
     "title": "Hotels & Resort",
@@ -60,19 +92,41 @@
     "car": "Sewa Mobil Pribadi",
     "carDesc": "Pilihan kendaraan nyaman untuk perjalanan keluarga atau rombongan kecil",
     "includes": "Termasuk: Kendaraan, BBM, dan supir berpengalaman",
+    "carItem1": "Toyota Avanza",
+    "carItem2": "Toyota Innova",
+    "carItem3": "Toyota Fortuner",
+    "carItem4": "Toyota Alphard (Premium)",
     "bus": "Bus Pariwisata",
     "busDesc": "Bus nyaman untuk rombongan besar dengan kapasitas hingga 40 orang",
     "busIncludes": "Termasuk: Bus, supir profesional, dan asisten perjalanan",
+    "busItem1": "AC dan Sistem Audio",
+    "busItem2": "Kursi Rebahan",
+    "busItem3": "Toilet",
+    "busItem4": "WiFi",
     "airport": "Antar Jemput Bandara",
     "airportDesc": "Layanan antar jemput dari bandara ke hotel atau destinasi wisata",
     "airportIncludes": "Tersedia 24 jam dengan kendaraan bersih dan nyaman",
+    "airportItem1": "Bandara Sam Ratulangi",
+    "airportItem2": "Hotel di Manado",
+    "airportItem3": "Hotel di Tomohon",
+    "airportItem4": "Hotel di Bitung",
     "motor": "Motor Rental",
     "motorDesc": "Sewa motor untuk eksplorasi bebas dengan harga terjangkau",
-    "motorIncludes": "Termasuk: Motor, helm, dan perlengkapan safety"
+    "motorIncludes": "Termasuk: Motor, helm, dan perlengkapan safety",
+    "motorItem1": "Skuter (Matic)",
+    "motorItem2": "Manual",
+    "motorItem3": "Helm Standar",
+    "motorItem4": "Jas Hujan"
   },
   "testimoni": {
     "title": "Testimoni",
-    "description": "Apa kata pelanggan kami tentang pengalaman wisata bersama Maleosan Travel"
+    "description": "Apa kata pelanggan kami tentang pengalaman wisata bersama Maleosan Travel",
+    "review1": "Pengalaman yang luar biasa! Tim Maleosan Travel sangat profesional dan ramah. Paket tour Minahasa Highland sangat recommended.",
+    "review2": "Snorkeling di Bunaken sungguh menakjubkan! Terumbu karangnya indah sekali dan pemandunya sangat berpengetahuan. Sangat direkomendasikan!",
+    "review3": "Sewa mobil dengan supir sangat membantu. Supirnya tahu tempat-tempat wisata terbaik dan memberikan rekomendasi kuliner yang enak.",
+    "review4": "Liburan keluarga ke Likupang sangat sempurna. Pantainya bersih dan anak-anak sangat menyukainya. Pelayanan luar biasa dari awal sampai akhir!",
+    "review5": "Paket custom tour sesuai budget saya. Timnya sangat fleksibel dan membantu merencanakan itinerary yang pas. Terima kasih Maleosan Travel!",
+    "review6": "Pelayanan luar biasa! Rekomendasi hotelnya sempurna dan transportasinya sangat nyaman. Pasti akan kembali lagi!"
   },
   "kontak": {
     "title": "Kontak",
@@ -84,8 +138,10 @@
     "social": "Media Sosial",
     "sendMessage": "Kirim Pesan",
     "name": "Nama",
+    "namePlaceholder": "Nama Anda",
     "emailPlaceholder": "email@example.com",
     "subject": "Subjek",
+    "subjectPlaceholder": "Subjek",
     "message": "Pesan",
     "messagePlaceholder": "Tulis pesan Anda di sini...",
     "sendButton": "Kirim Pesan"

@@ -19,27 +19,27 @@ import { clsx } from 'clsx';
 
 const menuItems = [
   {
-    label: 'Dashboard',
+    label: 'Dasbor',
     href: '/admin/dashboard',
     icon: LayoutDashboard,
   },
   {
-    label: 'Hotels',
+    label: 'Hotel',
     href: '/admin/hotels',
     icon: Hotel,
   },
   {
-    label: 'Transport',
+    label: 'Transportasi',
     href: '/admin/transport',
     icon: Car,
   },
   {
-    label: 'Paket Tour',
+    label: 'Paket Tur',
     href: '/admin/paket-tour',
     icon: Package,
   },
   {
-    label: 'Bookings',
+    label: 'Pesanan',
     href: '/admin/bookings',
     icon: ShoppingCart,
   },
@@ -49,12 +49,12 @@ const menuItems = [
     icon: Image,
   },
   {
-    label: 'Users',
+    label: 'Pengguna',
     href: '/admin/users',
     icon: Users,
   },
   {
-    label: 'Settings',
+    label: 'Pengaturan',
     href: '/admin/settings',
     icon: Settings,
   },

@@ -14,7 +14,7 @@ export function DeleteButton({ id, name }: { id: string; name: string }) {
   const [loading, setLoading] = useState(false);
 
   async function handleDelete() {
-    if (!confirm(`Are you sure you want to delete "${name}"?`)) return;
+    if (!confirm(`Yakin ingin menghapus "${name}"?`)) return;
 
     setLoading(true);
     await deleteTourPackage(id);
@@ -28,7 +28,7 @@ export function DeleteButton({ id, name }: { id: string; name: string }) {
       className="inline-flex items-center text-red-600 hover:text-red-900 disabled:opacity-50"
     >
       <Trash2 className="w-4 h-4 mr-1" />
-      {loading ? 'Deleting...' : 'Delete'}
+      {loading ? 'Menghapus...' : 'Hapus'}
     </button>
   );
 }
@@ -50,7 +50,7 @@ export function ToggleActiveButton({ id, active }: { id: string; active: boolean
       className="inline-flex items-center text-gray-600 hover:text-gray-900 disabled:opacity-50"
     >
       {active ? <EyeOff className="w-4 h-4 mr-1" /> : <Eye className="w-4 h-4 mr-1" />}
-      {loading ? 'Updating...' : active ? 'Deactivate' : 'Activate'}
+      {loading ? 'Memproses...' : active ? 'Nonaktifkan' : 'Aktifkan'}
     </button>
   );
 }

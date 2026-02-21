@@ -53,7 +53,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
                   className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50"
                 >
                   <User size={18} />
-                  <span>Profile</span>
+                  <span>Profil</span>
                 </a>
                 <button
                   onClick={() => {
@@ -63,7 +63,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
                   className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 border-t border-gray-200"
                 >
                   <LogOut size={18} />
-                  <span>Logout</span>
+                  <span>Keluar</span>
                 </button>
               </div>
             )}

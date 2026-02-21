@@ -13,7 +13,7 @@ export default async function TestimoniPage() {
                 <div className="relative h-96 mb-12 rounded-lg overflow-hidden">
                     <Image
                         src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=1920&h=600&fit=crop"
-                        alt="Testimonials"
+                        alt={t('title')}
                         fill
                         className="object-cover"
                     />
@@ -32,7 +32,7 @@ export default async function TestimoniPage() {
                             <div className="relative h-32">
                                 <Image
                                     src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=200&fit=crop"
-                                    alt="Travel Experience"
+                                    alt={t('title')}
                                     fill
                                     className="object-cover"
                                 />
@@ -46,8 +46,7 @@ export default async function TestimoniPage() {
                                     </div>
                                 </div>
                                 <p className="text-gray-600 italic">
-                                    "Pengalaman yang luar biasa! Tim Maleosan Travel sangat profesional dan ramah.
-                                    Paket tour Minahasa Highland sangat recommended."
+                                    &ldquo;{t('review1')}&rdquo;
                                 </p>
                                 <div className="mt-4 text-yellow-500">⭐⭐⭐⭐⭐</div>
                             </div>
@@ -57,7 +56,7 @@ export default async function TestimoniPage() {
                             <div className="relative h-32">
                                 <Image
                                     src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&h=200&fit=crop"
-                                    alt="Snorkeling"
+                                    alt={t('title')}
                                     fill
                                     className="object-cover"
                                 />
@@ -71,8 +70,7 @@ export default async function TestimoniPage() {
                                     </div>
                                 </div>
                                 <p className="text-gray-600 italic">
-                                    "Bunaken snorkeling trip was amazing! The coral reefs are beautiful and
-                                    guides were very knowledgeable. Highly recommended!"
+                                    &ldquo;{t('review2')}&rdquo;
                                 </p>
                                 <div className="mt-4 text-yellow-500">⭐⭐⭐⭐⭐</div>
                             </div>
@@ -82,7 +80,7 @@ export default async function TestimoniPage() {
                             <div className="relative h-32">
                                 <Image
                                     src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&h=200&fit=crop"
-                                    alt="Road Trip"
+                                    alt={t('title')}
                                     fill
                                     className="object-cover"
                                 />
@@ -96,8 +94,7 @@ export default async function TestimoniPage() {
                                     </div>
                                 </div>
                                 <p className="text-gray-600 italic">
-                                    "Sewa mobil dengan supir sangat membantu. Supirnya tahu tempat-tempat wisata
-                                    terbaik dan memberikan rekomendasi kuliner yang enak."
+                                    &ldquo;{t('review3')}&rdquo;
                                 </p>
                                 <div className="mt-4 text-yellow-500">⭐⭐⭐⭐⭐</div>
                             </div>
@@ -107,7 +104,7 @@ export default async function TestimoniPage() {
                             <div className="relative h-32">
                                 <Image
                                     src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&h=200&fit=crop"
-                                    alt="Beach Trip"
+                                    alt={t('title')}
                                     fill
                                     className="object-cover"
                                 />
@@ -121,8 +118,7 @@ export default async function TestimoniPage() {
                                     </div>
                                 </div>
                                 <p className="text-gray-600 italic">
-                                    "Family trip to Likupang was perfect. The beach is pristine and kids
-                                    loved it. Great service from start to finish!"
+                                    &ldquo;{t('review4')}&rdquo;
                                 </p>
                                 <div className="mt-4 text-yellow-500">⭐⭐⭐⭐⭐</div>
                             </div>
@@ -132,7 +128,7 @@ export default async function TestimoniPage() {
                             <div className="relative h-32">
                                 <Image
                                     src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&h=200&fit=crop"
-                                    alt="Custom Tour"
+                                    alt={t('title')}
                                     fill
                                     className="object-cover"
                                 />
@@ -146,8 +142,7 @@ export default async function TestimoniPage() {
                                     </div>
                                 </div>
                                 <p className="text-gray-600 italic">
-                                    "Paket custom tour sesuai budget saya. Timnya sangat fleksibel dan membantu
-                                    merencanakan itinerary yang pas. Terima kasih Maleosan Travel!"
+                                    &ldquo;{t('review5')}&rdquo;
                                 </p>
                                 <div className="mt-4 text-yellow-500">⭐⭐⭐⭐⭐</div>
                             </div>
@@ -157,7 +152,7 @@ export default async function TestimoniPage() {
                             <div className="relative h-32">
                                 <Image
                                     src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=600&h=200&fit=crop"
-                                    alt="Hotel Stay"
+                                    alt={t('title')}
                                     fill
                                     className="object-cover"
                                 />
@@ -171,8 +166,7 @@ export default async function TestimoniPage() {
                                     </div>
                                 </div>
                                 <p className="text-gray-600 italic">
-                                    "Excellent service! The hotel recommendations were perfect and
-                                    transportation was very comfortable. Will definitely come back!"
+                                    &ldquo;{t('review6')}&rdquo;
                                 </p>
                                 <div className="mt-4 text-yellow-500">⭐⭐⭐⭐⭐</div>
                             </div>

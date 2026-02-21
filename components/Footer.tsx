@@ -16,6 +16,7 @@ interface CompanyInfo {
     instagram?: string;
     twitter?: string;
     youtube?: string;
+    xiaohongshu?: string;
 }
 
 export default function Footer() {
@@ -85,6 +86,9 @@ export default function Footer() {
                         )}
                         {companyInfo?.youtube && (
                             <a href={companyInfo.youtube} className="hover:text-background transition-colors">YouTube</a>
+                        )}
+                        {companyInfo?.xiaohongshu && (
+                            <a href={companyInfo.xiaohongshu} className="hover:text-background transition-colors">Xiaohongshu</a>
                         )}
                         {!companyInfo && (
                             <>

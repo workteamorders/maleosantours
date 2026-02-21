@@ -9,12 +9,12 @@ import { Plus, Edit, ImageIcon, Video } from 'lucide-react';
 import { DeleteButton, TogglePublishedButton } from './ActionButtons';
 
 const categoryLabels: Record<string, string> = {
-  destination: 'Destination',
-  history: 'History & Culture',
-  transport: 'Transportation',
-  food: 'Food & Cuisine',
-  shopping: 'Shopping',
-  tips: 'Travel Tips',
+  destination: 'Destinasi',
+  history: 'Sejarah & Budaya',
+  transport: 'Transportasi',
+  food: 'Makanan & Kuliner',
+  shopping: 'Belanja',
+  tips: 'Tips Perjalanan',
 };
 
 async function getInfoTravels() {
@@ -32,14 +32,14 @@ export default async function InfoTravelAdminPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Info Travel</h1>
-          <p className="text-gray-600 mt-1">Manage travel information - images, videos, and text content</p>
+          <p className="text-gray-600 mt-1">Kelola informasi travel - gambar, video, dan konten teks</p>
         </div>
         <Link
           href="/admin/info-travel/new"
           className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           <Plus className="w-5 h-5 mr-2" />
-          Add Info Travel
+          Tambah Info Travel
         </Link>
       </div>
 
@@ -49,10 +49,10 @@ export default async function InfoTravelAdminPage() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Content
+                Konten
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Category
+                Kategori
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Media
@@ -61,7 +61,7 @@ export default async function InfoTravelAdminPage() {
                 Status
               </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
+                Aksi
               </th>
             </tr>
           </thead>
@@ -69,7 +69,7 @@ export default async function InfoTravelAdminPage() {
             {items.length === 0 ? (
               <tr>
                 <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
-                  No info travel content yet. Click &quot;Add Info Travel&quot; to create one.
+                  Belum ada konten info travel. Klik &quot;Tambah Info Travel&quot; untuk membuat.
                 </td>
               </tr>
             ) : (
@@ -104,7 +104,7 @@ export default async function InfoTravelAdminPage() {
                           <div className="text-sm text-gray-500">{item.titleId}</div>
                           {item.featured && (
                             <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800 mt-1">
-                              Featured
+                              Unggulan
                             </span>
                           )}
                         </div>
@@ -137,7 +137,7 @@ export default async function InfoTravelAdminPage() {
                             : 'bg-gray-100 text-gray-800'
                         }`}
                       >
-                        {item.published ? 'Published' : 'Draft'}
+                        {item.published ? 'Diterbitkan' : 'Draf'}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -147,7 +147,7 @@ export default async function InfoTravelAdminPage() {
                           className="inline-flex items-center text-blue-600 hover:text-blue-900"
                         >
                           <Edit className="w-4 h-4 mr-1" />
-                          Edit
+                          Ubah
                         </Link>
                         <TogglePublishedButton id={item.id} published={item.published} />
                         <DeleteButton id={item.id} name={item.titleEn} />

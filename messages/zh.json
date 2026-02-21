@@ -6,10 +6,38 @@
     "hotels": "酒店",
     "transport": "交通",
     "testimoni": "客户评价",
-    "kontak": "联系我们"
+    "kontak": "联系我们",
+    "menu": "菜单",
+    "location": "万鸦老, 北苏拉威西"
   },
   "hero": {
     "scrollToExplore": "滚动探索"
+  },
+  "philosophy": {
+    "title": "我们的理念",
+    "tagline1": "我们打造与",
+    "tagline2": "自然韵律共呼吸的旅程。"
+  },
+  "services": {
+    "title": "我们的服务",
+    "travelInfo": "旅游信息",
+    "travelInfoDesc": "目的地、历史、文化、交通与美食",
+    "dailyTours": "每日旅游",
+    "dailyToursDesc": "精选一日游与短途旅行",
+    "hotelsResorts": "酒店与度假村",
+    "hotelsResortsDesc": "豪华住宿与度假",
+    "transportation": "交通",
+    "transportationDesc": "私人租车与巴士租赁"
+  },
+  "journal": {
+    "title": "最新动态"
+  },
+  "destinations": {
+    "island": "岛屿",
+    "beach": "海滩",
+    "nature": "自然",
+    "waterfall": "瀑布",
+    "culture": "文化"
   },
   "infoTravel": {
     "title": "旅游信息",
@@ -20,7 +48,9 @@
     "transport": "交通",
     "transportDesc": "提供多种交通选择，方便您的旅程，从私人租车到旅游巴士。",
     "food": "当地美食",
-    "foodDesc": "享受万鸦特色菜肴，如Tinutuan、Cakalang Fufu以及来自北苏拉威西海域的各种新鲜海鲜。"
+    "foodDesc": "享受万鸦特色菜肴，如Tinutuan、Cakalang Fufu以及来自北苏拉威西海域的各种新鲜海鲜。",
+    "guide": "万鸦指南",
+    "noInfo": "暂无旅游信息。"
   },
   "paketTour": {
     "title": "旅游套餐",
@@ -36,7 +66,9 @@
     "tomohon": "托莫洪与马哈乌火山",
     "tomohonDesc": "访问凉爽的托莫洪市，攀登马哈乌火山，欣赏壮观的火山口景色。",
     "custom": "定制旅游",
-    "customDesc": "根据您的喜好，在我们专业团队的帮助下设计您的旅程。"
+    "customDesc": "根据您的喜好，在我们专业团队的帮助下设计您的旅程。",
+    "noPackages": "暂无旅游套餐。",
+    "featured": "精选"
   },
   "hotels": {
     "title": "酒店与度假村",
@@ -60,19 +92,41 @@
     "car": "私人租车",
     "carDesc": "为家庭旅行或小团体提供舒适的车辆选择",
     "includes": "包括：车辆、燃油和经验丰富的司机",
+    "carItem1": "Toyota Avanza",
+    "carItem2": "Toyota Innova",
+    "carItem3": "Toyota Fortuner",
+    "carItem4": "Toyota Alphard (Premium)",
     "bus": "旅游巴士",
     "busDesc": "舒适的大巴，可容纳多达40人的大型团体",
     "busIncludes": "包括：巴士、专业司机和旅行助理",
+    "busItem1": "空调和音响系统",
+    "busItem2": "可躺座椅",
+    "busItem3": "厕所",
+    "busItem4": "WiFi",
     "airport": "机场接送",
     "airportDesc": "机场接送服务，前往酒店或旅游目的地",
     "airportIncludes": "24小时可用，提供干净舒适的车辆",
+    "airportItem1": "Sam Ratulangi 机场",
+    "airportItem2": "万鸦酒店",
+    "airportItem3": "托莫洪酒店",
+    "airportItem4": "比通酒店",
     "motor": "摩托车租赁",
     "motorDesc": "价格实惠的摩托车租赁，自由探索",
-    "motorIncludes": "包括：摩托车、头盔和安全装备"
+    "motorIncludes": "包括：摩托车、头盔和安全装备",
+    "motorItem1": "踏板车 (自动挡)",
+    "motorItem2": "手动挡",
+    "motorItem3": "标准头盔",
+    "motorItem4": "雨衣"
   },
   "testimoni": {
     "title": "客户评价",
-    "description": "客户对与Maleosan Travel旅行体验的评价"
+    "description": "客户对与Maleosan Travel旅行体验的评价",
+    "review1": "令人惊叹的体验！Maleosan Travel团队非常专业和友好。米纳哈萨高地旅游套餐强烈推荐。",
+    "review2": "布纳肯浮潜之旅太棒了！珊瑚礁很美丽，导游非常有知识。强烈推荐！",
+    "review3": "带司机的租车服务非常有帮助。司机知道最好的旅游景点，并给出了很好的美食推荐。",
+    "review4": "去利库潘的家庭旅行非常完美。海滩很干净，孩子们非常喜欢。从头到尾服务都很棒！",
+    "review5": "定制旅游套餐符合我的预算。团队非常灵活，帮助规划了完美的行程。谢谢Maleosan Travel！",
+    "review6": "优秀的服务！酒店推荐非常完美，交通非常舒适。一定会再来的！"
   },
   "kontak": {
     "title": "联系我们",
@@ -84,8 +138,10 @@
     "social": "社交媒体",
     "sendMessage": "发送消息",
     "name": "姓名",
+    "namePlaceholder": "您的姓名",
     "emailPlaceholder": "email@example.com",
     "subject": "主题",
+    "subjectPlaceholder": "主题",
     "message": "消息",
     "messagePlaceholder": "在此输入您的消息...",
     "sendButton": "发送消息"
@@ -94,6 +150,7 @@
     "letsTalk": "联系我们",
     "contact": "联系",
     "socials": "社交",
-    "allRights": "版权所有"
+    "allRights": "版权所有",
+    "adminLogin": "管理员登录"
   }
 }

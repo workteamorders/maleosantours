@@ -1,46 +1,79 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 
-const destinations = [
-    {
-        title: "Likupang Lihaga",
-        category: "Island",
-        image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=2670&auto=format&fit=crop",
-        year: "2024"
-    },
-    {
-        title: "Pantai Paal",
-        category: "Beach",
-        image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2670&auto=format&fit=crop",
-        year: "2024"
-    },
-    {
-        title: "Bukit Savana",
-        category: "Nature",
-        image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=2674&auto=format&fit=crop",
-        year: "2024"
-    },
-    {
-        title: "Air Terjun Tunan",
-        category: "Waterfall",
-        image: "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?q=80&w=2670&auto=format&fit=crop",
-        year: "2024"
-    },
-    {
-        title: "Pagoda Ekayana",
-        category: "Culture",
-        image: "https://images.unsplash.com/photo-1518182170546-0766ce6cba3b?q=80&w=2670&auto=format&fit=crop", // Pagoda placeholder
-        year: "2023"
-    }
-];
+interface DestinationItem {
+    title: string;
+    category: string;
+    image: string;
+    year: string;
+}
 
-export default function Destinations() {
+interface DestinationsProps {
+    items?: DestinationItem[];
+}
+
+export default function Destinations({ items }: DestinationsProps) {
     const targetRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: targetRef,
     });
+    const t = useTranslations('destinations');
+
+    const defaultDestinations: DestinationItem[] = [
+        {
+            title: "Likupang Lihaga",
+            category: t('island'),
+            image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=2670&auto=format&fit=crop",
+            year: "2024"
+        },
+        {
+            title: "Pantai Paal",
+            category: t('beach'),
+            image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2670&auto=format&fit=crop",
+            year: "2024"
+        },
+        {
+            title: "Bukit Savana",
+            category: t('nature'),
+            image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=2674&auto=format&fit=crop",
+            year: "2024"
+        },
+        {
+            title: "Air Terjun Tunan",
+            category: t('waterfall'),
+            image: "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?q=80&w=2670&auto=format&fit=crop",
+            year: "2024"
+        },
+        {
+            title: "Pagoda Ekayana",
+            category: t('culture'),
+            image: "https://images.unsplash.com/photo-1518182170546-0766ce6cba3b?q=80&w=2670&auto=format&fit=crop",
+            year: "2023"
+        }
+    ];
+
+    const [destinations, setDestinations] = useState<DestinationItem[]>(items || defaultDestinations);
+
+    useEffect(() => {
+        if (!items) {
+            fetch('/api/homepage?section=destination')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        setDestinations(data.map((d: any) => ({
+                            title: d.title || '',
+                            category: d.subtitle || '',
+                            image: d.image,
+                            year: new Date(d.createdAt).getFullYear().toString(),
+                        })));
+                    }
+                })
+                .catch(() => {});
+        }
+    }, [items]);
 
     const x = useTransform(scrollYProgress, [0, 1], ["1%", "-95%"]);
 

@@ -17,8 +17,8 @@ export default function NewInfoTravelPage() {
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Add Info Travel</h1>
-          <p className="text-gray-600 mt-1">Create travel information with images, video, and multi-language text</p>
+          <h1 className="text-3xl font-bold text-gray-900">Tambah Info Travel</h1>
+          <p className="text-gray-600 mt-1">Buat informasi travel dengan gambar, video, dan teks multi-bahasa</p>
         </div>
       </div>
 

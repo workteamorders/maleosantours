@@ -32,7 +32,7 @@ export default function DataTable<T extends { id: string }>({
     return (
       <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-2"></div>
-        <p className="text-gray-600">Loading...</p>
+        <p className="text-gray-600">Memuat...</p>
       </div>
     );
   }
@@ -40,7 +40,7 @@ export default function DataTable<T extends { id: string }>({
   if (data.length === 0) {
     return (
       <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
-        <p className="text-gray-600">No data found</p>
+        <p className="text-gray-600">Data tidak ditemukan</p>
       </div>
     );
   }
@@ -61,7 +61,7 @@ export default function DataTable<T extends { id: string }>({
               ))}
               {actions && (
                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
-                  Actions
+                  Aksi
                 </th>
               )}
             </tr>
@@ -93,7 +93,7 @@ export default function DataTable<T extends { id: string }>({
       {pagination && pagination.totalPages > 1 && (
         <div className="flex items-center justify-between">
           <p className="text-sm text-gray-600">
-            Page {pagination.page} of {pagination.totalPages}
+            Halaman {pagination.page} dari {pagination.totalPages}
           </p>
           <div className="flex gap-2">
             <button

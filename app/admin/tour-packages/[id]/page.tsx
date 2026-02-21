@@ -38,7 +38,7 @@ export default async function EditTourPackagePage({
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Edit Tour Package</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Ubah Paket Tur</h1>
           <p className="text-gray-600 mt-1">{tourPackage.nameEn}</p>
         </div>
       </div>

@@ -23,7 +23,7 @@ async function uploadFile(file: File, type: 'image' | 'video'): Promise<string> 
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.error || 'Upload failed');
+    throw new Error(data.error || 'Upload gagal');
   }
 
   return data.url;
@@ -36,7 +36,7 @@ async function translateText(text: string): Promise<Record<string, string>> {
     body: JSON.stringify({ text, targetLangs: ['en', 'zh-CN', 'zh-TW'] }),
   });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error || 'Translation failed');
+  if (!res.ok) throw new Error(data.error || 'Terjemahan gagal');
   return data.translations;
 }
 
@@ -93,7 +93,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
       }
       setImages([...images, ...newUrls]);
     } catch (err: any) {
-      setUploadError(err.message || 'Image upload failed');
+      setUploadError(err.message || 'Upload gambar gagal');
     } finally {
       setUploadingImages(false);
       if (imageInputRef.current) imageInputRef.current.value = '';
@@ -118,7 +118,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
       const url = await uploadFile(file, 'video');
       setVideoUrl(url);
     } catch (err: any) {
-      setUploadError(err.message || 'Video upload failed');
+      setUploadError(err.message || 'Upload video gagal');
     } finally {
       setUploadingVideo(false);
       if (videoInputRef.current) videoInputRef.current.value = '';
@@ -162,7 +162,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
 
       setTranslated(true);
     } catch (err: any) {
-      setUploadError('Gagal menerjemahkan: ' + (err.message || 'Unknown error'));
+      setUploadError('Gagal menerjemahkan: ' + (err.message || 'Kesalahan tidak diketahui'));
     } finally {
       setTranslating(false);
     }
@@ -228,7 +228,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
         throw error;
       }
       console.error('Error saving info travel:', error);
-      alert('Failed to save info travel');
+      alert('Gagal menyimpan info travel');
       setLoading(false);
     }
   }
@@ -241,12 +241,12 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
   ];
 
   const categories = [
-    { value: 'destination', label: 'Destination' },
-    { value: 'history', label: 'History & Culture' },
-    { value: 'transport', label: 'Transportation' },
-    { value: 'food', label: 'Food & Cuisine' },
-    { value: 'shopping', label: 'Shopping' },
-    { value: 'tips', label: 'Travel Tips' },
+    { value: 'destination', label: 'Destinasi' },
+    { value: 'history', label: 'Sejarah & Budaya' },
+    { value: 'transport', label: 'Transportasi' },
+    { value: 'food', label: 'Makanan & Kuliner' },
+    { value: 'shopping', label: 'Belanja' },
+    { value: 'tips', label: 'Tips Perjalanan' },
   ];
 
   return (
@@ -275,12 +275,12 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
       <div className="bg-gray-50 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
           <FileText className="w-5 h-5 mr-2" />
-          Basic Settings
+          Pengaturan Dasar
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Category *
+              Kategori *
             </label>
             <select
               name="category"
@@ -298,7 +298,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Display Order
+              Urutan Tampil
             </label>
             <input
               type="number"
@@ -310,7 +310,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Icon (emoji/text)
+              Ikon (emoji/teks)
             </label>
             <input
               type="text"
@@ -330,7 +330,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
               defaultChecked={infoTravel?.published ?? true}
               className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
             />
-            <span className="text-sm font-medium text-gray-700">Published</span>
+            <span className="text-sm font-medium text-gray-700">Diterbitkan</span>
           </label>
 
           <label className="flex items-center gap-2 cursor-pointer">
@@ -340,7 +340,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
               defaultChecked={infoTravel?.featured ?? false}
               className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
             />
-            <span className="text-sm font-medium text-gray-700">Featured</span>
+            <span className="text-sm font-medium text-gray-700">Unggulan</span>
           </label>
         </div>
       </div>
@@ -359,7 +359,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
       <div className="bg-gray-50 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
           <ImageIcon className="w-5 h-5 mr-2" />
-          Images
+          Gambar
         </h3>
 
         {/* Image previews grid */}
@@ -400,16 +400,16 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
           {uploadingImages ? (
             <div className="flex flex-col items-center gap-2">
               <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
-              <span className="text-sm text-blue-600 font-medium">Uploading...</span>
+              <span className="text-sm text-blue-600 font-medium">Mengupload...</span>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-2">
               <Upload className="w-8 h-8 text-gray-400" />
               <span className="text-sm text-gray-600">
-                Click to upload images
+                Klik untuk upload gambar
               </span>
               <span className="text-xs text-gray-400">
-                JPG, PNG, WebP, GIF — Max 5MB per file
+                JPG, PNG, WebP, GIF — Maks 5MB per file
               </span>
             </div>
           )}
@@ -425,7 +425,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
         />
 
         <p className="text-xs text-gray-500 mt-2">
-          {images.length} image(s) added. Hover image to remove.
+          {images.length} gambar ditambahkan. Arahkan kursor ke gambar untuk menghapus.
         </p>
       </div>
 
@@ -434,7 +434,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
         <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
           <Video className="w-5 h-5 mr-2" />
           Video
-          <span className="ml-2 text-xs font-normal text-gray-500">(Max 1 video, max 10MB)</span>
+          <span className="ml-2 text-xs font-normal text-gray-500">(Maks 1 video, maks 10MB)</span>
         </h3>
 
         {videoUrl ? (
@@ -451,7 +451,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
             >
               <X className="w-4 h-4" />
             </button>
-            <p className="text-xs text-gray-500 mt-2">Hover video to see remove button</p>
+            <p className="text-xs text-gray-500 mt-2">Arahkan kursor ke video untuk melihat tombol hapus</p>
           </div>
         ) : (
           <>
@@ -466,16 +466,16 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
               {uploadingVideo ? (
                 <div className="flex flex-col items-center gap-2">
                   <Loader2 className="w-8 h-8 text-purple-500 animate-spin" />
-                  <span className="text-sm text-purple-600 font-medium">Uploading video...</span>
+                  <span className="text-sm text-purple-600 font-medium">Mengupload video...</span>
                 </div>
               ) : (
                 <div className="flex flex-col items-center gap-2">
                   <Video className="w-8 h-8 text-gray-400" />
                   <span className="text-sm text-gray-600">
-                    Click to upload video
+                    Klik untuk upload video
                   </span>
                   <span className="text-xs text-gray-400">
-                    MP4, WebM, OGG — Max 10MB
+                    MP4, WebM, OGG — Maks 10MB
                   </span>
                 </div>
               )}
@@ -566,8 +566,8 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
         <div className="space-y-6">
           <h3 className="text-lg font-semibold text-gray-900 flex items-center">
             <FileText className="w-5 h-5 mr-2" />
-            English Content
-            <span className="ml-2 text-xs font-normal text-gray-500">(Auto-translated, bisa diedit)</span>
+            Konten English
+            <span className="ml-2 text-xs font-normal text-gray-500">(Terjemahan otomatis, bisa diedit)</span>
           </h3>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -584,7 +584,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Content (English)
+              Konten (English)
             </label>
             <textarea
               name="descEn"
@@ -604,7 +604,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
           <h3 className="text-lg font-semibold text-gray-900 flex items-center">
             <FileText className="w-5 h-5 mr-2" />
             中文简体内容
-            <span className="ml-2 text-xs font-normal text-gray-500">(Auto-translated, bisa diedit)</span>
+            <span className="ml-2 text-xs font-normal text-gray-500">(Terjemahan otomatis, bisa diedit)</span>
           </h3>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -641,7 +641,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
           <h3 className="text-lg font-semibold text-gray-900 flex items-center">
             <FileText className="w-5 h-5 mr-2" />
             中文繁體內容
-            <span className="ml-2 text-xs font-normal text-gray-500">(Auto-translated, bisa diedit)</span>
+            <span className="ml-2 text-xs font-normal text-gray-500">(Terjemahan otomatis, bisa diedit)</span>
           </h3>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -674,7 +674,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
 
       {/* ===== SEO ===== */}
       <div className="bg-gray-50 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">SEO (Optional)</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">SEO (Opsional)</h3>
         <div className="grid grid-cols-1 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -684,7 +684,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
               type="text"
               name="metaTitleEn"
               defaultValue={infoTravel?.metaTitleEn || ''}
-              placeholder="SEO title for search engines"
+              placeholder="Judul SEO untuk mesin pencari"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -696,7 +696,7 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
               name="metaDescEn"
               defaultValue={infoTravel?.metaDescEn || ''}
               rows={2}
-              placeholder="SEO description (150-160 characters recommended)"
+              placeholder="Deskripsi SEO (disarankan 150-160 karakter)"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>

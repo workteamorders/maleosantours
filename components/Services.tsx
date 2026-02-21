@@ -2,32 +2,34 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const services = [
-    {
-        title: "Travel Info",
-        desc: "Destinations, History, Culture, Transport & Food",
-        image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963" // Cinque Terre like
-    },
-    {
-        title: "Daily Tours",
-        desc: "Curated Day Trips & Excursions",
-        image: "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9" // Venice like
-    },
-    {
-        title: "Hotels & Resorts",
-        desc: "Luxury Accommodations & Stays",
-        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945" // Luxury Hotel
-    },
-    {
-        title: "Transportation",
-        desc: "Private Cars & Bus Rentals",
-        image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d" // Driving
-    }
-];
+import { useTranslations } from 'next-intl';
 
 export default function Services() {
     const [activeService, setActiveService] = useState<number | null>(null);
+    const t = useTranslations('services');
+
+    const services = [
+        {
+            title: t('travelInfo'),
+            desc: t('travelInfoDesc'),
+            image: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963"
+        },
+        {
+            title: t('dailyTours'),
+            desc: t('dailyToursDesc'),
+            image: "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9"
+        },
+        {
+            title: t('hotelsResorts'),
+            desc: t('hotelsResortsDesc'),
+            image: "https://images.unsplash.com/photo-1566073771259-6a8506099945"
+        },
+        {
+            title: t('transportation'),
+            desc: t('transportationDesc'),
+            image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d"
+        }
+    ];
 
     return (
         <section className="relative py-20 min-h-screen bg-limestone flex flex-col justify-center overflow-hidden">
@@ -55,7 +57,7 @@ export default function Services() {
             </div>
 
             <div className="container mx-auto px-6 md:px-20 z-10 relative">
-                <h2 className="text-sm font-sans uppercase tracking-widest mb-12 text-accent-secondary">Our Services</h2>
+                <h2 className="text-sm font-sans uppercase tracking-widest mb-12 text-accent-secondary">{t('title')}</h2>
                 <div className="flex flex-col border-t border-border">
                     {services.map((service, index) => (
                         <div

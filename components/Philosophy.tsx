@@ -3,10 +3,12 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useTranslations } from 'next-intl';
 
 export default function Philosophy() {
     const containerRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLHeadingElement>(null);
+    const t = useTranslations('philosophy');
 
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
@@ -40,7 +42,7 @@ export default function Philosophy() {
     return (
         <section ref={containerRef} className="py-32 px-6 md:px-20 min-h-[80vh] flex items-center justify-center bg-background">
             <div className="max-w-6xl mx-auto text-center">
-                <p className="text-sm uppercase tracking-widest text-accent-secondary mb-8">Our Philosophy</p>
+                <p className="text-sm uppercase tracking-widest text-accent-secondary mb-8">{t('title')}</p>
                 <h2
                     ref={textRef}
                     className="text-4xl md:text-7xl lg:text-8xl font-serif text-transparent bg-clip-text leading-tight"
@@ -51,7 +53,7 @@ export default function Philosophy() {
                         WebkitTextStroke: '1px #D1D1D1', // Stroke color
                     }}
                 >
-                    We curate journeys that breathe with the <span className="italic font-light text-accent-primary">rhythm of nature.</span>
+                    {t('tagline1')} <span className="italic font-light text-accent-primary">{t('tagline2')}</span>
                 </h2>
             </div>
         </section>

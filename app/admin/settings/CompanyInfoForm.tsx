@@ -135,7 +135,7 @@ export default function CompanyInfoForm({ companyInfo }: CompanyInfoFormProps) {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Address (English) *
+              Alamat (English) *
             </label>
             <textarea
               name="addressEn"
@@ -148,17 +148,17 @@ export default function CompanyInfoForm({ companyInfo }: CompanyInfoFormProps) {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Google Maps Embed URL
+              Google Maps URL
             </label>
             <input
               type="url"
               name="googleMaps"
               defaultValue={companyInfo?.googleMaps || ''}
-              placeholder="https://www.google.com/maps/embed?pb=..."
+              placeholder="https://maps.app.goo.gl/... atau https://www.google.com/maps/embed?pb=..."
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <p className="text-xs text-gray-500 mt-1">
-              Salin URL embed dari Google Maps (Share → Embed a map → Copy src URL)
+              Bisa paste link sharing Google Maps (maps.app.goo.gl/...) atau URL embed. Akan dikonversi otomatis.
             </p>
           </div>
         </div>
@@ -216,6 +216,18 @@ export default function CompanyInfoForm({ companyInfo }: CompanyInfoFormProps) {
               name="youtube"
               defaultValue={companyInfo?.youtube || ''}
               placeholder="https://youtube.com/@maleosantravel"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Xiaohongshu (小红书)
+            </label>
+            <input
+              type="url"
+              name="xiaohongshu"
+              defaultValue={companyInfo?.xiaohongshu || ''}
+              placeholder="https://www.xiaohongshu.com/user/profile/..."
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>

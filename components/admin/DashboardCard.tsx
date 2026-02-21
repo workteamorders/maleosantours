@@ -40,7 +40,7 @@ export default function DashboardCard({
                 trend.direction === 'up' ? 'text-green-600' : 'text-red-600'
               )}
             >
-              {trend.direction === 'up' ? '↑' : '↓'} {Math.abs(trend.value)}% from last month
+              {trend.direction === 'up' ? '↑' : '↓'} {Math.abs(trend.value)}% dari bulan lalu
             </p>
           )}
         </div>

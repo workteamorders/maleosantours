@@ -29,7 +29,10 @@ export default async function TransportPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="relative h-48">
+                            <div className="px-8 pt-8 pb-2">
+                                <h3 className="font-serif text-3xl">{t('car')}</h3>
+                            </div>
+                            <div className="relative h-48 mx-8 rounded-lg overflow-hidden">
                                 <Image
                                     src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&h=400&fit=crop"
                                     alt="Car Rental"
@@ -37,16 +40,15 @@ export default async function TransportPage() {
                                     className="object-cover"
                                 />
                             </div>
-                            <div className="p-8">
-                                <h3 className="font-serif text-3xl mb-4">{t('car')}</h3>
+                            <div className="p-8 pt-4">
                                 <p className="text-gray-600 mb-6">
                                     {t('carDesc')}
                                 </p>
                                 <ul className="space-y-2 text-gray-700 mb-6">
-                                    <li>• Toyota Avanza</li>
-                                    <li>• Toyota Innova</li>
-                                    <li>• Toyota Fortuner</li>
-                                    <li>• Toyota Alphard (Premium)</li>
+                                    <li>• {t('carItem1')}</li>
+                                    <li>• {t('carItem2')}</li>
+                                    <li>• {t('carItem3')}</li>
+                                    <li>• {t('carItem4')}</li>
                                 </ul>
                                 <p className="text-sm text-gray-500">
                                     {t('includes')}
@@ -55,7 +57,10 @@ export default async function TransportPage() {
                         </div>
 
                         <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="relative h-48">
+                            <div className="px-8 pt-8 pb-2">
+                                <h3 className="font-serif text-3xl">{t('bus')}</h3>
+                            </div>
+                            <div className="relative h-48 mx-8 rounded-lg overflow-hidden">
                                 <Image
                                     src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&h=400&fit=crop"
                                     alt="Bus"
@@ -63,16 +68,15 @@ export default async function TransportPage() {
                                     className="object-cover"
                                 />
                             </div>
-                            <div className="p-8">
-                                <h3 className="font-serif text-3xl mb-4">{t('bus')}</h3>
+                            <div className="p-8 pt-4">
                                 <p className="text-gray-600 mb-6">
                                     {t('busDesc')}
                                 </p>
                                 <ul className="space-y-2 text-gray-700 mb-6">
-                                    <li>• AC and Audio System</li>
-                                    <li>• Reclining Seats</li>
-                                    <li>• Toilet</li>
-                                    <li>• WiFi</li>
+                                    <li>• {t('busItem1')}</li>
+                                    <li>• {t('busItem2')}</li>
+                                    <li>• {t('busItem3')}</li>
+                                    <li>• {t('busItem4')}</li>
                                 </ul>
                                 <p className="text-sm text-gray-500">
                                     {t('busIncludes')}
@@ -81,23 +85,26 @@ export default async function TransportPage() {
                         </div>
 
                         <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="relative h-48">
+                            <div className="px-8 pt-8 pb-2">
+                                <h3 className="font-serif text-3xl">{t('airport')}</h3>
+                            </div>
+                            <div className="relative h-48 mx-8 rounded-lg overflow-hidden">
                                 <Image
                                     src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&h=400&fit=crop"
                                     alt="Airport Transfer"
                                     fill
-                                    className="object-cover" />
+                                    className="object-cover"
+                                />
                             </div>
-                            <div className="p-8">
-                                <h3 className="font-serif text-3xl mb-4">{t('airport')}</h3>
+                            <div className="p-8 pt-4">
                                 <p className="text-gray-600 mb-6">
                                     {t('airportDesc')}
                                 </p>
                                 <ul className="space-y-2 text-gray-700 mb-6">
-                                    <li>• Sam Ratulangi Airport</li>
-                                    <li>• Hotels in Manado</li>
-                                    <li>• Hotels in Tomohon</li>
-                                    <li>• Hotels in Bitung</li>
+                                    <li>• {t('airportItem1')}</li>
+                                    <li>• {t('airportItem2')}</li>
+                                    <li>• {t('airportItem3')}</li>
+                                    <li>• {t('airportItem4')}</li>
                                 </ul>
                                 <p className="text-sm text-gray-500">
                                     {t('airportIncludes')}
@@ -106,7 +113,10 @@ export default async function TransportPage() {
                         </div>
 
                         <div className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="relative h-48">
+                            <div className="px-8 pt-8 pb-2">
+                                <h3 className="font-serif text-3xl">{t('motor')}</h3>
+                            </div>
+                            <div className="relative h-48 mx-8 rounded-lg overflow-hidden">
                                 <Image
                                     src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=600&h=400&fit=crop"
                                     alt="Motorcycle Rental"
@@ -114,16 +124,15 @@ export default async function TransportPage() {
                                     className="object-cover"
                                 />
                             </div>
-                            <div className="p-8">
-                                <h3 className="font-serif text-3xl mb-4">{t('motor')}</h3>
+                            <div className="p-8 pt-4">
                                 <p className="text-gray-600 mb-6">
                                     {t('motorDesc')}
                                 </p>
                                 <ul className="space-y-2 text-gray-700 mb-6">
-                                    <li>• Scooter (Matic)</li>
-                                    <li>• Manual</li>
-                                    <li>• Standard Helmet</li>
-                                    <li>• Raincoat</li>
+                                    <li>• {t('motorItem1')}</li>
+                                    <li>• {t('motorItem2')}</li>
+                                    <li>• {t('motorItem3')}</li>
+                                    <li>• {t('motorItem4')}</li>
                                 </ul>
                                 <p className="text-sm text-gray-500">
                                     {t('motorIncludes')}

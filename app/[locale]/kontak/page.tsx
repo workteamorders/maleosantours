@@ -5,6 +5,31 @@ import { getTranslations } from 'next-intl/server';
 import { getLocale } from 'next-intl/server';
 import { prisma } from '@/lib/prisma';
 
+/**
+ * Ensure a Google Maps URL is in embed-compatible format.
+ * Handles sharing links and regular Maps URLs at render time.
+ */
+function ensureEmbedUrl(url: string): string {
+    if (!url) return '';
+    // Already embed format
+    if (url.includes('/maps/embed') || url.includes('output=embed')) {
+        return url;
+    }
+    // Extract coordinates from /@lat,lng pattern
+    const coordMatch = url.match(/@(-?\d+\.?\d*),(-?\d+\.?\d*),?(\d+)?/);
+    if (coordMatch) {
+        return `https://maps.google.com/maps?q=${coordMatch[1]},${coordMatch[2]}&z=${coordMatch[3] || '15'}&output=embed`;
+    }
+    // Extract place name
+    const placeMatch = url.match(/\/place\/([^\/\?@]+)/);
+    if (placeMatch) {
+        const placeName = decodeURIComponent(placeMatch[1].replace(/\+/g, ' '));
+        return `https://maps.google.com/maps?q=${encodeURIComponent(placeName)}&z=15&output=embed`;
+    }
+    // Fallback: use URL as search query
+    return `https://maps.google.com/maps?q=${encodeURIComponent(url)}&z=15&output=embed`;
+}
+
 export default async function KontakPage() {
     const t = await getTranslations('kontak');
     const locale = await getLocale();
@@ -104,6 +129,14 @@ export default async function KontakPage() {
                                                 TikTok
                                             </a>
                                         )}
+                                        {companyInfo?.xiaohongshu && (
+                                            <a href={companyInfo.xiaohongshu}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-gray-600 hover:text-red-500">
+                                                Xiaohongshu
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -118,7 +151,7 @@ export default async function KontakPage() {
                                     <input
                                         type="text"
                                         className="w-full border border-gray-300 p-3 rounded focus:outline-none focus:border-blue-500"
-                                        placeholder="Your Name"
+                                        placeholder={t('namePlaceholder')}
                                     />
                                 </div>
 
@@ -136,7 +169,7 @@ export default async function KontakPage() {
                                     <input
                                         type="text"
                                         className="w-full border border-gray-300 p-3 rounded focus:outline-none focus:border-blue-500"
-                                        placeholder="Subject"
+                                        placeholder={t('subjectPlaceholder')}
                                     />
                                 </div>
 
@@ -165,7 +198,7 @@ export default async function KontakPage() {
                             <h2 className="font-serif text-3xl mb-6">{t('address')}</h2>
                             <div className="w-full h-96 rounded-lg overflow-hidden">
                                 <iframe
-                                    src={companyInfo.googleMaps}
+                                    src={ensureEmbedUrl(companyInfo.googleMaps)}
                                     width="100%"
                                     height="100%"
                                     style={{ border: 0 }}

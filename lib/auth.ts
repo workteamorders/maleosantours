@@ -77,17 +77,24 @@ export async function getCurrentAdmin(): Promise<AdminUser | null> {
 
     if (!token) return null;
 
-    const session = await prisma.session.findUnique({
-      where: { token },
-    });
+    let session;
+    let admin;
+    try {
+      session = await prisma.session.findUnique({
+        where: { token },
+      });
 
-    if (!session || session.expiresAt < new Date()) {
+      if (!session || session.expiresAt < new Date()) {
+        return null;
+      }
+
+      admin = await prisma.admin.findUnique({
+        where: { id: session.adminId },
+      });
+    } catch (dbError) {
+      console.error('Database connection error in getCurrentAdmin:', dbError);
       return null;
     }
-
-    const admin = await prisma.admin.findUnique({
-      where: { id: session.adminId },
-    });
 
     if (!admin || !admin.active) {
       return null;

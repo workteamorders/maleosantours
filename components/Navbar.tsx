@@ -100,7 +100,7 @@ export default function Navbar() {
                         whileTap={{ scale: 0.9 }}
                         className={`w-12 h-12 rounded-full border flex items-center justify-center text-sm font-bold z-50 backdrop-blur-sm transition-colors pointer-events-auto ${useDarkText ? 'border-black bg-white/20 hover:bg-white/40 text-black' : 'border-white bg-black/20 hover:bg-black/40 text-white'}`}
                     >
-                        {isOpen ? <X size={16} /> : <div className="flex items-center gap-2">Menu</div>}
+                        {isOpen ? <X size={16} /> : <div className="flex items-center gap-2">{t('menu')}</div>}
                     </motion.button>
                 </div>
             </nav>
@@ -136,7 +136,7 @@ export default function Navbar() {
                             animate={{ opacity: 1, transition: { delay: 0.5 } }}
                             className="absolute bottom-10 text-xs font-sans uppercase tracking-widest opacity-50 text-white"
                         >
-                            Manado, North Sulawesi
+                            {t('location')}
                         </motion.div>
                     </motion.div>
                 )}

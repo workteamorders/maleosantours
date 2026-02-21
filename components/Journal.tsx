@@ -1,41 +1,73 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 
-const activities = [
+interface JournalItem {
+    title: string;
+    date: string;
+    desc: string;
+    image: string;
+}
+
+const defaultActivities: JournalItem[] = [
     {
         title: "MV Carnival Luminosa",
-        date: "Oct 8, 2023",
-        desc: "Luxury meets adventure. Exploring hidden gems of Manado.",
-        image: "https://images.unsplash.com/photo-1548574505-5e239809ee19" // Cruise ship
+        date: "8 Okt, 2023",
+        desc: "Kemewahan bertemu petualangan. Menjelajahi permata tersembunyi Manado.",
+        image: "https://images.unsplash.com/photo-1548574505-5e239809ee19"
     },
     {
         title: "Fam Trip Kota Kinabalu",
         date: "Sep 2023",
-        desc: "Strengthening ties with Kota Kinabalu. Direct flights and city tours.",
-        image: "https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b" // Business trip / City
+        desc: "Mempererat hubungan dengan Kota Kinabalu. Penerbangan langsung dan wisata kota.",
+        image: "https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b"
     },
     {
         title: "Raja Ampat Study Trip",
-        date: "Aug 2023",
-        desc: "A journey of learning and cultural exchange in Bitung.",
-        image: "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86" // Study / Group
+        date: "Agu 2023",
+        desc: "Perjalanan pembelajaran dan pertukaran budaya di Bitung.",
+        image: "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86"
     },
     {
         title: "Bunaken Diving Experience",
-        date: "July 2023",
-        desc: "Discovering the underwater paradise of Bunaken National Park.",
-        image: "https://images.unsplash.com/photo-1582967788606-a171f1080cae" // Underwater
+        date: "Juli 2023",
+        desc: "Menemukan surga bawah laut Taman Nasional Bunaken.",
+        image: "https://images.unsplash.com/photo-1582967788606-a171f1080cae"
     }
 ];
 
-export default function Journal() {
+interface JournalProps {
+    items?: JournalItem[];
+}
+
+export default function Journal({ items }: JournalProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start end", "end start"]
     });
+    const [activities, setActivities] = useState<JournalItem[]>(items || defaultActivities);
+    const t = useTranslations('journal');
+
+    useEffect(() => {
+        if (!items) {
+            fetch('/api/homepage?section=journal')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        setActivities(data.map((d: any) => ({
+                            title: d.title || '',
+                            date: d.subtitle || '',
+                            desc: d.desc || '',
+                            image: d.image,
+                        })));
+                    }
+                })
+                .catch(() => {});
+        }
+    }, [items]);
 
     const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
     const y2 = useTransform(scrollYProgress, [0, 1], [0, -300]); // Faster scroll
@@ -43,7 +75,7 @@ export default function Journal() {
     return (
         <section ref={containerRef} className="py-20 md:py-32 bg-background overflow-hidden relative">
             <div className="container mx-auto px-6 md:px-20">
-                <h2 className="text-sm font-sans uppercase tracking-widest mb-10 md:mb-20 text-accent-secondary">Recent Journals</h2>
+                <h2 className="text-sm font-sans uppercase tracking-widest mb-10 md:mb-20 text-accent-secondary">{t('title')}</h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20">
                     {/* Column 1 - Slower */}

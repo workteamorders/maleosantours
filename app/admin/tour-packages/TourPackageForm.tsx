@@ -14,7 +14,7 @@ interface TourPackageFormProps {
 }
 
 export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
-  const [activeTab, setActiveTab] = useState<'id' | 'en' | 'zh' | 'zh-cn'>('en');
+  const [activeTab, setActiveTab] = useState<'id' | 'en' | 'zh' | 'zh-cn'>('id');
   const [loading, setLoading] = useState(false);
   const isEdit = !!tourPackage;
 
@@ -32,7 +32,7 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
       }
     } catch (error) {
       console.error('Error saving tour package:', error);
-      alert('Failed to save tour package');
+      alert('Gagal menyimpan paket tur');
       setLoading(false);
     }
   }
@@ -70,7 +70,7 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Type
+            Tipe
           </label>
           <select
             name="type"
@@ -78,29 +78,29 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="day-tour">Day Tour</option>
-            <option value="multi-day">Multi-Day Tour</option>
-            <option value="custom">Custom Tour</option>
+            <option value="day-tour">Tur Harian</option>
+            <option value="multi-day">Tur Multi-Hari</option>
+            <option value="custom">Tur Kustom</option>
           </select>
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Duration
+            Durasi
           </label>
           <input
             type="text"
             name="duration"
             defaultValue={tourPackage?.duration || ''}
             required
-            placeholder="e.g., 1 Day, 3D2N"
+            placeholder="cth: 1 Hari, 3H2M"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Price (USD) <span className="text-gray-400">(optional)</span>
+            Harga (USD) <span className="text-gray-400">(opsional)</span>
           </label>
           <input
             type="number"
@@ -114,20 +114,20 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Price Unit
+            Satuan Harga
           </label>
           <input
             type="text"
             name="priceUnit"
-            defaultValue={tourPackage?.priceUnit || 'per person'}
-            placeholder="per person"
+            defaultValue={tourPackage?.priceUnit || 'per orang'}
+            placeholder="per orang"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         <div className="md:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Main Image URL
+            URL Gambar Utama
           </label>
           <input
             type="url"
@@ -137,18 +137,32 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
             placeholder="https://images.unsplash.com/..."
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <p className="text-xs text-gray-500 mt-1">Use Unsplash or upload to media library</p>
+          <p className="text-xs text-gray-500 mt-1">Gunakan Unsplash atau upload ke pustaka media</p>
+        </div>
+
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            URL Video <span className="text-gray-400">(opsional)</span>
+          </label>
+          <input
+            type="url"
+            name="videoUrl"
+            defaultValue={tourPackage?.videoUrl || ''}
+            placeholder="https://... (link video MP4 atau upload)"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <p className="text-xs text-gray-500 mt-1">Video akan ditampilkan di bawah gambar pada halaman publik</p>
         </div>
       </div>
 
       {/* Multi-language Content */}
       {activeTab === 'en' && (
         <div className="space-y-6">
-          <h3 className="text-lg font-semibold text-gray-900">English Content</h3>
+          <h3 className="text-lg font-semibold text-gray-900">Konten English</h3>
           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Package Name (English) *
+              Nama Paket (English) *
             </label>
             <input
               type="text"
@@ -162,7 +176,7 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Description (English) *
+              Deskripsi (English) *
             </label>
             <textarea
               name="descEn"
@@ -280,7 +294,7 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
 
       {/* Options */}
       <div className="space-y-4 border-t pt-6">
-        <h3 className="text-lg font-semibold text-gray-900">Publishing Options</h3>
+        <h3 className="text-lg font-semibold text-gray-900">Opsi Penerbitan</h3>
         
         <div className="flex items-center space-x-6">
           <label className="flex items-center">
@@ -290,7 +304,7 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
               defaultChecked={tourPackage?.active ?? true}
               className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
             />
-            <span className="ml-2 text-sm text-gray-700">Active (visible on website)</span>
+            <span className="ml-2 text-sm text-gray-700">Aktif (tampil di website)</span>
           </label>
 
           <label className="flex items-center">
@@ -300,7 +314,7 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
               defaultChecked={tourPackage?.featured ?? false}
               className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
             />
-            <span className="ml-2 text-sm text-gray-700">Featured</span>
+            <span className="ml-2 text-sm text-gray-700">Unggulan</span>
           </label>
         </div>
       </div>
@@ -313,7 +327,7 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
           className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
           <Save className="w-5 h-5 mr-2" />
-          {loading ? 'Saving...' : isEdit ? 'Update Package' : 'Create Package'}
+          {loading ? 'Menyimpan...' : isEdit ? 'Perbarui Paket' : 'Buat Paket'}
         </button>
       </div>
     </form>

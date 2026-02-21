@@ -38,7 +38,7 @@ export default async function EditInfoTravelPage({
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Edit Info Travel</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Ubah Info Travel</h1>
           <p className="text-gray-600 mt-1">{infoTravel.titleEn}</p>
         </div>
       </div>

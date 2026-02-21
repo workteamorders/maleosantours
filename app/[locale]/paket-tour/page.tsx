@@ -26,6 +26,7 @@ async function getTourPackages(locale: string) {
     price: pkg.price,
     priceUnit: pkg.priceUnit,
     mainImage: pkg.mainImage,
+    videoUrl: pkg.videoUrl,
     featured: pkg.featured,
   }));
 }
@@ -66,7 +67,7 @@ export default async function PaketTourPage({
                     {tourPackages.length === 0 ? (
                         <div className="text-center py-12">
                             <p className="text-gray-500 text-lg">
-                                {locale === 'id' ? 'Belum ada paket tour tersedia.' : 'No tour packages available yet.'}
+                                {t('noPackages')}
                             </p>
                         </div>
                     ) : (
@@ -76,21 +77,37 @@ export default async function PaketTourPage({
                                     key={pkg.id}
                                     className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
                                 >
-                                    <div className="relative h-48">
+                                    {/* 1. Judul */}
+                                    <div className="px-6 pt-6 pb-2 flex items-center justify-between">
+                                        <h3 className="font-serif text-2xl">{pkg.name}</h3>
+                                        {pkg.featured && (
+                                            <span className="bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                                                {t('featured')}
+                                            </span>
+                                        )}
+                                    </div>
+                                    {/* 2. Gambar */}
+                                    <div className="relative h-48 mx-6 rounded-lg overflow-hidden">
                                         <Image
                                             src={pkg.mainImage}
                                             alt={pkg.name}
                                             fill
                                             className="object-cover"
                                         />
-                                        {pkg.featured && (
-                                            <div className="absolute top-3 right-3 bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                                                {locale === 'id' ? 'Unggulan' : 'Featured'}
-                                            </div>
-                                        )}
                                     </div>
+                                    {/* 3. Video */}
+                                    {pkg.videoUrl && (
+                                        <div className="px-6 pt-4">
+                                            <video
+                                                src={pkg.videoUrl}
+                                                controls
+                                                className="w-full rounded-lg"
+                                                preload="metadata"
+                                            />
+                                        </div>
+                                    )}
+                                    {/* 4. Deskripsi */}
                                     <div className="p-6">
-                                        <h3 className="font-serif text-2xl mb-4">{pkg.name}</h3>
                                         <p className="text-gray-600 mb-4">{pkg.description}</p>
                                         <div className="flex items-center justify-between">
                                             <span className="text-sm text-gray-500">{pkg.duration}</span>

@@ -91,7 +91,7 @@ export default async function InfoTravelPage({
             <aside className="hidden lg:block w-64 flex-shrink-0">
               <div className="sticky top-32">
                 <h3 className="font-serif text-lg font-semibold text-gray-900 mb-4">
-                  {locale === 'id' ? 'Panduan Manado' : 'Manado Guide'}
+                  {t('guide')}
                 </h3>
                 <nav className="space-y-1">
                   {items.map((item) => (
@@ -118,7 +118,7 @@ export default async function InfoTravelPage({
             {items.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-gray-500 text-lg">
-                  {locale === 'id' ? 'Belum ada informasi travel tersedia.' : 'No travel information available yet.'}
+                  {t('noInfo')}
                 </p>
               </div>
             ) : (

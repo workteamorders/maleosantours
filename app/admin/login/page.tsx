@@ -22,19 +22,19 @@ export default async function AdminLoginPage() {
           <h1 className="text-4xl font-serif font-bold text-gray-900 mb-2">
             Maleosan Travel
           </h1>
-          <p className="text-gray-600">Admin Panel</p>
+          <p className="text-gray-600">Panel Admin</p>
         </div>
 
         <div className="bg-white shadow-lg rounded-lg p-8">
           <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-            Sign in to continue
+            Masuk untuk melanjutkan
           </h2>
           
           <LoginForm />
         </div>
 
         <p className="text-center text-sm text-gray-500">
-          This is a restricted area. Authorized personnel only.
+          Area terbatas. Hanya untuk personel yang berwenang.
         </p>
       </div>
     </div>

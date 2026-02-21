@@ -29,15 +29,15 @@ export default async function TourPackagesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Tour Packages</h1>
-          <p className="text-gray-600 mt-1">Manage tour packages and itineraries</p>
+          <h1 className="text-3xl font-bold text-gray-900">Paket Tur</h1>
+          <p className="text-gray-600 mt-1">Kelola paket tur dan itinerari</p>
         </div>
         <Link
           href="/admin/tour-packages/new"
           className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           <Plus className="w-5 h-5 mr-2" />
-          Add New Package
+          Tambah Paket Baru
         </Link>
       </div>
 
@@ -47,22 +47,22 @@ export default async function TourPackagesPage() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Package
+                Paket
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Type
+                Tipe
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Duration
+                Durasi
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Price
+                Harga
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
+                Aksi
               </th>
             </tr>
           </thead>
@@ -70,7 +70,7 @@ export default async function TourPackagesPage() {
             {packages.length === 0 ? (
               <tr>
                 <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
-                  No tour packages yet. Click "Add New Package" to create one.
+                  Belum ada paket tur. Klik "Tambah Paket Baru" untuk membuat.
                 </td>
               </tr>
             ) : (
@@ -88,7 +88,7 @@ export default async function TourPackagesPage() {
                         <div className="text-sm text-gray-500">{pkg.nameId}</div>
                         {pkg.featured && (
                           <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800 mt-1">
-                            Featured
+                            Unggulan
                           </span>
                         )}
                       </div>
@@ -107,12 +107,12 @@ export default async function TourPackagesPage() {
                     {pkg.active ? (
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                         <Eye className="w-3 h-3 mr-1" />
-                        Active
+                        Aktif
                       </span>
                     ) : (
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                         <EyeOff className="w-3 h-3 mr-1" />
-                        Inactive
+                        Tidak Aktif
                       </span>
                     )}
                   </td>
@@ -122,7 +122,7 @@ export default async function TourPackagesPage() {
                       className="inline-flex items-center text-blue-600 hover:text-blue-900"
                     >
                       <Edit className="w-4 h-4 mr-1" />
-                      Edit
+                      Ubah
                     </Link>
                     <ToggleActiveButton id={pkg.id} active={pkg.active} />
                     <DeleteButton id={pkg.id} name={pkg.nameEn} />

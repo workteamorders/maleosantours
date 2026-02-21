@@ -6,10 +6,38 @@
     "hotels": "Hotels",
     "transport": "Transport",
     "testimoni": "Testimonials",
-    "kontak": "Contact"
+    "kontak": "Contact",
+    "menu": "Menu",
+    "location": "Manado, North Sulawesi"
   },
   "hero": {
     "scrollToExplore": "Scroll to Explore"
+  },
+  "philosophy": {
+    "title": "Our Philosophy",
+    "tagline1": "We curate journeys that breathe with the",
+    "tagline2": "rhythm of nature."
+  },
+  "services": {
+    "title": "Our Services",
+    "travelInfo": "Travel Info",
+    "travelInfoDesc": "Destinations, History, Culture, Transport & Food",
+    "dailyTours": "Daily Tours",
+    "dailyToursDesc": "Curated Day Trips & Excursions",
+    "hotelsResorts": "Hotels & Resorts",
+    "hotelsResortsDesc": "Luxury Accommodations & Stays",
+    "transportation": "Transportation",
+    "transportationDesc": "Private Cars & Bus Rentals"
+  },
+  "journal": {
+    "title": "Recent Journals"
+  },
+  "destinations": {
+    "island": "Island",
+    "beach": "Beach",
+    "nature": "Nature",
+    "waterfall": "Waterfall",
+    "culture": "Culture"
   },
   "infoTravel": {
     "title": "Info Travel",
@@ -20,7 +48,9 @@
     "transport": "Transportation",
     "transportDesc": "Various transportation options available to facilitate your journey, from private car rentals to tourist buses for groups.",
     "food": "Local Cuisine",
-    "foodDesc": "Enjoy Manado's signature dishes like Tinutuan, Cakalang Fufu, and various fresh seafood from North Sulawesi waters."
+    "foodDesc": "Enjoy Manado's signature dishes like Tinutuan, Cakalang Fufu, and various fresh seafood from North Sulawesi waters.",
+    "guide": "Manado Guide",
+    "noInfo": "No travel information available yet."
   },
   "paketTour": {
     "title": "Tour Packages",
@@ -36,7 +66,9 @@
     "tomohon": "Tomohon & Mahawu Volcano",
     "tomohonDesc": "Visit the cool city of Tomohon and hike Mount Mahawu volcano with stunning crater views.",
     "custom": "Custom Tour",
-    "customDesc": "Design your journey according to your preferences with the help of our professional team."
+    "customDesc": "Design your journey according to your preferences with the help of our professional team.",
+    "noPackages": "No tour packages available yet.",
+    "featured": "Featured"
   },
   "hotels": {
     "title": "Hotels & Resort",
@@ -60,19 +92,41 @@
     "car": "Private Car Rental",
     "carDesc": "Comfortable vehicle options for family trips or small groups",
     "includes": "Includes: Vehicle, fuel, and experienced driver",
+    "carItem1": "Toyota Avanza",
+    "carItem2": "Toyota Innova",
+    "carItem3": "Toyota Fortuner",
+    "carItem4": "Toyota Alphard (Premium)",
     "bus": "Tourist Bus",
     "busDesc": "Comfortable buses for large groups with capacity up to 40 people",
     "busIncludes": "Includes: Bus, professional driver, and travel assistant",
+    "busItem1": "AC and Audio System",
+    "busItem2": "Reclining Seats",
+    "busItem3": "Toilet",
+    "busItem4": "WiFi",
     "airport": "Airport Transfer",
     "airportDesc": "Airport pickup and drop-off service to hotels or tourist destinations",
     "airportIncludes": "Available 24 hours with clean and comfortable vehicles",
+    "airportItem1": "Sam Ratulangi Airport",
+    "airportItem2": "Hotels in Manado",
+    "airportItem3": "Hotels in Tomohon",
+    "airportItem4": "Hotels in Bitung",
     "motor": "Motorcycle Rental",
     "motorDesc": "Motorcycle rental for free exploration at affordable prices",
-    "motorIncludes": "Includes: Motorcycle, helmet, and safety equipment"
+    "motorIncludes": "Includes: Motorcycle, helmet, and safety equipment",
+    "motorItem1": "Scooter (Matic)",
+    "motorItem2": "Manual",
+    "motorItem3": "Standard Helmet",
+    "motorItem4": "Raincoat"
   },
   "testimoni": {
     "title": "Testimonials",
-    "description": "What our customers say about their travel experience with Maleosan Travel"
+    "description": "What our customers say about their travel experience with Maleosan Travel",
+    "review1": "Amazing experience! The Maleosan Travel team is very professional and friendly. Minahasa Highland tour package is highly recommended.",
+    "review2": "Bunaken snorkeling trip was amazing! The coral reefs are beautiful and guides were very knowledgeable. Highly recommended!",
+    "review3": "Car rental with driver was very helpful. The driver knows the best tourist spots and gave great food recommendations.",
+    "review4": "Family trip to Likupang was perfect. The beach is pristine and kids loved it. Great service from start to finish!",
+    "review5": "Custom tour package fits my budget. The team is very flexible and helps plan the perfect itinerary. Thank you Maleosan Travel!",
+    "review6": "Excellent service! The hotel recommendations were perfect and transportation was very comfortable. Will definitely come back!"
   },
   "kontak": {
     "title": "Contact",
@@ -84,8 +138,10 @@
     "social": "Social Media",
     "sendMessage": "Send Message",
     "name": "Name",
+    "namePlaceholder": "Your Name",
     "emailPlaceholder": "email@example.com",
     "subject": "Subject",
+    "subjectPlaceholder": "Subject",
     "message": "Message",
     "messagePlaceholder": "Write your message here...",
     "sendButton": "Send Message"

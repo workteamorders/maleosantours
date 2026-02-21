@@ -16,18 +16,20 @@ import {
   Mail,
   Settings,
   Image as ImageIcon,
+  Home,
 } from 'lucide-react';
 
 const navItems = [
-  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/tour-packages', label: 'Tour Packages', icon: Package },
-  { href: '/admin/hotels', label: 'Hotels', icon: Hotel },
-  { href: '/admin/transport', label: 'Transport', icon: Car },
+  { href: '/admin', label: 'Dasbor', icon: LayoutDashboard },
+  { href: '/admin/homepage', label: 'Beranda', icon: Home },
+  { href: '/admin/tour-packages', label: 'Paket Tur', icon: Package },
+  { href: '/admin/hotels', label: 'Hotel', icon: Hotel },
+  { href: '/admin/transport', label: 'Transportasi', icon: Car },
   { href: '/admin/info-travel', label: 'Info Travel', icon: Info },
-  { href: '/admin/testimonials', label: 'Testimonials', icon: MessageSquare },
-  { href: '/admin/contact', label: 'Contact', icon: Mail },
-  { href: '/admin/media', label: 'Media Library', icon: ImageIcon },
-  { href: '/admin/settings', label: 'Settings', icon: Settings },
+  { href: '/admin/testimonials', label: 'Testimoni', icon: MessageSquare },
+  { href: '/admin/contact', label: 'Kontak', icon: Mail },
+  { href: '/admin/media', label: 'Pustaka Media', icon: ImageIcon },
+  { href: '/admin/settings', label: 'Pengaturan', icon: Settings },
 ];
 
 export default function AdminSidebar() {

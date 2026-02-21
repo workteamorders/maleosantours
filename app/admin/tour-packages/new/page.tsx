@@ -17,8 +17,8 @@ export default function NewTourPackagePage() {
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Add New Tour Package</h1>
-          <p className="text-gray-600 mt-1">Create a new tour package with multi-language support</p>
+          <h1 className="text-3xl font-bold text-gray-900">Tambah Paket Tur Baru</h1>
+          <p className="text-gray-600 mt-1">Buat paket tur baru dengan dukungan multi-bahasa</p>
         </div>
       </div>
 

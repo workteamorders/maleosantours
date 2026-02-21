@@ -11,7 +11,7 @@ export async function loginAction(formData: FormData) {
   const password = formData.get('password') as string;
 
   if (!email || !password) {
-    return { success: false, error: 'Email and password are required' };
+    return { success: false, error: 'Email dan kata sandi harus diisi' };
   }
 
   const result = await authenticateAdmin(email, password);
