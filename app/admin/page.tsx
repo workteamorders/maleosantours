@@ -85,12 +85,12 @@ export default async function AdminDashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Dasbor</h1>
-        <p className="text-gray-600 mt-1">Selamat datang kembali! Berikut ringkasan terkini.</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Dasbor</h1>
+        <p className="text-gray-600 mt-1 text-sm md:text-base">Selamat datang kembali! Berikut ringkasan terkini.</p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 md:gap-6">
         {statCards.map((stat) => {
           const Icon = stat.icon;
           const colorClasses = {
@@ -106,12 +106,12 @@ export default async function AdminDashboard() {
             <Link
               key={stat.title}
               href={stat.href}
-              className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"
+              className="bg-white rounded-lg shadow p-4 md:p-6 hover:shadow-lg transition-shadow"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                  <p className="text-3xl font-bold text-gray-900 mt-2">{stat.value}</p>
+                  <p className="text-xs md:text-sm font-medium text-gray-600">{stat.title}</p>
+                  <p className="text-2xl md:text-3xl font-bold text-gray-900 mt-1 md:mt-2">{stat.value}</p>
                 </div>
                 <div className={`p-3 rounded-lg ${colorClasses[stat.color as keyof typeof colorClasses]}`}>
                   <Icon className="w-6 h-6" />
@@ -123,40 +123,40 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Aksi Cepat</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="bg-white rounded-lg shadow p-4 md:p-6">
+        <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-4">Aksi Cepat</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
           <Link
             href="/admin/tour-packages/new"
-            className="flex items-center justify-center px-6 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center justify-center px-3 py-3 md:px-6 md:py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs md:text-sm text-center"
           >
             <Package className="w-5 h-5 mr-2" />
             Tambah Paket Tur
           </Link>
           <Link
             href="/admin/info-travel/new"
-            className="flex items-center justify-center px-6 py-4 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+            className="flex items-center justify-center px-3 py-3 md:px-6 md:py-4 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors text-xs md:text-sm text-center"
           >
             <Info className="w-5 h-5 mr-2" />
             Tambah Info Travel
           </Link>
           <Link
             href="/admin/hotels/new"
-            className="flex items-center justify-center px-6 py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+            className="flex items-center justify-center px-3 py-3 md:px-6 md:py-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-xs md:text-sm text-center"
           >
             <Hotel className="w-5 h-5 mr-2" />
             Tambah Hotel
           </Link>
           <Link
             href="/admin/transport/new"
-            className="flex items-center justify-center px-6 py-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            className="flex items-center justify-center px-3 py-3 md:px-6 md:py-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-xs md:text-sm text-center"
           >
             <Car className="w-5 h-5 mr-2" />
             Tambah Transportasi
           </Link>
           <Link
             href="/admin/contact"
-            className="flex items-center justify-center px-6 py-4 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+            className="flex items-center justify-center px-3 py-3 md:px-6 md:py-4 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-xs md:text-sm text-center"
           >
             <Mail className="w-5 h-5 mr-2" />
             Lihat Pesan
@@ -165,7 +165,7 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Welcome Guide */}
-      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200 p-6">
+      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200 p-4 md:p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-2 flex items-center">
           <TrendingUp className="w-5 h-5 mr-2 text-blue-600" />
           Panduan Awal

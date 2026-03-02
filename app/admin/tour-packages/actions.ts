@@ -23,6 +23,18 @@ export async function createTourPackage(formData: FormData) {
   const nameEn = formData.get('nameEn') as string;
   const slug = generateSlug(nameEn);
 
+  // Collect images from form data
+  const imageUrls: string[] = [];
+  for (let i = 0; i < 50; i++) {
+    const img = formData.get(`image_${i}`) as string;
+    if (img && img.trim()) imageUrls.push(img.trim());
+    else if (i > 0 && !img) break;
+  }
+  const mainImage = formData.get('mainImage') as string;
+  if (mainImage && !imageUrls.includes(mainImage)) {
+    imageUrls.unshift(mainImage);
+  }
+
   const data = {
     slug,
     nameId: formData.get('nameId') as string,
@@ -37,9 +49,13 @@ export async function createTourPackage(formData: FormData) {
     type: formData.get('type') as string,
     price: formData.get('price') ? parseFloat(formData.get('price') as string) : null,
     priceUnit: formData.get('priceUnit') as string || null,
-    mainImage: formData.get('mainImage') as string,
+    mainImage,
     videoUrl: (formData.get('videoUrl') as string) || null,
-    images: JSON.stringify([formData.get('mainImage')]),
+    images: JSON.stringify(imageUrls),
+    itineraryId: (formData.get('itineraryId') as string) || null,
+    priceTiers: (formData.get('priceTiers') as string) || null,
+    includedId: (formData.get('includedId') as string) || null,
+    excludedId: (formData.get('excludedId') as string) || null,
     featured: formData.get('featured') === 'on',
     active: formData.get('active') === 'on',
   };
@@ -57,6 +73,18 @@ export async function updateTourPackage(id: string, formData: FormData) {
   const nameEn = formData.get('nameEn') as string;
   const slug = generateSlug(nameEn);
 
+  // Collect images from form data
+  const imageUrls: string[] = [];
+  for (let i = 0; i < 50; i++) {
+    const img = formData.get(`image_${i}`) as string;
+    if (img && img.trim()) imageUrls.push(img.trim());
+    else if (i > 0 && !img) break;
+  }
+  const mainImage = formData.get('mainImage') as string;
+  if (mainImage && !imageUrls.includes(mainImage)) {
+    imageUrls.unshift(mainImage);
+  }
+
   const data = {
     slug,
     nameId: formData.get('nameId') as string,
@@ -71,9 +99,13 @@ export async function updateTourPackage(id: string, formData: FormData) {
     type: formData.get('type') as string,
     price: formData.get('price') ? parseFloat(formData.get('price') as string) : null,
     priceUnit: formData.get('priceUnit') as string || null,
-    mainImage: formData.get('mainImage') as string,
+    mainImage,
     videoUrl: (formData.get('videoUrl') as string) || null,
-    images: JSON.stringify([formData.get('mainImage')]),
+    images: JSON.stringify(imageUrls),
+    itineraryId: (formData.get('itineraryId') as string) || null,
+    priceTiers: (formData.get('priceTiers') as string) || null,
+    includedId: (formData.get('includedId') as string) || null,
+    excludedId: (formData.get('excludedId') as string) || null,
     featured: formData.get('featured') === 'on',
     active: formData.get('active') === 'on',
   };

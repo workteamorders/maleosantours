@@ -5,6 +5,14 @@ import type { NextRequest } from 'next/server';
 
 const intlMiddleware = createMiddleware(routing);
 
+// Locale to lang mapping for Content-Language header
+const LOCALE_LANG: Record<string, string> = {
+  id: 'id',
+  en: 'en',
+  zh: 'zh-Hans',
+  'zh-CN': 'zh-Hant',
+};
+
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -25,7 +33,23 @@ export default function middleware(request: NextRequest) {
   }
 
   // For all other routes, apply i18n middleware
-  return intlMiddleware(request);
+  const response = intlMiddleware(request);
+
+  // Set Content-Language header for search engines
+  const localeMatch = pathname.match(/^\/([a-z]{2}(?:-[A-Z]{2})?)\//)
+    || pathname.match(/^\/([a-z]{2}(?:-[A-Z]{2})?)$/);
+  const detectedLocale = localeMatch ? localeMatch[1] : 'id';
+  const lang = LOCALE_LANG[detectedLocale] || detectedLocale;
+
+  if (response) {
+    response.headers.set('Content-Language', lang);
+    // Cache control for SEO - allow CDN caching
+    if (!response.headers.has('Cache-Control')) {
+      response.headers.set('Cache-Control', 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400');
+    }
+  }
+
+  return response;
 }
 
 export const config = {

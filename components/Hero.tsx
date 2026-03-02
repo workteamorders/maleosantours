@@ -13,21 +13,22 @@ interface HeroImage {
 }
 
 interface HeroProps {
-    heroImages?: string[];
+    heroImages?: HeroImage[];
 }
 
 const DEFAULT_IMAGES: HeroImage[] = [{ url: 'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=2600&auto=format&fit=crop', title: null, rotation: 0 }];
-const AUTO_SLIDE_INTERVAL = 5000; // 5 seconds
+const AUTO_SLIDE_INTERVAL = 3000; // 3 seconds
 
 export default function Hero({ heroImages }: HeroProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLHeadingElement>(null);
     const videoRef = useRef<HTMLDivElement>(null);
+    const titleOverlayRef = useRef<HTMLDivElement>(null);
     const t = useTranslations('hero');
 
     const [images, setImages] = useState<HeroImage[]>(
-        heroImages && heroImages.length > 0 
-            ? heroImages.map(url => ({ url, title: null, rotation: 0 })) 
+        heroImages && heroImages.length > 0
+            ? heroImages
             : DEFAULT_IMAGES
     );
 
@@ -44,14 +45,14 @@ export default function Hero({ heroImages }: HeroProps) {
                 .then(res => res.json())
                 .then(items => {
                     if (items.length > 0) {
-                        setImages(items.map((i: any) => ({ 
-                            url: i.image, 
-                            title: i.title || null, 
-                            rotation: i.rotation || 0 
+                        setImages(items.map((i: any) => ({
+                            url: i.image,
+                            title: i.title || null,
+                            rotation: i.rotation || 0
                         })));
                     }
                 })
-                .catch(() => {});
+                .catch(() => { });
         }
     }, [heroImages]);
 
@@ -133,6 +134,17 @@ export default function Hero({ heroImages }: HeroProps) {
             filter: 'brightness(1)',
         }, 0);
 
+        if (titleOverlayRef.current) {
+            tl.fromTo(titleOverlayRef.current, {
+                opacity: 0,
+                y: 28,
+            }, {
+                opacity: 1,
+                y: 0,
+                ease: 'power3.out',
+            }, 0.55);
+        }
+
         return () => {
             ScrollTrigger.getAll().forEach(t => t.kill());
         };
@@ -154,7 +166,7 @@ export default function Hero({ heroImages }: HeroProps) {
                         src={img.url}
                         alt={img.title || `Hero ${i + 1}`}
                         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out`}
-                        style={{ 
+                        style={{
                             opacity: i === currentIndex ? 1 : 0,
                             transform: img.rotation ? `rotate(${img.rotation}deg) scale(1.3)` : undefined,
                             transformOrigin: 'center center',
@@ -166,20 +178,18 @@ export default function Hero({ heroImages }: HeroProps) {
 
             {/* Title Overlay */}
             {currentTitle && (
-                <div className="absolute inset-0 z-[25] flex items-end justify-center pb-32 pointer-events-none">
-                    <div className="text-center px-6">
-                        <h2 
-                            className={`font-serif text-3xl md:text-5xl lg:text-6xl font-bold text-white transition-all duration-700 ease-out ${
-                                isTransitioning ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
-                            }`}
-                            style={{ textShadow: '0 2px 20px rgba(0,0,0,0.7), 0 4px 40px rgba(0,0,0,0.4)' }}
+                <div ref={titleOverlayRef} className="absolute inset-0 z-25 flex items-center justify-center pointer-events-none opacity-0">
+                    <div className="text-center px-6 max-w-4xl">
+                        <h2
+                            className={`font-serif text-3xl md:text-5xl lg:text-6xl font-semibold tracking-wide text-white transition-all duration-700 ease-out ${isTransitioning ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
+                                }`}
+                            style={{ textShadow: '0 2px 18px rgba(0,0,0,0.65), 0 8px 48px rgba(0,0,0,0.45)' }}
                         >
                             {currentTitle}
                         </h2>
-                        <div 
-                            className={`mt-3 h-[2px] mx-auto bg-white/70 transition-all duration-700 delay-200 ${
-                                isTransitioning ? 'w-0 opacity-0' : 'w-24 md:w-36 opacity-100'
-                            }`} 
+                        <div
+                            className={`mt-4 h-0.5 mx-auto bg-white/70 transition-all duration-700 delay-200 ${isTransitioning ? 'w-0 opacity-0' : 'w-24 md:w-36 opacity-100'
+                                }`}
                         />
                     </div>
                 </div>
@@ -209,11 +219,10 @@ export default function Hero({ heroImages }: HeroProps) {
                             <button
                                 key={i}
                                 onClick={() => { goToSlide(i); resetAutoSlide(); }}
-                                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                                    i === currentIndex
-                                        ? 'bg-white w-8'
-                                        : 'bg-white/40 hover:bg-white/60'
-                                }`}
+                                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === currentIndex
+                                    ? 'bg-white w-8'
+                                    : 'bg-white/40 hover:bg-white/60'
+                                    }`}
                                 aria-label={`Slide ${i + 1}`}
                             />
                         ))}
@@ -233,7 +242,7 @@ export default function Hero({ heroImages }: HeroProps) {
                     color: 'transparent'
                 }}
             >
-                MALEOSAN<br />TRAVEL
+                MALEOSAN<br />TOURS MANADO
             </h1>
 
             <div className="absolute bottom-10 left-0 right-0 text-center z-30">

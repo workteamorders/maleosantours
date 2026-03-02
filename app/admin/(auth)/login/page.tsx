@@ -4,11 +4,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useAuth } from '@/src/hooks/useAuth';
-import { apiClient } from '@/src/services/api';
-import toast from 'react-hot-toast';
 import { Eye, EyeOff, Loader } from 'lucide-react';
-import { setCookie } from 'cookies-next';
+import { useRouter } from 'next/navigation';
+import { loginAction } from './actions';
 
 const loginSchema = z.object({
   email: z.string().email('Email tidak valid'),
@@ -20,7 +18,9 @@ type LoginFormData = z.infer<typeof loginSchema>;
 export default function AdminLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
+  const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
+  const router = useRouter();
 
   const {
     register,
@@ -33,16 +33,20 @@ export default function AdminLoginPage() {
   const onSubmit = async (data: LoginFormData) => {
     try {
       setIsLoading(true);
-      const response = await apiClient.login(data);
+      setErrorMsg('');
+      const result = await loginAction(data.email, data.password);
 
-      // Set cookie for middleware
-      setCookie('admin_session', response.token, { maxAge: 60 * 60 * 24 }); // 24 hours
-
-      login(response.token, response.user);
-      toast.success('Login berhasil!');
+      if (result.success) {
+        setSuccessMsg('Anda berhasil login! Sedang mengalihkan...');
+        setTimeout(() => {
+          router.push('/admin');
+          router.refresh();
+        }, 1500);
+      } else {
+        setErrorMsg(result.error || 'Login gagal');
+      }
     } catch (error: any) {
-      const message = error.response?.data?.message || 'Login gagal';
-      toast.error(message);
+      setErrorMsg('Login gagal');
     } finally {
       setIsLoading(false);
     }
@@ -64,6 +68,20 @@ export default function AdminLoginPage() {
           </h2>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            {/* Error Message */}
+            {errorMsg && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                {errorMsg}
+              </div>
+            )}
+
+            {/* Success Message */}
+            {successMsg && (
+              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
+                {successMsg}
+              </div>
+            )}
+
             {/* Email Input */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -121,19 +139,6 @@ export default function AdminLoginPage() {
               )}
             </button>
           </form>
-
-          {/* Demo Credentials */}
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <p className="text-sm text-gray-600 mb-3">Demo Credentials:</p>
-            <div className="bg-gray-50 p-3 rounded text-sm space-y-1">
-              <p>
-                <strong>Email:</strong> admin@maleosan.com
-              </p>
-              <p>
-                <strong>Password:</strong> password123
-              </p>
-            </div>
-          </div>
         </div>
 
         {/* Footer */}

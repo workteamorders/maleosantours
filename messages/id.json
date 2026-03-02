@@ -8,6 +8,7 @@
     "testimoni": "Testimoni",
     "kontak": "Kontak",
     "menu": "Menu",
+    "logo": "MT.",
     "location": "Manado, Sulawesi Utara"
   },
   "hero": {
@@ -129,13 +130,17 @@
     "review6": "Pelayanan luar biasa! Rekomendasi hotelnya sempurna dan transportasinya sangat nyaman. Pasti akan kembali lagi!"
   },
   "kontak": {
-    "title": "Kontak",
+    "title": "Hubungi Kami",
+    "titleDesc": "HUBUNGI KAMI",
     "description": "Hubungi kami untuk informasi lebih lanjut atau pemesanan",
     "contactInfo": "Informasi Kontak",
     "phone": "Telepon",
+    "whatsapp": "WhatsApp",
     "email": "Email",
     "address": "Alamat",
     "social": "Media Sosial",
+    "scanHintWechat": "Scan untuk menambahkan di WeChat",
+    "scanHintKakao": "Scan untuk menambahkan di KakaoTalk",
     "sendMessage": "Kirim Pesan",
     "name": "Nama",
     "namePlaceholder": "Nama Anda",
@@ -152,5 +157,19 @@
     "socials": "Sosial Media",
     "allRights": "Hak Cipta Dilindungi",
     "adminLogin": "Login Admin"
+  },
+  "seo": {
+    "breadcrumbHome": "Beranda",
+    "breadcrumbTours": "Paket Tour",
+    "breadcrumbHotels": "Hotel & Resort",
+    "breadcrumbInfoTravel": "Panduan Wisata",
+    "breadcrumbTransport": "Transportasi",
+    "breadcrumbTestimonials": "Testimoni",
+    "breadcrumbContact": "Hubungi Kami",
+    "backToTours": "Kembali ke Paket Tour",
+    "backToHotels": "Kembali ke Hotel",
+    "bookNow": "Pesan Sekarang",
+    "learnMore": "Pelajari Lebih Lanjut",
+    "viewAll": "Lihat Semua"
   }
 }

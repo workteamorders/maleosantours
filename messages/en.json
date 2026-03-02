@@ -8,6 +8,7 @@
     "testimoni": "Testimonials",
     "kontak": "Contact",
     "menu": "Menu",
+    "logo": "MT.",
     "location": "Manado, North Sulawesi"
   },
   "hero": {
@@ -129,13 +130,17 @@
     "review6": "Excellent service! The hotel recommendations were perfect and transportation was very comfortable. Will definitely come back!"
   },
   "kontak": {
-    "title": "Contact",
+    "title": "Contact Us",
+    "titleDesc": "CONTACT US",
     "description": "Contact us for more information or booking",
     "contactInfo": "Contact Information",
     "phone": "Phone",
+    "whatsapp": "WhatsApp",
     "email": "Email",
     "address": "Address",
     "social": "Social Media",
+    "scanHintWechat": "Scan to add on WeChat",
+    "scanHintKakao": "Scan to add on KakaoTalk",
     "sendMessage": "Send Message",
     "name": "Name",
     "namePlaceholder": "Your Name",
@@ -152,5 +157,19 @@
     "socials": "Socials",
     "allRights": "All Rights Reserved",
     "adminLogin": "Admin Login"
+  },
+  "seo": {
+    "breadcrumbHome": "Home",
+    "breadcrumbTours": "Tour Packages",
+    "breadcrumbHotels": "Hotels & Resorts",
+    "breadcrumbInfoTravel": "Travel Guide",
+    "breadcrumbTransport": "Transportation",
+    "breadcrumbTestimonials": "Testimonials",
+    "breadcrumbContact": "Contact Us",
+    "backToTours": "Back to Tour Packages",
+    "backToHotels": "Back to Hotels",
+    "bookNow": "Book Now",
+    "learnMore": "Learn More",
+    "viewAll": "View All"
   }
 }

@@ -4,6 +4,13 @@ import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { getLocale } from 'next-intl/server';
 import { prisma } from '@/lib/prisma';
+import { generatePageMetadata, type Locale } from '@/lib/seo';
+import type { Metadata } from 'next';
+
+export async function generateMetadata(): Promise<Metadata> {
+    const locale = await getLocale();
+    return generatePageMetadata('kontak', locale as Locale);
+}
 
 /**
  * Ensure a Google Maps URL is in embed-compatible format.
@@ -33,7 +40,12 @@ function ensureEmbedUrl(url: string): string {
 export default async function KontakPage() {
     const t = await getTranslations('kontak');
     const locale = await getLocale();
-    const companyInfo = await prisma.companyInfo.findFirst();
+    let companyInfo = null;
+    try {
+        companyInfo = await prisma.companyInfo.findFirst();
+    } catch (error) {
+        console.error('Database connection error:', error);
+    }
 
     // Determine address based on locale
     const address = locale === 'id' ? companyInfo?.addressId : companyInfo?.addressEn;
@@ -127,14 +139,6 @@ export default async function KontakPage() {
                                                 rel="noopener noreferrer"
                                                 className="text-gray-600 hover:text-black">
                                                 TikTok
-                                            </a>
-                                        )}
-                                        {companyInfo?.xiaohongshu && (
-                                            <a href={companyInfo.xiaohongshu}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-gray-600 hover:text-red-500">
-                                                Xiaohongshu
                                             </a>
                                         )}
                                     </div>

@@ -16,21 +16,25 @@ datasource db {
 
 model Admin {
   id        String   @id @default(cuid())
-  email     String   @unique
+  email     String   @unique(map: "admin_email_unique_idx")
   password  String   // Hashed with bcrypt
   name      String
   role      String   @default("admin")
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("admin")
 }
 
 model Session {
   id        String   @id @default(cuid())
   adminId   String
-  token     String   @unique
+  token     String   @unique(map: "session_token_unique_idx")
   expiresAt DateTime
   createdAt DateTime @default(now())
+
+  @@map("session")
 }
 
 // ============================================
@@ -40,7 +44,7 @@ model Session {
 // 1️⃣ INFO TRAVEL
 model InfoTravel {
   id          String   @id @default(cuid())
-  slug        String   @unique
+  slug        String   @unique(map: "infotravel_slug_unique_idx")
   category    String   // 'destination', 'history', 'transport', 'food'
   
   // Multi-language content
@@ -68,12 +72,14 @@ model InfoTravel {
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@map("infotravel")
 }
 
 // 2️⃣ TOUR PACKAGES
 model TourPackage {
   id           String   @id @default(cuid())
-  slug         String   @unique
+  slug         String   @unique(map: "tourpackage_slug_unique_idx")
   
   // Multi-language content
   nameId       String
@@ -91,6 +97,7 @@ model TourPackage {
   type         String   // 'day-tour', 'multi-day', 'custom'
   price        Float?
   priceUnit    String?  // "per person", "per group"
+  priceTiers   String?  @db.Text // JSON: [{"label":"2 pax","price":"510.000,-/pax"},...]
   
   // Itinerary (JSON)
   itineraryId  String?  @db.Text
@@ -120,12 +127,14 @@ model TourPackage {
   updatedAt    DateTime @updatedAt
   
   testimonials Testimonial[]
+
+  @@map("tourpackage")
 }
 
 // 3️⃣ HOTELS
 model Hotel {
   id           String   @id @default(cuid())
-  slug         String   @unique
+  slug         String   @unique(map: "hotel_slug_unique_idx")
   
   // Multi-language content
   nameId       String
@@ -156,12 +165,14 @@ model Hotel {
   
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  @@map("hotel")
 }
 
 // 4️⃣ TRANSPORT
 model Transport {
   id           String   @id @default(cuid())
-  slug         String   @unique
+  slug         String   @unique(map: "transport_slug_unique_idx")
   
   // Multi-language content
   nameId       String
@@ -193,6 +204,8 @@ model Transport {
   
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  @@map("transport")
 }
 
 // 5️⃣ TESTIMONIALS
@@ -218,6 +231,8 @@ model Testimonial {
   
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
+  @@map("testimonial")
 }
 
 // 6️⃣ CONTACT & COMPANY INFO
@@ -229,6 +244,8 @@ model CompanyInfo {
   email         String
   addressId     String
   addressEn     String
+  addressZh     String?  @db.Text
+  addressZhCn   String?  @db.Text
   
   whatsapp      String?
   googleMaps    String?  @db.Text // Embed URL
@@ -237,9 +254,30 @@ model CompanyInfo {
   instagram     String?
   twitter       String?
   youtube       String?
-  xiaohongshu   String?
+
+  // Philosophy (Custom Text) - Indonesian (Main)
+  philosophyTitleId    String?  @default("Filosofi Kami")
+  philosophyTagline1Id String?  @default("Kami merancang perjalanan yang selaras dengan")
+  philosophyTagline2Id String?  @default("irama alam.")
+
+  // Philosophy - English
+  philosophyTitleEn    String?  @default("Our Philosophy")
+  philosophyTagline1En String?  @default("We curate journeys that breathe with the")
+  philosophyTagline2En String?  @default("rhythm of nature.")
+
+  // Philosophy - Chinese Simplified
+  philosophyTitleZh    String?  @default("我们的理念")
+  philosophyTagline1Zh String?  @default("我们打造与")
+  philosophyTagline2Zh String?  @default("自然韵律共呼吸的旅程。")
+
+  // Philosophy - Chinese Traditional
+  philosophyTitleZhCn    String?  @default("我們的理念")
+  philosophyTagline1ZhCn String?  @default("我們打造與")
+  philosophyTagline2ZhCn String?  @default("自然韻律共呼吸的旅程。")
   
   updatedAt     DateTime @updatedAt
+
+  @@map("companyinfo")
 }
 
 model ContactSubmission {
@@ -255,6 +293,8 @@ model ContactSubmission {
   
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  @@map("contactsubmission")
 }
 
 // 7️⃣ MEDIA LIBRARY (Optional but useful)
@@ -271,6 +311,8 @@ model Media {
   caption    String?
   
   createdAt  DateTime @default(now())
+
+  @@map("media")
 }
 
 // 8️⃣ HOMEPAGE CONTENT (Editable sections)
@@ -291,4 +333,6 @@ model HomepageItem {
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("homepageitem")
 }

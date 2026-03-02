@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import { existsSync } from 'fs';
-import path from 'path';
+import { v2 as cloudinary } from 'cloudinary';
 
-const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB per image
+/**
+ * Upload API Route - Cloudinary Version
+ * This uploads files directly to Cloudinary to solve Vercel's Read-Only FS issue.
+ */
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const MAX_IMAGE_SIZE = 1 * 1024 * 1024; // 1MB per image
 const MAX_VIDEO_SIZE = 10 * 1024 * 1024; // 10MB per video
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/ogg'];
@@ -11,72 +21,77 @@ const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/webm', 'video/ogg'];
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
-    const file = formData.get('file') as File | null;
+    const file = formData.get('file') as Blob | null;
     const type = formData.get('type') as string; // 'image' or 'video'
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
-    // Validate file type
+    // Validate file type and size
     if (type === 'image') {
       if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
         return NextResponse.json(
-          { error: 'Invalid image type. Allowed: JPG, PNG, WebP, GIF' },
+          { error: 'Format gambar tidak didukung (Gunakan JPG, PNG, atau WebP)' },
           { status: 400 }
         );
       }
       if (file.size > MAX_IMAGE_SIZE) {
         return NextResponse.json(
-          { error: 'Image too large. Max 5MB' },
+          { error: 'Ukuran gambar terlalu besar. Maksimal 1MB untuk menghemat penyimpanan.' },
           { status: 400 }
         );
       }
     } else if (type === 'video') {
       if (!ALLOWED_VIDEO_TYPES.includes(file.type)) {
         return NextResponse.json(
-          { error: 'Invalid video type. Allowed: MP4, WebM, OGG' },
+          { error: 'Format video tidak didukung (Gunakan MP4 atau WebM)' },
           { status: 400 }
         );
       }
       if (file.size > MAX_VIDEO_SIZE) {
         return NextResponse.json(
-          { error: 'Video too large. Max 10MB' },
+          { error: 'Ukuran video terlalu besar. Maksimal 10MB.' },
           { status: 400 }
         );
       }
-    } else {
-      return NextResponse.json({ error: 'Invalid upload type' }, { status: 400 });
     }
 
-    // Create upload directory
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads', type === 'image' ? 'images' : 'videos');
-    if (!existsSync(uploadDir)) {
-      await mkdir(uploadDir, { recursive: true });
-    }
+    // Convert Blob to Buffer
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
 
-    // Generate unique filename
-    const timestamp = Date.now();
-    const randomStr = Math.random().toString(36).substring(2, 8);
-    const ext = file.name.split('.').pop()?.toLowerCase() || (type === 'image' ? 'jpg' : 'mp4');
-    const filename = `${timestamp}-${randomStr}.${ext}`;
-    const filepath = path.join(uploadDir, filename);
+    // Upload to Cloudinary using upload_stream
+    const result = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          resource_type: 'auto', // Automatically detect image or video
+          folder: 'maleosan-travel',
+        },
+        (error, result) => {
+          if (error) {
+            console.error('Cloudinary Upload Stream Error:', error);
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        }
+      );
+      uploadStream.end(buffer);
+    }) as any;
 
-    // Write file
-    const bytes = await file.arrayBuffer();
-    await writeFile(filepath, Buffer.from(bytes));
-
-    // Return public URL
-    const url = `/uploads/${type === 'image' ? 'images' : 'videos'}/${filename}`;
-
+    // Return the secure URL from Cloudinary
     return NextResponse.json({
-      url,
-      filename,
-      size: file.size,
-      type: file.type,
+      url: result.secure_url,
+      filename: result.public_id,
+      size: result.bytes,
+      type: result.resource_type,
     });
-  } catch (error) {
-    console.error('Upload error:', error);
-    return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
+
+  } catch (error: any) {
+    console.error('Cloudinary Upload error:', error);
+    return NextResponse.json({
+      error: 'Gagal upload ke Cloudinary: ' + (error.message || 'Unknown error')
+    }, { status: 500 });
   }
 }

@@ -48,7 +48,8 @@ export default function HotelForm({
     formState: { errors },
     reset,
   } = useForm<HotelFormData>({
-    resolver: zodResolver(hotelSchema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(hotelSchema) as any,
     defaultValues: hotel ? {
       name: hotel.name,
       description: hotel.description,

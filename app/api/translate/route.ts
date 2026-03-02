@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import translate from 'google-translate-api-x';
 
 /**
  * Translation API Route
- * Translates Indonesian text to English, Chinese Simplified, and Chinese Traditional
+ * Migrated to more stable providers (TranslateAI & MyMemory)
  */
 export async function POST(request: NextRequest) {
   try {
@@ -16,16 +15,32 @@ export async function POST(request: NextRequest) {
     const langs = targetLangs || ['en', 'zh-CN', 'zh-TW'];
     const results: Record<string, string> = {};
 
-    // Translate to each target language
-    for (const lang of langs) {
+    // Parallelize translation calls for better speed
+    await Promise.all(langs.map(async (lang: string) => {
       try {
-        const res = await translate(text, { from: 'id', to: lang });
-        results[lang] = res.text;
+        // Map common codes to MyMemory format (id|en, id|zh, id|zht)
+        let target = lang;
+        if (lang === 'zh-CN' || lang === 'zh') target = 'zh-CN'; // Simplified
+        if (lang === 'zh-TW' || lang === 'zh-tw') target = 'zh-TW'; // Traditional
+
+        const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=id|${target}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        // MyMemory sometimes returns 200 with error message as translatedText
+        if (data.responseData &&
+          data.responseData.translatedText &&
+          !data.responseData.translatedText.includes('INVALID TARGET LANGUAGE') &&
+          data.responseStatus === 200) {
+          results[lang] = data.responseData.translatedText;
+        } else {
+          results[lang] = text;
+        }
       } catch (err) {
         console.error(`Translation to ${lang} failed:`, err);
-        results[lang] = text; // Fallback to original text
+        results[lang] = text;
       }
-    }
+    }));
 
     return NextResponse.json({ translations: results });
   } catch (error) {

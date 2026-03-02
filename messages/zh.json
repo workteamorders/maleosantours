@@ -8,6 +8,7 @@
     "testimoni": "客户评价",
     "kontak": "联系我们",
     "menu": "菜单",
+    "logo": "MT.",
     "location": "万鸦老, 北苏拉威西"
   },
   "hero": {
@@ -130,12 +131,16 @@
   },
   "kontak": {
     "title": "联系我们",
+    "titleDesc": "联系我们",
     "description": "联系我们获取更多信息或预订",
     "contactInfo": "联系信息",
     "phone": "电话",
+    "whatsapp": "WhatsApp",
     "email": "邮箱",
     "address": "地址",
     "social": "社交媒体",
+    "scanHintWechat": "扫码添加微信",
+    "scanHintKakao": "扫码添加KakaoTalk",
     "sendMessage": "发送消息",
     "name": "姓名",
     "namePlaceholder": "您的姓名",
@@ -152,5 +157,19 @@
     "socials": "社交",
     "allRights": "版权所有",
     "adminLogin": "管理员登录"
+  },
+  "seo": {
+    "breadcrumbHome": "首页",
+    "breadcrumbTours": "旅游套餐",
+    "breadcrumbHotels": "酒店与度假村",
+    "breadcrumbInfoTravel": "旅游指南",
+    "breadcrumbTransport": "交通服务",
+    "breadcrumbTestimonials": "客户评价",
+    "breadcrumbContact": "联系我们",
+    "backToTours": "返回旅游套餐",
+    "backToHotels": "返回酒店",
+    "bookNow": "立即预订",
+    "learnMore": "了解更多",
+    "viewAll": "查看全部"
   }
 }

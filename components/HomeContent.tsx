@@ -47,7 +47,7 @@ export default function HomeContent() {
                     className="w-full h-full object-cover opacity-60"
                 />
                 <div className="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-4">
-                    <h1 className="text-5xl md:text-7xl font-serif font-bold mb-4 tracking-tight">MALEOSAN TRAVEL</h1>
+                    <h1 className="text-5xl md:text-7xl font-serif font-bold mb-4 tracking-tight">MALEOSAN TOURS MANADO</h1>
                     <p className="text-lg md:text-xl uppercase tracking-widest mb-8 max-w-2xl">Your Best Partner for Tour & Travel in Manado, North Sulawesi</p>
                     <Link href="/paket-tour" className="px-8 py-3 bg-white text-black font-bold uppercase hover:bg-gray-200 transition-colors">
                         Explore Tours

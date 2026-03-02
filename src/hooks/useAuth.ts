@@ -30,7 +30,7 @@ export const useAuth = () => {
 
   const handleLogin = (newToken: string, newUser: any) => {
     login(newToken, newUser);
-    router.push('/admin/dashboard');
+    router.push('/admin');
   };
 
   return {

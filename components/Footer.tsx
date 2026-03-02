@@ -16,7 +16,6 @@ interface CompanyInfo {
     instagram?: string;
     twitter?: string;
     youtube?: string;
-    xiaohongshu?: string;
 }
 
 export default function Footer() {
@@ -39,7 +38,7 @@ export default function Footer() {
             .then(data => {
                 if (!data.error) setCompanyInfo(data);
             })
-            .catch(() => {});
+            .catch(() => { });
     }, []);
 
     const phone = companyInfo?.phone || '+62-852-4108-5050';
@@ -87,9 +86,6 @@ export default function Footer() {
                         {companyInfo?.youtube && (
                             <a href={companyInfo.youtube} className="hover:text-background transition-colors">YouTube</a>
                         )}
-                        {companyInfo?.xiaohongshu && (
-                            <a href={companyInfo.xiaohongshu} className="hover:text-background transition-colors">Xiaohongshu</a>
-                        )}
                         {!companyInfo && (
                             <>
                                 <span className="text-background/30">Instagram</span>
@@ -100,7 +96,7 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className="col-span-1 text-left md:text-left">
-                    <p>© 2026 Maleosan Travel</p>
+                    <p>© 2026 Maleosan Tours Manado</p>
                     <p>{t('allRights')}</p>
                     <Link href="/admin/login" className="mt-4 inline-block hover:text-background transition-colors opacity-40 hover:opacity-100 text-[10px]">
                         {t('adminLogin')}

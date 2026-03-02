@@ -8,13 +8,19 @@ import Footer from '../../../components/Footer';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { prisma } from '@/lib/prisma';
+import { PriceDisplay } from '../../../components/CurrencyProvider';
 
 // Fetch active tour packages from database
 async function getTourPackages(locale: string) {
-  const packages = await prisma.tourPackage.findMany({
-    where: { active: true },
-    orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
-  });
+  let packages: any[] = [];
+  try {
+    packages = await prisma.tourPackage.findMany({
+      where: { active: true },
+      orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
+    });
+  } catch (error) {
+    console.error('Database connection error:', error);
+  }
 
   // Map to locale-specific content
   return packages.map((pkg) => ({
@@ -95,9 +101,7 @@ export default async function PaketTourPage({
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-500">{pkg.duration}</span>
                       {pkg.price && (
-                        <span className="text-lg font-semibold text-blue-600">
-                          ${pkg.price} {pkg.priceUnit && <span className="text-sm text-gray-500">/ {pkg.priceUnit}</span>}
-                        </span>
+                        <PriceDisplay priceIDR={pkg.price} priceUnit={pkg.priceUnit} />
                       )}
                     </div>
                   </div>

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { X, Menu as MenuIcon } from 'lucide-react';
 import LanguageSwitcher from './LanguageSwitcher';
+import { CurrencySelector } from './CurrencyProvider';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 
@@ -90,6 +91,9 @@ export default function Navbar() {
                 </div>
 
                 <div className="flex items-center gap-4 pointer-events-auto">
+                    {/* Currency Selector */}
+                    <CurrencySelector className={`${useDarkText ? 'text-black border-gray-400' : 'text-white border-white/50'} bg-transparent text-xs`} />
+
                     {/* Language Switcher */}
                     <LanguageSwitcher isScrolled={useDarkText} />
 

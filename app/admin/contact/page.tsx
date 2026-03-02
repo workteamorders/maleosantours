@@ -19,12 +19,12 @@ export default async function ContactAdminPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Pesan Kontak</h1>
-        <p className="text-gray-600 mt-1">Lihat dan kelola pengiriman formulir kontak</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Pesan Kontak</h1>
+        <p className="text-gray-600 mt-1 text-sm md:text-base">Lihat dan kelola pengiriman formulir kontak</p>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
+      <div className="bg-white rounded-lg shadow overflow-x-auto">
+        <table className="min-w-[700px] w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">

@@ -50,7 +50,8 @@ export default function PaketTourForm({
     formState: { errors },
     reset,
   } = useForm<PaketTourFormData>({
-    resolver: zodResolver(paketTourSchema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(paketTourSchema) as any,
     defaultValues: paketTour ? {
       name: paketTour.name,
       description: paketTour.description,

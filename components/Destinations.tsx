@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 
 interface DestinationItem {
@@ -9,6 +9,7 @@ interface DestinationItem {
     category: string;
     image: string;
     year: string;
+    rotation?: number;
 }
 
 interface DestinationsProps {
@@ -16,10 +17,9 @@ interface DestinationsProps {
 }
 
 export default function Destinations({ items }: DestinationsProps) {
-    const targetRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: targetRef,
-    });
+    const containerRef = useRef<HTMLDivElement>(null);
+    const innerRef = useRef<HTMLDivElement>(null);
+    const [dragConstraint, setDragConstraint] = useState(0);
     const t = useTranslations('destinations');
 
     const defaultDestinations: DestinationItem[] = [
@@ -68,27 +68,50 @@ export default function Destinations({ items }: DestinationsProps) {
                             category: d.subtitle || '',
                             image: d.image,
                             year: new Date(d.createdAt).getFullYear().toString(),
+                            rotation: d.rotation || 0,
                         })));
                     }
                 })
-                .catch(() => {});
+                .catch(() => { });
         }
     }, [items]);
 
-    const x = useTransform(scrollYProgress, [0, 1], ["1%", "-95%"]);
+    // Calculate drag constraints based on inner content vs container width
+    useEffect(() => {
+        const calcConstraint = () => {
+            if (containerRef.current && innerRef.current) {
+                const containerWidth = containerRef.current.offsetWidth;
+                const innerWidth = innerRef.current.scrollWidth;
+                setDragConstraint(Math.min(0, -(innerWidth - containerWidth)));
+            }
+        };
+        calcConstraint();
+        window.addEventListener('resize', calcConstraint);
+        return () => window.removeEventListener('resize', calcConstraint);
+    }, [destinations]);
 
     return (
-        <section ref={targetRef} className="relative h-[300vh] bg-background">
-            <div className="sticky top-0 h-screen flex items-center overflow-hidden">
-                <motion.div style={{ x }} className="flex gap-4 md:gap-10 pl-4 md:pl-20 pr-4 md:pr-20">
+        <section className="relative bg-background py-10 md:py-20">
+            <div
+                ref={containerRef}
+                className="overflow-hidden cursor-grab active:cursor-grabbing"
+            >
+                <motion.div
+                    ref={innerRef}
+                    drag="x"
+                    dragConstraints={{ left: dragConstraint, right: 0 }}
+                    dragElastic={0.1}
+                    dragTransition={{ bounceStiffness: 300, bounceDamping: 30 }}
+                    className="flex gap-4 md:gap-10 pl-4 md:pl-20 pr-4 md:pr-20"
+                >
                     {destinations.map((dest, i) => (
-                        <div key={i} className="group relative h-[60vh] md:h-[70vh] w-[80vw] md:w-[40vw] flex-shrink-0 cursor-pointer overflow-hidden">
+                        <div key={i} className="group relative h-[60vh] md:h-[70vh] w-[80vw] md:w-[40vw] flex-shrink-0 overflow-hidden select-none">
                             <div className="absolute inset-0 z-10 transition-transform duration-500 group-hover:scale-105">
-                                <img src={dest.image} alt={dest.title} className="h-full w-full object-cover" />
+                                <img src={dest.image} alt={dest.title} className="h-full w-full object-cover pointer-events-none select-none" draggable={false} style={{ transform: dest.rotation ? `rotate(${dest.rotation}deg) scale(1.3)` : undefined, transformOrigin: 'center center' }} />
                             </div>
                             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-20 bg-gradient-to-t from-black/60 to-transparent text-white opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
                                 <h3 className="text-2xl md:text-4xl font-serif mb-2">{dest.title}</h3>
-                                <p className="font-sans text-xs md:text-sm uppercase tracking-widest">{dest.category} — {dest.year}</p>
+                                <p className="font-sans text-xs md:text-sm uppercase tracking-widest">{dest.category}{' \u2014 '}{dest.year}</p>
                             </div>
                         </div>
                     ))}

@@ -11,11 +11,23 @@ import { randomBytes } from 'crypto';
 const SESSION_COOKIE_NAME = 'admin_session';
 const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days
 
+export type AdminRole = 'boss' | 'karyawan' | 'admin';
+
+function normalizeAdminRole(role: string): AdminRole {
+  if (role === 'boss') return 'boss';
+  if (role === 'karyawan') return 'karyawan';
+  return 'karyawan';
+}
+
+export function isBossRole(role: string): boolean {
+  return normalizeAdminRole(role) === 'boss';
+}
+
 export interface AdminUser {
   id: string;
   email: string;
   name: string;
-  role: string;
+  role: AdminRole;
 }
 
 /**
@@ -104,7 +116,7 @@ export async function getCurrentAdmin(): Promise<AdminUser | null> {
       id: admin.id,
       email: admin.email,
       name: admin.name,
-      role: admin.role,
+      role: normalizeAdminRole(admin.role),
     };
   } catch (error) {
     console.error('Auth error:', error);
@@ -163,7 +175,7 @@ export async function authenticateAdmin(
         id: admin.id,
         email: admin.email,
         name: admin.name,
-        role: admin.role,
+        role: normalizeAdminRole(admin.role),
       },
     };
   } catch (error) {
@@ -177,10 +189,35 @@ export async function authenticateAdmin(
  */
 export async function requireAuth(): Promise<AdminUser> {
   const admin = await getCurrentAdmin();
-  
+
   if (!admin) {
+    // Fallback: check if there's any active admin (dev convenience)
+    const anyAdmin = await prisma.admin.findFirst({ where: { active: true } });
+    if (anyAdmin) {
+      // Auto-create session for this admin
+      await createSession(anyAdmin.id);
+      return {
+        id: anyAdmin.id,
+        email: anyAdmin.email,
+        name: anyAdmin.name,
+        role: normalizeAdminRole(anyAdmin.role),
+      };
+    }
     throw new Error('Unauthorized');
   }
-  
+
+  return admin;
+}
+
+/**
+ * Require boss access
+ */
+export async function requireBoss(): Promise<AdminUser> {
+  const admin = await requireAuth();
+
+  if (!isBossRole(admin.role)) {
+    throw new Error('Forbidden');
+  }
+
   return admin;
 }

@@ -20,7 +20,7 @@ import { clsx } from 'clsx';
 const menuItems = [
   {
     label: 'Dasbor',
-    href: '/admin/dashboard',
+    href: '/admin',
     icon: LayoutDashboard,
   },
   {

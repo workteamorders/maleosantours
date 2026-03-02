@@ -49,7 +49,8 @@ export default function TransportForm({
     formState: { errors },
     reset,
   } = useForm<TransportFormData>({
-    resolver: zodResolver(transportSchema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(transportSchema) as any,
     defaultValues: transport ? {
       name: transport.name,
       type: transport.type,

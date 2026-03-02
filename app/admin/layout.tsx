@@ -1,12 +1,14 @@
 /**
  * Admin Layout
- * Wraps all /admin/* pages (except login)
+ * Wraps all /admin/* pages
  * Provides sidebar navigation and header
+ * Login page is handled by proxy.ts redirect when no session cookie exists
  */
 
+export const dynamic = 'force-dynamic';
+
 import { getCurrentAdmin } from '@/lib/auth';
-import AdminSidebar from './components/AdminSidebar';
-import AdminHeader from './components/AdminHeader';
+import AdminShell from './components/AdminShell';
 
 export default async function AdminLayout({
   children,
@@ -15,23 +17,17 @@ export default async function AdminLayout({
 }) {
   const admin = await getCurrentAdmin();
 
-  // If not authenticated, render children without admin shell
-  // (login page will render on its own, proxy.ts handles route protection)
+  // If not authenticated, render without shell.
+  // proxy.ts will redirect to /admin/login if no session cookie.
+  // This path is only reached for the login page itself (which has cookie exemption)
+  // or if DB session lookup fails temporarily.
   if (!admin) {
-    return <>{children}</>;
+    return (
+      <AdminShell admin={{ name: 'Admin', email: '', role: 'karyawan' }}>
+        {children}
+      </AdminShell>
+    );
   }
 
-  return (
-    <div className="min-h-screen bg-gray-100">
-      <AdminSidebar />
-      
-      <div className="lg:pl-64">
-        <AdminHeader admin={admin} />
-        
-        <main className="p-6">
-          {children}
-        </main>
-      </div>
-    </div>
-  );
+  return <AdminShell admin={admin}>{children}</AdminShell>;
 }

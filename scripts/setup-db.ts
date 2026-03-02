@@ -10,26 +10,49 @@ import { hashPassword } from '../lib/auth';
 async function main() {
   console.log('🚀 Setting up database...\n');
 
-  // 1. Create default admin user
-  console.log('👤 Creating admin user...');
-  const hashedPassword = await hashPassword(process.env.ADMIN_PASSWORD || 'Admin123!');
-  
+  // 1. Create default employee admin user
+  console.log('👤 Creating karyawan admin user...');
+  const employeePassword = await hashPassword(process.env.ADMIN_PASSWORD || 'Admin123!');
+
   const admin = await prisma.admin.upsert({
     where: { email: process.env.ADMIN_EMAIL || 'admin@maleosan.com' },
-    update: {},
+    update: {
+      role: 'karyawan',
+      active: true,
+    },
     create: {
       email: process.env.ADMIN_EMAIL || 'admin@maleosan.com',
-      password: hashedPassword,
-      name: 'Admin',
-      role: 'admin',
+      password: employeePassword,
+      name: 'Admin Karyawan',
+      role: 'karyawan',
       active: true,
     },
   });
-  console.log('✅ Admin user created:', admin.email);
+  console.log('✅ Karyawan admin created:', admin.email);
 
-  // 2. Create sample tour packages
+  // 2. Create default boss user
+  console.log('👑 Creating boss user...');
+  const bossPassword = await hashPassword(process.env.BOSS_PASSWORD || 'Boss123!');
+
+  const boss = await prisma.admin.upsert({
+    where: { email: process.env.BOSS_EMAIL || 'boss@maleosan.com' },
+    update: {
+      role: 'boss',
+      active: true,
+    },
+    create: {
+      email: process.env.BOSS_EMAIL || 'boss@maleosan.com',
+      password: bossPassword,
+      name: 'Boss',
+      role: 'boss',
+      active: true,
+    },
+  });
+  console.log('✅ Boss user created:', boss.email);
+
+  // 3. Create sample tour packages
   console.log('\n📦 Creating sample tour packages...');
-  
+
   const tourPackages = [
     {
       slug: 'bunaken-snorkeling-tour',
@@ -102,7 +125,7 @@ async function main() {
     console.log('✅ Created:', pkg.nameEn);
   }
 
-  // 3. Create company info
+  // 4. Create company info
   console.log('\n🏢 Creating company information...');
   await prisma.companyInfo.upsert({
     where: { id: 'default' },
@@ -123,9 +146,12 @@ async function main() {
   console.log('✅ Company info created');
 
   console.log('\n✨ Database setup complete!\n');
-  console.log('📝 Admin credentials:');
+  console.log('📝 Karyawan credentials:');
   console.log('   Email:', process.env.ADMIN_EMAIL || 'admin@maleosan.com');
   console.log('   Password:', process.env.ADMIN_PASSWORD || 'Admin123!');
+  console.log('\n📝 Boss credentials:');
+  console.log('   Email:', process.env.BOSS_EMAIL || 'boss@maleosan.com');
+  console.log('   Password:', process.env.BOSS_PASSWORD || 'Boss123!');
   console.log('\n🌐 Access admin panel at: http://localhost:3000/admin\n');
 }
 

@@ -47,9 +47,12 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
   const [translated, setTranslated] = useState(false);
 
   // Translated content state (controlled)
+  const [titleId, setTitleId] = useState(infoTravel?.titleId || '');
   const [titleEn, setTitleEn] = useState(infoTravel?.titleEn || '');
   const [titleZh, setTitleZh] = useState(infoTravel?.titleZh || '');
   const [titleZhCn, setTitleZhCn] = useState(infoTravel?.titleZhCn || '');
+
+  const [descId, setDescId] = useState(infoTravel?.descId || '');
   const [descEn, setDescEn] = useState(infoTravel?.descEn || '');
   const [descZh, setDescZh] = useState(infoTravel?.descZh || '');
   const [descZhCn, setDescZhCn] = useState(infoTravel?.descZhCn || '');
@@ -168,6 +171,20 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
     }
   }
 
+  // Auto translate title on blur if others are empty
+  async function handleTitleIdBlur() {
+    if (titleId.trim() && !titleEn) {
+      try {
+        const t = await translateText(titleId);
+        setTitleEn(t['en'] || '');
+        setTitleZh(t['zh-CN'] || '');
+        setTitleZhCn(t['zh-TW'] || '');
+      } catch (err) {
+        console.error('Auto-translate blur failed:', err);
+      }
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
@@ -188,19 +205,19 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
     formData.set('videoUrl', videoUrl);
 
     // Inject translated values (from controlled state)
+    formData.set('titleId', titleId);
     formData.set('titleEn', titleEn);
     formData.set('titleZh', titleZh);
     formData.set('titleZhCn', titleZhCn);
+
+    formData.set('descId', descId);
     formData.set('descEn', descEn);
     formData.set('descZh', descZh);
     formData.set('descZhCn', descZhCn);
 
     // Auto-translate if not yet translated and Indonesian content exists
-    const titleId = (formData.get('titleId') as string) || '';
-    const descId = (formData.get('descId') as string) || '';
     if (!titleEn && titleId.trim()) {
       try {
-        setLoading(true);
         const titleTranslations = await translateText(titleId);
         formData.set('titleEn', titleTranslations['en'] || titleId);
         formData.set('titleZh', titleTranslations['zh-CN'] || titleId);
@@ -259,11 +276,10 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
               key={tab.key}
               type="button"
               onClick={() => setActiveTab(tab.key as any)}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === tab.key
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === tab.key
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
+                }`}
             >
               {tab.label}
             </button>
@@ -391,11 +407,10 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
         {/* Upload button */}
         <div
           onClick={() => !uploadingImages && imageInputRef.current?.click()}
-          className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
-            uploadingImages
+          className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${uploadingImages
               ? 'border-blue-300 bg-blue-50'
               : 'border-gray-300 hover:border-blue-400 hover:bg-blue-50/50'
-          }`}
+            }`}
         >
           {uploadingImages ? (
             <div className="flex flex-col items-center gap-2">
@@ -457,11 +472,10 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
           <>
             <div
               onClick={() => !uploadingVideo && videoInputRef.current?.click()}
-              className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
-                uploadingVideo
+              className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${uploadingVideo
                   ? 'border-purple-300 bg-purple-50'
                   : 'border-gray-300 hover:border-purple-400 hover:bg-purple-50/50'
-              }`}
+                }`}
             >
               {uploadingVideo ? (
                 <div className="flex flex-col items-center gap-2">
@@ -511,7 +525,9 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
             <input
               type="text"
               name="titleId"
-              defaultValue={infoTravel?.titleId || ''}
+              value={titleId}
+              onChange={(e) => setTitleId(e.target.value)}
+              onBlur={handleTitleIdBlur}
               required
               placeholder="Sejarah & Budaya di Manado"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -523,7 +539,8 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
             </label>
             <textarea
               name="descId"
-              defaultValue={infoTravel?.descId || ''}
+              value={descId}
+              onChange={(e) => setDescId(e.target.value)}
               required
               rows={10}
               placeholder="Tulis konten artikel di sini..."

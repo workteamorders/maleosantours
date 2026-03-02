@@ -8,6 +8,7 @@
     "testimoni": "客戶評價",
     "kontak": "聯繫我們",
     "menu": "選單",
+    "logo": "MT.",
     "location": "萬鴉老, 北蘇拉威西"
   },
   "hero": {
@@ -130,12 +131,16 @@
   },
   "kontak": {
     "title": "聯繫我們",
+    "titleDesc": "聯繫我們",
     "description": "聯繫我們獲取更多資訊或預訂",
     "contactInfo": "聯繫資訊",
     "phone": "電話",
+    "whatsapp": "WhatsApp",
     "email": "電子郵件",
     "address": "地址",
     "social": "社交媒體",
+    "scanHintWechat": "掃碼添加微信",
+    "scanHintKakao": "掃碼添加KakaoTalk",
     "sendMessage": "發送訊息",
     "name": "姓名",
     "namePlaceholder": "您的姓名",
@@ -152,5 +157,19 @@
     "socials": "社交",
     "allRights": "版權所有",
     "adminLogin": "管理員登入"
+  },
+  "seo": {
+    "breadcrumbHome": "首頁",
+    "breadcrumbTours": "旅遊套裝",
+    "breadcrumbHotels": "酒店與度假村",
+    "breadcrumbInfoTravel": "旅遊指南",
+    "breadcrumbTransport": "交通服務",
+    "breadcrumbTestimonials": "客戶評價",
+    "breadcrumbContact": "聯繫我們",
+    "backToTours": "返回旅遊套裝",
+    "backToHotels": "返回酒店",
+    "bookNow": "立即預訂",
+    "learnMore": "了解更多",
+    "viewAll": "查看全部"
   }
 }

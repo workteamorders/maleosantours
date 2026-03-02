@@ -9,6 +9,7 @@ interface JournalItem {
     date: string;
     desc: string;
     image: string;
+    rotation?: number;
 }
 
 const defaultActivities: JournalItem[] = [
@@ -62,10 +63,11 @@ export default function Journal({ items }: JournalProps) {
                             date: d.subtitle || '',
                             desc: d.desc || '',
                             image: d.image,
+                            rotation: d.rotation || 0,
                         })));
                     }
                 })
-                .catch(() => {});
+                .catch(() => { });
         }
     }, [items]);
 
@@ -87,6 +89,7 @@ export default function Journal({ items }: JournalProps) {
                                         src={activity.image}
                                         alt={activity.title}
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        style={{ transform: activity.rotation ? `rotate(${activity.rotation}deg) scale(1.3)` : undefined, transformOrigin: 'center center' }}
                                     />
                                 </div>
                                 <span className="block text-xs font-sans uppercase tracking-widest text-foreground/50 mb-2">{activity.date}</span>
@@ -105,6 +108,7 @@ export default function Journal({ items }: JournalProps) {
                                         src={activity.image}
                                         alt={activity.title}
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        style={{ transform: activity.rotation ? `rotate(${activity.rotation}deg) scale(1.3)` : undefined, transformOrigin: 'center center' }}
                                     />
                                 </div>
                                 <span className="block text-xs font-sans uppercase tracking-widest text-foreground/50 mb-2">{activity.date}</span>
