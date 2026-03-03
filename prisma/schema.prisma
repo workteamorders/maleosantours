@@ -93,10 +93,19 @@ model TourPackage {
   descZhCn     String   @db.Text
   
   // Tour details
-  duration     String   // "1 Day", "3D2N", etc.
+  duration     String   // "1 Hari", "3 Hari 2 Malam", etc. (Indonesian/Base)
+  durationEn   String?
+  durationZh   String?
+  durationZhCn String?
+  
   type         String   // 'day-tour', 'multi-day', 'custom'
   price        Float?
-  priceUnit    String?  // "per person", "per group"
+  
+  priceUnit    String?  // "per orang", "per grup" (Indonesian/Base)
+  priceUnitEn  String?
+  priceUnitZh  String?
+  priceUnitZhCn String?
+  
   priceTiers   String?  @db.Text // JSON: [{"label":"2 pax","price":"510.000,-/pax"},...]
   
   // Itinerary (JSON)
@@ -108,8 +117,12 @@ model TourPackage {
   // Included/Excluded (JSON arrays)
   includedId   String?  @db.Text
   includedEn   String?  @db.Text
+  includedZh   String?  @db.Text
+  includedZhCn String?  @db.Text
   excludedId   String?  @db.Text
   excludedEn   String?  @db.Text
+  excludedZh   String?  @db.Text
+  excludedZhCn String?  @db.Text
   
   images       String   @db.Text // JSON array
   mainImage    String

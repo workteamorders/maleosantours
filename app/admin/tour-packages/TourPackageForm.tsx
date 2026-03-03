@@ -57,6 +57,18 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
   const [descZh, setDescZh] = useState(tourPackage?.descZh || '');
   const [descZhCn, setDescZhCn] = useState(tourPackage?.descZhCn || '');
 
+  // Duration
+  const [duration, setDuration] = useState(tourPackage?.duration || '');
+  const [durationEn, setDurationEn] = useState(tourPackage?.durationEn || '');
+  const [durationZh, setDurationZh] = useState(tourPackage?.durationZh || '');
+  const [durationZhCn, setDurationZhCn] = useState(tourPackage?.durationZhCn || '');
+
+  // Price Unit
+  const [priceUnit, setPriceUnit] = useState(tourPackage?.priceUnit || 'per orang');
+  const [priceUnitEn, setPriceUnitEn] = useState(tourPackage?.priceUnitEn || '');
+  const [priceUnitZh, setPriceUnitZh] = useState(tourPackage?.priceUnitZh || '');
+  const [priceUnitZhCn, setPriceUnitZhCn] = useState(tourPackage?.priceUnitZhCn || '');
+
   // Image & video state
   const [mainImage, setMainImage] = useState<string>(tourPackage?.mainImage || '');
   const [images, setImages] = useState<string[]>(() => {
@@ -80,6 +92,24 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
     }
     return [];
   });
+  const [itineraryEn, setItineraryEn] = useState<{ time: string; activity: string }[]>(() => {
+    if (tourPackage?.itineraryEn) {
+      try { return JSON.parse(tourPackage.itineraryEn); } catch { return []; }
+    }
+    return [];
+  });
+  const [itineraryZh, setItineraryZh] = useState<{ time: string; activity: string }[]>(() => {
+    if (tourPackage?.itineraryZh) {
+      try { return JSON.parse(tourPackage.itineraryZh); } catch { return []; }
+    }
+    return [];
+  });
+  const [itineraryZhCn, setItineraryZhCn] = useState<{ time: string; activity: string }[]>(() => {
+    if (tourPackage?.itineraryZhCn) {
+      try { return JSON.parse(tourPackage.itineraryZhCn); } catch { return []; }
+    }
+    return [];
+  });
 
   // Price tiers state
   const [priceTiers, setPriceTiers] = useState<{ label: string; price: string }[]>(() => {
@@ -96,9 +126,46 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
     }
     return [];
   });
+  const [inclusionsEn, setInclusionsEn] = useState<string[]>(() => {
+    if (tourPackage?.includedEn) {
+      try { return JSON.parse(tourPackage.includedEn); } catch { return []; }
+    }
+    return [];
+  });
+  const [inclusionsZh, setInclusionsZh] = useState<string[]>(() => {
+    if (tourPackage?.includedZh) {
+      try { return JSON.parse(tourPackage.includedZh); } catch { return []; }
+    }
+    return [];
+  });
+  const [inclusionsZhCn, setInclusionsZhCn] = useState<string[]>(() => {
+    if (tourPackage?.includedZhCn) {
+      try { return JSON.parse(tourPackage.includedZhCn); } catch { return []; }
+    }
+    return [];
+  });
+
   const [exclusions, setExclusions] = useState<string[]>(() => {
     if (tourPackage?.excludedId) {
       try { return JSON.parse(tourPackage.excludedId); } catch { return []; }
+    }
+    return [];
+  });
+  const [exclusionsEn, setExclusionsEn] = useState<string[]>(() => {
+    if (tourPackage?.excludedEn) {
+      try { return JSON.parse(tourPackage.excludedEn); } catch { return []; }
+    }
+    return [];
+  });
+  const [exclusionsZh, setExclusionsZh] = useState<string[]>(() => {
+    if (tourPackage?.excludedZh) {
+      try { return JSON.parse(tourPackage.excludedZh); } catch { return []; }
+    }
+    return [];
+  });
+  const [exclusionsZhCn, setExclusionsZhCn] = useState<string[]>(() => {
+    if (tourPackage?.excludedZhCn) {
+      try { return JSON.parse(tourPackage.excludedZhCn); } catch { return []; }
     }
     return [];
   });
@@ -182,6 +249,49 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
     setVideoUrl('');
   }
 
+  // Get current language specific states for arrays
+  const getCurrentItinerary = () => {
+    if (activeTab === 'en') return itineraryEn;
+    if (activeTab === 'zh') return itineraryZh;
+    if (activeTab === 'zh-cn') return itineraryZhCn;
+    return itinerary;
+  };
+
+  const setCurrentItinerary = (val: { time: string; activity: string }[]) => {
+    if (activeTab === 'en') setItineraryEn(val);
+    else if (activeTab === 'zh') setItineraryZh(val);
+    else if (activeTab === 'zh-cn') setItineraryZhCn(val);
+    else setItinerary(val);
+  };
+
+  const getCurrentInclusions = () => {
+    if (activeTab === 'en') return inclusionsEn;
+    if (activeTab === 'zh') return inclusionsZh;
+    if (activeTab === 'zh-cn') return inclusionsZhCn;
+    return inclusions;
+  };
+
+  const setCurrentInclusions = (val: string[]) => {
+    if (activeTab === 'en') setInclusionsEn(val);
+    else if (activeTab === 'zh') setInclusionsZh(val);
+    else if (activeTab === 'zh-cn') setInclusionsZhCn(val);
+    else setInclusions(val);
+  };
+
+  const getCurrentExclusions = () => {
+    if (activeTab === 'en') return exclusionsEn;
+    if (activeTab === 'zh') return exclusionsZh;
+    if (activeTab === 'zh-cn') return exclusionsZhCn;
+    return exclusions;
+  };
+
+  const setCurrentExclusions = (val: string[]) => {
+    if (activeTab === 'en') setExclusionsEn(val);
+    else if (activeTab === 'zh') setExclusionsZh(val);
+    else if (activeTab === 'zh-cn') setExclusionsZhCn(val);
+    else setExclusions(val);
+  };
+
   async function handleTranslate() {
     const form = document.querySelector('form') as HTMLFormElement;
     const formData = new FormData(form);
@@ -210,6 +320,86 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
         setDescZh(descTranslations['zh-CN'] || descId);
         setDescZhCn(descTranslations['zh-TW'] || descId);
       }
+
+      if (duration.trim()) {
+        const durT = await translateText(duration);
+        setDurationEn(durT['en'] || duration);
+        setDurationZh(durT['zh-CN'] || duration);
+        setDurationZhCn(durT['zh-TW'] || duration);
+      }
+
+      if (priceUnit.trim()) {
+        const unitT = await translateText(priceUnit);
+        setPriceUnitEn(unitT['en'] || priceUnit);
+        setPriceUnitZh(unitT['zh-CN'] || priceUnit);
+        setPriceUnitZhCn(unitT['zh-TW'] || priceUnit);
+      }
+
+      // Translate Itinerary
+      if (itinerary.length > 0) {
+        const enItin = [];
+        const zhItin = [];
+        const zhCnItin = [];
+        for (const item of itinerary) {
+          if (item.activity.trim()) {
+            const t = await translateText(item.activity);
+            enItin.push({ time: item.time, activity: t['en'] || item.activity });
+            zhItin.push({ time: item.time, activity: t['zh-CN'] || item.activity });
+            zhCnItin.push({ time: item.time, activity: t['zh-TW'] || item.activity });
+          } else {
+            enItin.push(item);
+            zhItin.push(item);
+            zhCnItin.push(item);
+          }
+        }
+        setItineraryEn(enItin);
+        setItineraryZh(zhItin);
+        setItineraryZhCn(zhCnItin);
+      }
+
+      // Translate Inclusions
+      if (inclusions.length > 0) {
+        const enInc = [];
+        const zhInc = [];
+        const zhCnInc = [];
+        for (const item of inclusions) {
+          if (item.trim()) {
+            const t = await translateText(item);
+            enInc.push(t['en'] || item);
+            zhInc.push(t['zh-CN'] || item);
+            zhCnInc.push(t['zh-TW'] || item);
+          } else {
+            enInc.push(item);
+            zhInc.push(item);
+            zhCnInc.push(item);
+          }
+        }
+        setInclusionsEn(enInc);
+        setInclusionsZh(zhInc);
+        setInclusionsZhCn(zhCnInc);
+      }
+
+      // Translate Exclusions
+      if (exclusions.length > 0) {
+        const enExc = [];
+        const zhExc = [];
+        const zhCnExc = [];
+        for (const item of exclusions) {
+          if (item.trim()) {
+            const t = await translateText(item);
+            enExc.push(t['en'] || item);
+            zhExc.push(t['zh-CN'] || item);
+            zhCnExc.push(t['zh-TW'] || item);
+          } else {
+            enExc.push(item);
+            zhExc.push(item);
+            zhCnExc.push(item);
+          }
+        }
+        setExclusionsEn(enExc);
+        setExclusionsZh(zhExc);
+        setExclusionsZhCn(zhCnExc);
+      }
     } catch (err: any) {
       setUploadError('Gagal menerjemahkan: ' + (err.message || 'Kesalahan tidak diketahui'));
     } finally {
@@ -226,7 +416,21 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
         setNameZh(t['zh-CN'] || '');
         setNameZhCn(t['zh-TW'] || '');
       } catch (err) {
-        console.error('Auto-translate blur failed:', err);
+        console.error('Auto-translate name blur failed:', err);
+      }
+    }
+  }
+
+  // Auto translate desc on blur if others are empty
+  async function handleDescIdBlur() {
+    if (descId.trim() && !descEn) {
+      try {
+        const t = await translateText(descId);
+        setDescEn(t['en'] || '');
+        setDescZh(t['zh-CN'] || '');
+        setDescZhCn(t['zh-TW'] || '');
+      } catch (err) {
+        console.error('Auto-translate desc blur failed:', err);
       }
     }
   }
@@ -257,27 +461,129 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
     formData.set('descZh', descZh);
     formData.set('descZhCn', descZhCn);
 
+    formData.set('duration', duration);
+    formData.set('durationEn', durationEn);
+    formData.set('durationZh', durationZh);
+    formData.set('durationZhCn', durationZhCn);
+
+    formData.set('priceUnit', priceUnit);
+    formData.set('priceUnitEn', priceUnitEn);
+    formData.set('priceUnitZh', priceUnitZh);
+    formData.set('priceUnitZhCn', priceUnitZhCn);
+
     // Set itinerary, pricing, inclusions, exclusions as JSON
     formData.set('itineraryId', JSON.stringify(itinerary.filter(it => it.time || it.activity)));
-    formData.set('priceTiers', JSON.stringify(priceTiers.filter(pt => pt.label || pt.price)));
-    formData.set('includedId', JSON.stringify(inclusions.filter(Boolean)));
-    formData.set('excludedId', JSON.stringify(exclusions.filter(Boolean)));
+    formData.set('itineraryEn', JSON.stringify(itineraryEn.filter(it => it.time || it.activity)));
+    formData.set('itineraryZh', JSON.stringify(itineraryZh.filter(it => it.time || it.activity)));
+    formData.set('itineraryZhCn', JSON.stringify(itineraryZhCn.filter(it => it.time || it.activity)));
 
-    // Auto-translate if not yet translated
+    formData.set('priceTiers', JSON.stringify(priceTiers.filter(pt => pt.label || pt.price)));
+
+    formData.set('includedId', JSON.stringify(inclusions.filter(Boolean)));
+    formData.set('includedEn', JSON.stringify(inclusionsEn.filter(Boolean)));
+    formData.set('includedZh', JSON.stringify(inclusionsZh.filter(Boolean)));
+    formData.set('includedZhCn', JSON.stringify(inclusionsZhCn.filter(Boolean)));
+
+    formData.set('excludedId', JSON.stringify(exclusions.filter(Boolean)));
+    formData.set('excludedEn', JSON.stringify(exclusionsEn.filter(Boolean)));
+    formData.set('excludedZh', JSON.stringify(exclusionsZh.filter(Boolean)));
+    formData.set('excludedZhCn', JSON.stringify(exclusionsZhCn.filter(Boolean)));
+
+    // Auto-translate if not yet translated (Name & Description)
     if (!nameEn && nameId.trim()) {
       try {
-        const titleTranslations = await translateText(nameId);
-        formData.set('nameEn', titleTranslations['en'] || nameId);
-        formData.set('nameZh', titleTranslations['zh-CN'] || nameId);
-        formData.set('nameZhCn', titleTranslations['zh-TW'] || nameId);
+        const t = await translateText(nameId);
+        formData.set('nameEn', t['en'] || nameId);
+        formData.set('nameZh', t['zh-CN'] || nameId);
+        formData.set('nameZhCn', t['zh-TW'] || nameId);
       } catch { /* fallback */ }
     }
     if (!descEn && descId.trim()) {
       try {
-        const descTranslations = await translateText(descId);
-        formData.set('descEn', descTranslations['en'] || descId);
-        formData.set('descZh', descTranslations['zh-CN'] || descId);
-        formData.set('descZhCn', descTranslations['zh-TW'] || descId);
+        const t = await translateText(descId);
+        formData.set('descEn', t['en'] || descId);
+        formData.set('descZh', t['zh-CN'] || descId);
+        formData.set('descZhCn', t['zh-TW'] || descId);
+      } catch { /* fallback */ }
+    }
+
+    // Auto-translate Itinerary if empty
+    if (itinerary.length > 0 && itineraryEn.length === 0) {
+      try {
+        const enItin = []; const zhItin = []; const zhCnItin = [];
+        for (const item of itinerary) {
+          if (item.activity.trim()) {
+            const t = await translateText(item.activity);
+            enItin.push({ time: item.time, activity: t['en'] || item.activity });
+            zhItin.push({ time: item.time, activity: t['zh-CN'] || item.activity });
+            zhCnItin.push({ time: item.time, activity: t['zh-TW'] || item.activity });
+          } else {
+            enItin.push(item); zhItin.push(item); zhCnItin.push(item);
+          }
+        }
+        formData.set('itineraryEn', JSON.stringify(enItin));
+        formData.set('itineraryZh', JSON.stringify(zhItin));
+        formData.set('itineraryZhCn', JSON.stringify(zhCnItin));
+      } catch { /* fallback */ }
+    }
+
+    // Auto-translate Inclusions if empty
+    if (inclusions.length > 0 && inclusionsEn.length === 0) {
+      try {
+        const enInc = []; const zhInc = []; const zhCnInc = [];
+        for (const item of inclusions) {
+          if (item.trim()) {
+            const t = await translateText(item);
+            enInc.push(t['en'] || item);
+            zhInc.push(t['zh-CN'] || item);
+            zhCnInc.push(t['zh-TW'] || item);
+          } else {
+            enInc.push(item); zhInc.push(item); zhCnInc.push(item);
+          }
+        }
+        formData.set('includedEn', JSON.stringify(enInc));
+        formData.set('includedZh', JSON.stringify(zhInc));
+        formData.set('includedZhCn', JSON.stringify(zhCnInc));
+      } catch { /* fallback */ }
+    }
+
+    // Auto-translate Exclusions if empty
+    if (exclusions.length > 0 && exclusionsEn.length === 0) {
+      try {
+        const enExc = []; const zhExc = []; const zhCnExc = [];
+        for (const item of exclusions) {
+          if (item.trim()) {
+            const t = await translateText(item);
+            enExc.push(t['en'] || item);
+            zhExc.push(t['zh-CN'] || item);
+            zhCnExc.push(t['zh-TW'] || item);
+          } else {
+            enExc.push(item); zhExc.push(item); zhCnExc.push(item);
+          }
+        }
+        formData.set('excludedEn', JSON.stringify(enExc));
+        formData.set('excludedZh', JSON.stringify(zhExc));
+        formData.set('excludedZhCn', JSON.stringify(zhCnExc));
+      } catch { /* fallback */ }
+    }
+
+    // Auto-translate Duration if empty
+    if (duration.trim() && !durationEn) {
+      try {
+        const t = await translateText(duration);
+        formData.set('durationEn', t['en'] || duration);
+        formData.set('durationZh', t['zh-CN'] || duration);
+        formData.set('durationZhCn', t['zh-TW'] || duration);
+      } catch { /* fallback */ }
+    }
+
+    // Auto-translate Price Unit if empty
+    if (priceUnit.trim() && !priceUnitEn) {
+      try {
+        const t = await translateText(priceUnit);
+        formData.set('priceUnitEn', t['en'] || priceUnit);
+        formData.set('priceUnitZh', t['zh-CN'] || priceUnit);
+        formData.set('priceUnitZhCn', t['zh-TW'] || priceUnit);
       } catch { /* fallback */ }
     }
 
@@ -571,18 +877,18 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
       {/* ===== ITINERARY ===== */}
       <div className="bg-gray-50 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-          🗓️ Itinerary / Jadwal Perjalanan
+          🗓️ Itinerary / Jadwal Perjalanan ({activeTab.toUpperCase()})
         </h3>
         <div className="space-y-3">
-          {itinerary.map((item, i) => (
+          {getCurrentItinerary().map((item, i) => (
             <div key={i} className="flex items-center gap-3">
               <input
                 type="text"
                 value={item.time}
                 onChange={(e) => {
-                  const updated = [...itinerary];
+                  const updated = [...getCurrentItinerary()];
                   updated[i] = { ...updated[i], time: e.target.value };
-                  setItinerary(updated);
+                  setCurrentItinerary(updated);
                 }}
                 placeholder="08:00"
                 className="w-28 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
@@ -591,16 +897,16 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
                 type="text"
                 value={item.activity}
                 onChange={(e) => {
-                  const updated = [...itinerary];
+                  const updated = [...getCurrentItinerary()];
                   updated[i] = { ...updated[i], activity: e.target.value };
-                  setItinerary(updated);
+                  setCurrentItinerary(updated);
                 }}
                 placeholder="Aktivitas / kegiatan..."
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
               />
               <button
                 type="button"
-                onClick={() => setItinerary(itinerary.filter((_, idx) => idx !== i))}
+                onClick={() => setCurrentItinerary(getCurrentItinerary().filter((_, idx) => idx !== i))}
                 className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
               >
                 <Trash2 className="w-4 h-4" />
@@ -609,7 +915,7 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
           ))}
           <button
             type="button"
-            onClick={() => setItinerary([...itinerary, { time: '', activity: '' }])}
+            onClick={() => setCurrentItinerary([...getCurrentItinerary(), { time: '', activity: '' }])}
             className="flex items-center text-sm text-blue-600 hover:text-blue-800 mt-2"
           >
             <Plus className="w-4 h-4 mr-1" /> Tambah Jadwal
@@ -669,25 +975,25 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
       {/* ===== INCLUSIONS ===== */}
       <div className="bg-gray-50 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-          ✅ Termasuk (Inclusions)
+          ✅ Termasuk (Inclusions) ({activeTab.toUpperCase()})
         </h3>
         <div className="space-y-3">
-          {inclusions.map((item, i) => (
+          {getCurrentInclusions().map((item, i) => (
             <div key={i} className="flex items-center gap-3">
               <input
                 type="text"
                 value={item}
                 onChange={(e) => {
-                  const updated = [...inclusions];
+                  const updated = [...getCurrentInclusions()];
                   updated[i] = e.target.value;
-                  setInclusions(updated);
+                  setCurrentInclusions(updated);
                 }}
                 placeholder="cth: Makan siang, Tiket masuk..."
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
               />
               <button
                 type="button"
-                onClick={() => setInclusions(inclusions.filter((_, idx) => idx !== i))}
+                onClick={() => setCurrentInclusions(getCurrentInclusions().filter((_, idx) => idx !== i))}
                 className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
               >
                 <Trash2 className="w-4 h-4" />
@@ -696,7 +1002,7 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
           ))}
           <button
             type="button"
-            onClick={() => setInclusions([...inclusions, ''])}
+            onClick={() => setCurrentInclusions([...getCurrentInclusions(), ''])}
             className="flex items-center text-sm text-blue-600 hover:text-blue-800 mt-2"
           >
             <Plus className="w-4 h-4 mr-1" /> Tambah Item
@@ -707,25 +1013,25 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
       {/* ===== EXCLUSIONS ===== */}
       <div className="bg-gray-50 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-          ❌ Tidak Termasuk (Exclusions)
+          ❌ Tidak Termasuk (Exclusions) ({activeTab.toUpperCase()})
         </h3>
         <div className="space-y-3">
-          {exclusions.map((item, i) => (
+          {getCurrentExclusions().map((item, i) => (
             <div key={i} className="flex items-center gap-3">
               <input
                 type="text"
                 value={item}
                 onChange={(e) => {
-                  const updated = [...exclusions];
+                  const updated = [...getCurrentExclusions()];
                   updated[i] = e.target.value;
-                  setExclusions(updated);
+                  setCurrentExclusions(updated);
                 }}
                 placeholder="cth: Tiket pesawat, Asuransi..."
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
               />
               <button
                 type="button"
-                onClick={() => setExclusions(exclusions.filter((_, idx) => idx !== i))}
+                onClick={() => setCurrentExclusions(getCurrentExclusions().filter((_, idx) => idx !== i))}
                 className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
               >
                 <Trash2 className="w-4 h-4" />
@@ -734,7 +1040,7 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
           ))}
           <button
             type="button"
-            onClick={() => setExclusions([...exclusions, ''])}
+            onClick={() => setCurrentExclusions([...getCurrentExclusions(), ''])}
             className="flex items-center text-sm text-blue-600 hover:text-blue-800 mt-2"
           >
             <Plus className="w-4 h-4 mr-1" /> Tambah Item
@@ -786,6 +1092,7 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
               name="descId"
               value={descId}
               onChange={(e) => setDescId(e.target.value)}
+              onBlur={handleDescIdBlur}
               required
               rows={6}
               placeholder="Nikmati keindahan bawah laut Bunaken..."
@@ -812,6 +1119,33 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
               placeholder="Bunaken Snorkeling Tour"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Duration (English)
+              </label>
+              <input
+                type="text"
+                value={durationEn}
+                onChange={(e) => setDurationEn(e.target.value)}
+                placeholder="cth: 1 Day"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Price Unit (English)
+              </label>
+              <input
+                type="text"
+                value={priceUnitEn}
+                onChange={(e) => setPriceUnitEn(e.target.value)}
+                placeholder="cth: per person"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
           </div>
 
           <div>
@@ -850,6 +1184,33 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
             />
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                时长 (简体中文)
+              </label>
+              <input
+                type="text"
+                value={durationZh}
+                onChange={(e) => setDurationZh(e.target.value)}
+                placeholder="cth: 1 天"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                价格单位 (简体中文)
+              </label>
+              <input
+                type="text"
+                value={priceUnitZh}
+                onChange={(e) => setPriceUnitZh(e.target.value)}
+                placeholder="cth: 每人"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               描述 (中文简体) *
@@ -884,6 +1245,33 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
               placeholder="布納肯浮潛之旅"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                時長 (繁體中文)
+              </label>
+              <input
+                type="text"
+                value={durationZhCn}
+                onChange={(e) => setDurationZhCn(e.target.value)}
+                placeholder="cth: 1 天"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                價格單位 (繁體中文)
+              </label>
+              <input
+                type="text"
+                value={priceUnitZhCn}
+                onChange={(e) => setPriceUnitZhCn(e.target.value)}
+                placeholder="cth: 每人"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
           </div>
 
           <div>

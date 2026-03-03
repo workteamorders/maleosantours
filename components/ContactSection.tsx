@@ -47,7 +47,7 @@ export default function ContactSection() {
     const whatsapp = companyInfo?.whatsapp || '6285241085050';
 
     // Multi-language address logic
-    let address = companyInfo?.addressId || 'Manado, Sulawesi Utara, Indonesia';
+    let address = companyInfo?.addressId || 'Swiss-Belhotel Maleosan Manado Arcade';
     if (locale === 'en') {
         address = companyInfo?.addressEn || address;
     } else if (locale === 'zh') {
@@ -56,7 +56,7 @@ export default function ContactSection() {
         address = companyInfo?.addressZhCn || address;
     }
 
-    const googleMapsUrl = companyInfo?.googleMaps || 'https://www.google.com/maps?q=1.4883964,124.8465346&z=17';
+    const googleMapsUrl = companyInfo?.googleMaps || 'https://www.google.com/maps/search/?api=1&query=Swiss-Belhotel+Maleosan+Manado+Arcade';
 
     return (
         <section id="contact" className="relative z-10 bg-background py-16 md:py-20">

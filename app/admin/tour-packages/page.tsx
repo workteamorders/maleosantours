@@ -96,9 +96,8 @@ export default async function TourPackagesPage() {
   function PreviewCard({ pkg }: { pkg: typeof packages[0] }) {
     return (
       <div
-        className={`border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow bg-white ${
-          !pkg.active ? 'opacity-60 ring-2 ring-red-200' : ''
-        }`}
+        className={`border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow bg-white ${!pkg.active ? 'opacity-60 ring-2 ring-red-200' : ''
+          }`}
       >
         {/* Status badge */}
         {!pkg.active && (
@@ -224,7 +223,7 @@ export default async function TourPackagesPage() {
           </Link>
         </div>
       ) : (
-        <PreviewToggle tableView={tableView} previewView={previewView} />
+        <PreviewToggle tableView={<>{tableView}</>} previewView={<>{previewView}</>} />
       )}
     </div>
   );

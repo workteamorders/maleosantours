@@ -44,7 +44,7 @@ export default function Footer() {
     const phone = companyInfo?.phone || '+62-852-4108-5050';
     const phoneDisplay = companyInfo?.phoneDisplay || phone;
     const email = companyInfo?.email || 'info@maleosan.com';
-    const addressShort = companyInfo?.addressId?.split('\n')[0] || 'Manado, Indonesia';
+    const addressShort = companyInfo?.addressId?.split('\n')[0] || 'Swiss-Belhotel Maleosan Manado';
 
     return (
         <footer className="bg-foreground text-background py-16 md:py-32 px-6 md:px-20 min-h-[50vh] md:min-h-[80vh] flex flex-col justify-between">

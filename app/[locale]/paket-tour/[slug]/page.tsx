@@ -31,7 +31,7 @@ interface ItineraryItem {
 }
 
 async function getTourBySlug(slug: string) {
-    return prisma.tourPackage.findUnique({ where: { slug } });
+    return prisma.tourPackage.findUnique({ where: { slug } }) as any;
 }
 
 function parseJSON<T>(str: string | null | undefined, fallback: T): T {
@@ -58,13 +58,14 @@ export async function generateMetadata({
 
     const name = getLocalizedName(tour, locale);
     const desc = getLocalizedDesc(tour, locale);
+    const duration = locale === 'id' ? tour.duration : locale === 'zh' ? tour.durationZh : locale === 'zh-CN' ? tour.durationZhCn : tour.durationEn;
 
     return generateTourDetailMetadata(locale as Locale, {
         name,
         description: desc,
         slug: tour.slug,
         mainImage: tour.mainImage,
-        duration: tour.duration || undefined,
+        duration: duration || undefined,
     });
 }
 
@@ -86,14 +87,34 @@ export default async function TourDetailPage({
     const desc = locale === 'id' ? tour.descId : locale === 'zh' ? tour.descZh : locale === 'zh-CN' ? tour.descZhCn : tour.descEn;
 
     // Itinerary
-    const itineraryRaw = locale === 'id' ? tour.itineraryId : locale === 'zh' ? tour.itineraryZh : locale === 'zh-CN' ? tour.itineraryZhCn : tour.itineraryEn;
+    let itineraryRaw = locale === 'id' ? tour.itineraryId : locale === 'zh' ? tour.itineraryZh : locale === 'zh-CN' ? tour.itineraryZhCn : tour.itineraryEn;
+    // Fallback if localized itinerary is empty
+    if (!itineraryRaw || itineraryRaw === '[]' || itineraryRaw === 'null') {
+        itineraryRaw = tour.itineraryId;
+    }
     const itinerary: ItineraryItem[] = parseJSON(itineraryRaw, []);
 
     // Inclusions / Exclusions
-    const includedRaw = locale === 'id' ? tour.includedId : tour.includedEn;
-    const excludedRaw = locale === 'id' ? tour.excludedId : tour.excludedEn;
+    let includedRaw = locale === 'id' ? tour.includedId : locale === 'zh' ? tour.includedZh : locale === 'zh-CN' ? tour.includedZhCn : tour.includedEn;
+    let excludedRaw = locale === 'id' ? tour.excludedId : locale === 'zh' ? tour.excludedZh : locale === 'zh-CN' ? tour.excludedZhCn : tour.excludedEn;
+
+    // Fallback for included/excluded
+    if (!includedRaw || includedRaw === '[]' || includedRaw === 'null') {
+        includedRaw = tour.includedId;
+    }
+    if (!excludedRaw || excludedRaw === '[]' || excludedRaw === 'null') {
+        excludedRaw = tour.excludedId;
+    }
+
     const inclusions: string[] = parseJSON(includedRaw, []);
     const exclusions: string[] = parseJSON(excludedRaw, []);
+
+    // Localized Duration & Price Unit
+    let duration = locale === 'id' ? tour.duration : locale === 'zh' ? tour.durationZh : locale === 'zh-CN' ? tour.durationZhCn : tour.durationEn;
+    if (!duration) duration = tour.duration;
+
+    let priceUnit = locale === 'id' ? tour.priceUnit : locale === 'zh' ? tour.priceUnitZh : locale === 'zh-CN' ? tour.priceUnitZhCn : tour.priceUnitEn;
+    if (!priceUnit) priceUnit = tour.priceUnit;
 
     // Price tiers
     const priceTiers: PriceTier[] = parseJSON(tour.priceTiers, []);
@@ -109,7 +130,7 @@ export default async function TourDetailPage({
         image: tour.mainImage,
         price: tour.price || undefined,
         currency: 'IDR',
-        duration: tour.duration || undefined,
+        duration: duration || undefined,
         slug: tour.slug,
         locale: locale as Locale,
     });
@@ -152,10 +173,10 @@ export default async function TourDetailPage({
                         <h1 className="text-3xl md:text-5xl lg:text-6xl font-serif font-bold text-white leading-tight">{name}</h1>
                         <div className="flex flex-wrap gap-3 mt-4">
                             <span className="flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-sm px-3 py-1.5 rounded-full">
-                                <Clock size={14} /> {tour.duration}
+                                <Clock size={14} /> {duration}
                             </span>
                             <span className="flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-sm px-3 py-1.5 rounded-full">
-                                <MapPin size={14} /> North Sulawesi
+                                <MapPin size={14} /> {locale === 'id' ? 'Sulawesi Utara' : locale === 'zh' || locale === 'zh-CN' ? '北苏拉威西' : 'North Sulawesi'}
                             </span>
                         </div>
                     </div>
@@ -309,7 +330,7 @@ export default async function TourDetailPage({
                                             <span className="text-3xl font-bold text-amber-600">
                                                 Rp {tour.price.toLocaleString('id-ID')}
                                             </span>
-                                            {tour.priceUnit && <span className="text-gray-500 text-sm">/{tour.priceUnit}</span>}
+                                            {priceUnit && <span className="text-gray-500 text-sm">/{priceUnit}</span>}
                                         </div>
                                     )}
 
