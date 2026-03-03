@@ -10,6 +10,7 @@ import { getTranslations } from 'next-intl/server';
 import { prisma } from '@/lib/prisma';
 import { generatePageMetadata, type Locale } from '@/lib/seo';
 import type { Metadata } from 'next';
+import { getPageHeaderImage } from '@/lib/pageHeaders';
 
 export async function generateMetadata({
   params,
@@ -82,6 +83,7 @@ export default async function InfoTravelPage({
   const { locale } = await params;
   const t = await getTranslations('infoTravel');
   const items = await getInfoTravelItems(locale);
+  const headerImage = await getPageHeaderImage('info-travel');
 
   return (
     <main className="relative bg-background">
@@ -90,7 +92,7 @@ export default async function InfoTravelPage({
         {/* Hero Banner */}
         <div className="relative h-96 mb-12 rounded-lg overflow-hidden">
           <Image
-            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&h=600&fit=crop"
+            src={headerImage}
             alt="Manado Travel Info"
             fill
             className="object-cover"

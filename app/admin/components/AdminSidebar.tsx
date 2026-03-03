@@ -22,6 +22,7 @@ import {
   Home,
   Users,
   X,
+  LayoutTemplate,
 } from 'lucide-react';
 
 const navItems = [
@@ -34,6 +35,7 @@ const navItems = [
   { href: '/admin/testimonials', label: 'Testimoni', icon: MessageSquare },
   { href: '/admin/contact', label: 'Kontak', icon: Mail },
   { href: '/admin/media', label: 'Pustaka Media', icon: ImageIcon },
+  { href: '/admin/page-headers', label: 'Header Halaman', icon: LayoutTemplate },
   { href: '/admin/settings', label: 'Pengaturan', icon: Settings },
 ];
 

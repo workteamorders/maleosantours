@@ -167,7 +167,7 @@ export default async function TourDetailPage({
                     <div className="flex flex-col lg:flex-row gap-10">
 
                         {/* Left Content */}
-                        <div className="lg:w-2/3">
+                        <div className="w-full lg:w-2/3 min-w-0">
 
                             {/* Description */}
                             <div className="mb-10">
@@ -206,10 +206,10 @@ export default async function TourDetailPage({
                                         </div>
                                         {locale === 'id' ? 'Rencana Perjalanan' : 'Itinerary'}
                                     </h3>
-                                    <div className="space-y-0 relative border-l-2 border-amber-200 ml-4 pl-8">
+                                    <div className="space-y-0 relative border-l-2 border-amber-200 ml-6 pl-8">
                                         {itinerary.map((item, i) => (
                                             <div key={i} className="mb-8 relative">
-                                                <div className="absolute -left-[37px] top-1 w-4 h-4 rounded-full border-[3px] border-white bg-amber-500 shadow-sm" />
+                                                <div className="absolute -left-[41px] top-1 w-4 h-4 rounded-full border-[3px] border-white bg-amber-500 shadow-sm" />
                                                 <span className="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-1.5">{item.time}</span>
                                                 <p className="text-gray-700 leading-relaxed bg-gray-50 p-4 rounded-lg border border-gray-100">{item.activity}</p>
                                             </div>
@@ -292,7 +292,7 @@ export default async function TourDetailPage({
                         </div>
 
                         {/* Right Sidebar - Booking CTA */}
-                        <div className="lg:w-1/3">
+                        <div className="w-full lg:w-1/3 min-w-0">
                             <div className="sticky top-24 space-y-6">
                                 <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-6 relative overflow-hidden">
                                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-400 to-amber-600" />

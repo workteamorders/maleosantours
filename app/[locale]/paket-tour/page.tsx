@@ -11,6 +11,7 @@ import { prisma } from '@/lib/prisma';
 import TourPackagesClient from './TourPackagesClient';
 import { generatePageMetadata, type Locale } from '@/lib/seo';
 import type { Metadata } from 'next';
+import { getPageHeaderImage } from '@/lib/pageHeaders';
 
 export async function generateMetadata({
   params,
@@ -59,6 +60,7 @@ export default async function PaketTourPage({
 
   // Fetch tour packages from database
   const tourPackages = await getTourPackages(locale);
+  const headerImage = await getPageHeaderImage('paket-tour');
 
   // Separate by type
   const dayTours = tourPackages.filter((pkg) => pkg.type === 'day-tour');
@@ -70,7 +72,7 @@ export default async function PaketTourPage({
       <div className="min-h-screen pt-32 px-10">
         <div className="relative h-96 mb-12 rounded-lg overflow-hidden">
           <Image
-            src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&h=600&fit=crop"
+            src={headerImage}
             alt="Tour Package"
             fill
             className="object-cover"

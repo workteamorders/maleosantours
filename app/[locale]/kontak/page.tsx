@@ -6,6 +6,7 @@ import { getLocale } from 'next-intl/server';
 import { prisma } from '@/lib/prisma';
 import { generatePageMetadata, type Locale } from '@/lib/seo';
 import type { Metadata } from 'next';
+import { getPageHeaderImage } from '@/lib/pageHeaders';
 
 export async function generateMetadata(): Promise<Metadata> {
     const locale = await getLocale();
@@ -40,6 +41,7 @@ function ensureEmbedUrl(url: string): string {
 export default async function KontakPage() {
     const t = await getTranslations('kontak');
     const locale = await getLocale();
+    const headerImage = await getPageHeaderImage('kontak');
     let companyInfo = null;
     try {
         companyInfo = await prisma.companyInfo.findFirst();
@@ -56,7 +58,7 @@ export default async function KontakPage() {
             <div className="min-h-screen pt-32 px-10">
                 <div className="relative h-96 mb-12 rounded-lg overflow-hidden">
                     <Image
-                        src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1920&h=600&fit=crop"
+                        src={headerImage}
                         alt="Contact"
                         fill
                         className="object-cover"

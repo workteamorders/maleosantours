@@ -13,14 +13,19 @@ import { redirect } from 'next/navigation';
 export async function createTestimonial(formData: FormData) {
   await requireAuth();
 
+  const reviewId = formData.get('reviewId') as string;
+  const reviewEn = (formData.get('reviewEn') as string) || reviewId;
+  const reviewZh = (formData.get('reviewZh') as string) || null;
+  const reviewZhCn = (formData.get('reviewZhCn') as string) || null;
+
   const data = {
     customerName: formData.get('customerName') as string,
     country: formData.get('country') as string,
     rating: parseInt(formData.get('rating') as string) || 5,
-    reviewId: formData.get('reviewId') as string,
-    reviewEn: formData.get('reviewEn') as string,
-    reviewZh: (formData.get('reviewZh') as string) || null,
-    reviewZhCn: (formData.get('reviewZhCn') as string) || null,
+    reviewId,
+    reviewEn,
+    reviewZh,
+    reviewZhCn,
     photo: (formData.get('photo') as string) || null,
     tourPackageId: (formData.get('tourPackageId') as string) || null,
     order: parseInt(formData.get('order') as string) || 0,
@@ -38,14 +43,19 @@ export async function createTestimonial(formData: FormData) {
 export async function updateTestimonial(id: string, formData: FormData) {
   await requireAuth();
 
+  const reviewId = formData.get('reviewId') as string;
+  const reviewEn = (formData.get('reviewEn') as string) || reviewId;
+  const reviewZh = (formData.get('reviewZh') as string) || null;
+  const reviewZhCn = (formData.get('reviewZhCn') as string) || null;
+
   const data = {
     customerName: formData.get('customerName') as string,
     country: formData.get('country') as string,
     rating: parseInt(formData.get('rating') as string) || 5,
-    reviewId: formData.get('reviewId') as string,
-    reviewEn: formData.get('reviewEn') as string,
-    reviewZh: (formData.get('reviewZh') as string) || null,
-    reviewZhCn: (formData.get('reviewZhCn') as string) || null,
+    reviewId,
+    reviewEn,
+    reviewZh,
+    reviewZhCn,
     photo: (formData.get('photo') as string) || null,
     tourPackageId: (formData.get('tourPackageId') as string) || null,
     order: parseInt(formData.get('order') as string) || 0,

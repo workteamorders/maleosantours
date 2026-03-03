@@ -297,7 +297,18 @@ model ContactSubmission {
   @@map("contactsubmission")
 }
 
-// 7️⃣ MEDIA LIBRARY (Optional but useful)
+// 7️⃣ PAGE HEADERS (Editable header images per page)
+model PageHeader {
+  id        String   @id @default(cuid())
+  pageKey   String   @unique(map: "pageheader_key_unique_idx")
+  // Page keys: 'info-travel', 'paket-tour', 'hotels', 'transport', 'testimoni', 'kontak'
+  image     String   @db.Text
+  updatedAt DateTime @updatedAt
+
+  @@map("pageheader")
+}
+
+// 8️⃣ MEDIA LIBRARY (Optional but useful)
 model Media {
   id         String   @id @default(cuid())
   

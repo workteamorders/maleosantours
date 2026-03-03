@@ -11,6 +11,7 @@ import { prisma } from '@/lib/prisma';
 import { PriceDisplay } from '../../../components/CurrencyProvider';
 import { generatePageMetadata, type Locale } from '@/lib/seo';
 import type { Metadata } from 'next';
+import { getPageHeaderImage } from '@/lib/pageHeaders';
 
 export async function generateMetadata({
   params,
@@ -55,6 +56,7 @@ export default async function TransportPage({
   const { locale } = await params;
   const t = await getTranslations('transport');
   const transports = await getTransports(locale);
+  const headerImage = await getPageHeaderImage('transport');
 
   return (
     <main className="relative bg-background">
@@ -62,7 +64,7 @@ export default async function TransportPage({
       <div className="min-h-screen pt-32 px-10">
         <div className="relative h-96 mb-12 rounded-lg overflow-hidden">
           <Image
-            src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1920&h=600&fit=crop"
+            src={headerImage}
             alt="Transportation"
             fill
             className="object-cover"

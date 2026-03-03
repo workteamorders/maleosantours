@@ -6,6 +6,7 @@ import { prisma } from '@/lib/prisma';
 import { MapPin, ExternalLink } from 'lucide-react';
 import { generatePageMetadata, type Locale } from '@/lib/seo';
 import type { Metadata } from 'next';
+import { getPageHeaderImage } from '@/lib/pageHeaders';
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -39,6 +40,7 @@ const categoryLabels: Record<string, Record<string, string>> = {
 export default async function HotelsPage() {
   const t = await getTranslations('hotels');
   const locale = await getLocale();
+  const headerImage = await getPageHeaderImage('hotels');
 
   let hotels: any[] = [];
   try {
@@ -56,7 +58,7 @@ export default async function HotelsPage() {
       <div className="min-h-screen pt-32 px-10">
         <div className="relative h-96 mb-12 rounded-lg overflow-hidden">
           <Image
-            src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1920&h=600&fit=crop"
+            src={headerImage}
             alt="Luxury Hotel"
             fill
             className="object-cover"

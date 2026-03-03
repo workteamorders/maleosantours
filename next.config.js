@@ -34,6 +34,11 @@ const nextConfig = {
         hostname: 'maleosantoursmanado.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      },
     ],
   },
   // Security and SEO headers
