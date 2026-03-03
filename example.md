@@ -3,6 +3,7 @@
                           The Holistic Design Studio
 ═══════════════════════════════════════════════════════════════════════════════
 
+
 THE CONCEPT
 -----------
 A digital home for an architecture firm that blends nature with brutalism.
