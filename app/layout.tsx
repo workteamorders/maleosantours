@@ -18,14 +18,20 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Maleosan Tours Manado - Tour & Travel Terbaik di Manado | North Sulawesi',
-    template: '%s | Maleosan Travel',
+    default: 'Manado Tours - Maleosan Tours Manado | Best Tour & Travel North Sulawesi',
+    template: '%s',
+  },
+  icons: {
+    icon: '/logo.png',
+    apple: '/logo.png',
   },
   description:
-    'Maleosan Travel - Tour operator terbaik di Manado, Sulawesi Utara. Paket tour Bunaken, Likupang, Minahasa, sewa mobil, hotel, dan aktivitas wisata.',
+    'Manado Tours by Maleosan Travel - paket tour terbaik: Bunaken, Likupang, Minahasa. Sewa mobil, hotel & wisata Sulawesi Utara. Book now!',
   keywords: [
-    'maleosan tours manado', 'maleosan tour manado', 'tour manado', 'travel manado', 'paket wisata manado', 'bunaken tour',
-    'manado tour operator', 'north sulawesi tour', 'likupang beach',
+    'manado tours', 'maleosan tours', 'maleosan tours manado', 'maleosan tour manado',
+    'tour manado', 'travel manado', 'manado tour', 'manado travel',
+    'paket wisata manado', 'bunaken tour', 'manado tour operator', 'north sulawesi tour',
+    'likupang beach', 'manado tour package', 'manado tours and travel',
     '万鸦老旅游', '美娜多旅行社', 'maleosan travel',
   ],
   authors: [{ name: SITE_NAME, url: SITE_URL }],
@@ -46,14 +52,14 @@ export const metadata: Metadata = {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'Maleosan Travel - Best Tour & Travel in Manado',
+        alt: 'Manado Tours - Maleosan Tours Manado | Best Tour & Travel',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Maleosan Travel - Tour & Travel Manado',
-    description: 'Paket tour Bunaken, Likupang, Minahasa. Sewa mobil, hotel & wisata di Sulawesi Utara.',
+    title: 'Manado Tours - Maleosan Tours Manado',
+    description: 'Best Manado tours: Bunaken, Likupang, Minahasa. Car rental, hotels & activities in North Sulawesi.',
   },
   robots: {
     index: true,

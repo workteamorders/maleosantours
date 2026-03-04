@@ -241,8 +241,10 @@ export default function Hero({ heroImages }: HeroProps) {
                     WebkitTextFillColor: 'transparent',
                     color: 'transparent'
                 }}
+                aria-label="Maleosan Tours Manado"
             >
-                MALEOSAN<br />TOURS MANADO
+                <span className="block">MALEOSAN</span>
+                <span className="block">TOURS MANADO</span>
             </h1>
 
             <div className="absolute bottom-10 left-0 right-0 text-center z-30">

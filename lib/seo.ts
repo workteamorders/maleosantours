@@ -46,50 +46,50 @@ interface PageSEO {
 export const PAGE_SEO: Record<string, PageSEO> = {
     home: {
         title: {
-            id: 'Maleosan Travel - Tour & Travel Terbaik di Manado | Paket Wisata Sulawesi Utara',
-            en: 'Maleosan Travel - Best Tour & Travel Operator in Manado | North Sulawesi',
-            zh: 'Maleosan Travel - 万鸦老最佳旅行社 | 北苏拉威西旅游套餐',
-            'zh-CN': 'Maleosan Travel - 萬鴉老最佳旅行社 | 北蘇拉威西旅遊套裝',
+            id: 'Manado Tours - Maleosan Tours Manado | Tour & Travel Terbaik Sulawesi Utara',
+            en: 'Manado Tours - Maleosan Tours Manado | Best Tour & Travel North Sulawesi',
+            zh: 'Manado Tours - Maleosan Tours 万鸦老 | 北苏拉威西最佳旅行社',
+            'zh-CN': 'Manado Tours - Maleosan Tours 萬鴉老 | 北蘇拉威西最佳旅行社',
         },
         description: {
-            id: 'Maleosan Travel menawarkan paket tour Manado, Bunaken, Likupang, Minahasa. Sewa mobil, hotel, dan aktivitas wisata terbaik di Sulawesi Utara. Pesan sekarang!',
-            en: 'Maleosan Travel offers the best Manado tour packages, Bunaken snorkeling, Likupang beach tours, car rental & hotels in North Sulawesi. Book your adventure now!',
-            zh: 'Maleosan Travel 提供万鸦老最佳旅游套餐，布纳肯浮潜、利库邦海滩游、租车及北苏拉威西酒店预订。立即预订您的冒险之旅！',
-            'zh-CN': 'Maleosan Travel 提供萬鴉老最佳旅遊套裝，布納肯浮潛、利庫邦海灘遊、租車及北蘇拉威西酒店預訂。立即預訂您的冒險之旅！',
+            id: 'Manado Tours oleh Maleosan Travel - paket tour terbaik: Bunaken, Likupang, Minahasa. Sewa mobil, hotel & wisata Sulawesi Utara. Pesan sekarang!',
+            en: 'Manado Tours by Maleosan Travel - best tour packages: Bunaken, Likupang, Minahasa. Car rental & hotels in North Sulawesi. Book now!',
+            zh: 'Manado Tours - Maleosan Travel 提供万鸦老最佳旅游套餐，布纳肯浮潜、利库邦海滩游、租车及北苏拉威西酒店预订。立即预订！',
+            'zh-CN': 'Manado Tours - Maleosan Travel 提供萬鴉老最佳旅遊套裝，布納肯浮潛、利庫邦海灘遊、租車及北蘇拉威西酒店預訂。立即預訂！',
         },
         keywords: {
-            id: ['tour manado', 'paket wisata manado', 'travel manado', 'bunaken tour', 'sewa mobil manado', 'hotel manado', 'wisata sulawesi utara', 'likupang', 'minahasa tour', 'paket tour bunaken'],
-            en: ['manado tour', 'north sulawesi tour', 'bunaken snorkeling', 'manado travel agent', 'likupang beach', 'manado hotel', 'car rental manado', 'minahasa highland tour', 'indonesia travel', 'sulawesi tour'],
-            zh: ['万鸦老旅游', '北苏拉威西旅游', '布纳肯浮潜', '万鸦老旅行社', '印尼旅游', '万鸦老酒店', '万鸦老租车', '美娜多旅游', '苏拉威西旅游套餐', '印度尼西亚旅行'],
-            'zh-CN': ['萬鴉老旅遊', '北蘇拉威西旅遊', '布納肯浮潛', '萬鴉老旅行社', '印尼旅遊', '萬鴉老酒店', '萬鴉老租車', '美娜多旅遊', '蘇拉威西旅遊套裝', '印度尼西亞旅行'],
+            id: ['manado tours', 'maleosan tours', 'maleosan tours manado', 'tour manado', 'paket wisata manado', 'travel manado', 'bunaken tour', 'sewa mobil manado', 'hotel manado', 'wisata sulawesi utara', 'likupang', 'minahasa tour', 'paket tour bunaken', 'manado tour package'],
+            en: ['manado tours', 'maleosan tours', 'maleosan tours manado', 'manado tour', 'north sulawesi tour', 'bunaken snorkeling', 'manado travel agent', 'likupang beach', 'manado hotel', 'car rental manado', 'minahasa highland tour', 'indonesia travel', 'sulawesi tour', 'manado tour package'],
+            zh: ['万鸦老旅游', '北苏拉威西旅游', '布纳肯浮潜', '万鸦老旅行社', '印尼旅游', '万鸦老酒店', '万鸦老租车', '美娜多旅游', '苏拉威西旅游套餐', '印度尼西亚旅行', 'manado tours'],
+            'zh-CN': ['萬鴉老旅遊', '北蘇拉威西旅遊', '布納肯浮潛', '萬鴉老旅行社', '印尼旅遊', '萬鴉老酒店', '萬鴉老租車', '美娜多旅遊', '蘇拉威西旅遊套裝', '印度尼西亞旅行', 'manado tours'],
         },
     },
     'paket-tour': {
         title: {
-            id: 'Paket Tour Manado & Sulawesi Utara - Bunaken, Likupang, Minahasa | Maleosan Travel',
-            en: 'Manado Tour Packages - Bunaken, Likupang, Minahasa | Maleosan Travel',
-            zh: '万鸦老旅游套餐 - 布纳肯、利库邦、美娜多 | Maleosan Travel',
-            'zh-CN': '萬鴉老旅遊套裝 - 布納肯、利庫邦、美娜多 | Maleosan Travel',
+            id: 'Paket Tour Manado & Sulawesi Utara - Bunaken, Likupang, Minahasa | Maleosan Tours',
+            en: 'Manado Tour Packages - Bunaken, Likupang, Minahasa | Maleosan Tours Manado',
+            zh: '万鸦老旅游套餐 - 布纳肯、利库邦、美娜多 | Maleosan Tours',
+            'zh-CN': '萬鴉老旅遊套裝 - 布納肯、利庫邦、美娜多 | Maleosan Tours',
         },
         description: {
             id: 'Pilih paket tour Manado terbaik: Bunaken Snorkeling, Minahasa Highland, Likupang Beach, City Tour & Custom Trip. Harga terjangkau, pelayanan profesional.',
-            en: 'Choose the best Manado tour packages: Bunaken Snorkeling, Minahasa Highland, Likupang Beach, City Tour & Custom Trip. Affordable prices, professional service.',
+            en: 'Best Manado tours packages: Bunaken Snorkeling, Minahasa Highland, Likupang Beach, City Tour & Custom Trip. Affordable prices, professional service.',
             zh: '选择最佳万鸦老旅游套餐：布纳肯浮潜、美娜哈萨高地、利库邦海滩、城市观光及定制行程。价格实惠，专业服务。',
             'zh-CN': '選擇最佳萬鴉老旅遊套裝：布納肯浮潛、美娜哈薩高地、利庫邦海灘、城市觀光及定制行程。價格實惠，專業服務。',
         },
         keywords: {
-            id: ['paket tour manado', 'paket wisata bunaken', 'tour minahasa', 'paket liburan sulawesi utara', 'tour likupang', 'city tour manado', 'paket snorkeling bunaken', 'wisata manado murah'],
-            en: ['manado tour package', 'bunaken snorkeling tour', 'minahasa tour', 'north sulawesi holiday', 'likupang beach tour', 'manado city tour', 'indonesia adventure tour', 'sulawesi travel package'],
-            zh: ['万鸦老旅游套餐', '布纳肯浮潜之旅', '美娜多旅行套餐', '北苏拉威西度假', '印尼潜水旅游', '万鸦老一日游'],
-            'zh-CN': ['萬鴉老旅遊套裝', '布納肯浮潛之旅', '美娜多旅行套裝', '北蘇拉威西度假', '印尼潛水旅遊', '萬鴉老一日遊'],
+            id: ['paket tour manado', 'manado tours', 'paket wisata bunaken', 'tour minahasa', 'paket liburan sulawesi utara', 'tour likupang', 'city tour manado', 'paket snorkeling bunaken', 'wisata manado murah', 'maleosan tours'],
+            en: ['manado tours', 'manado tour package', 'bunaken snorkeling tour', 'minahasa tour', 'north sulawesi holiday', 'likupang beach tour', 'manado city tour', 'indonesia adventure tour', 'sulawesi travel package', 'maleosan tours manado'],
+            zh: ['万鸦老旅游套餐', '布纳肯浮潜之旅', '美娜多旅行套餐', '北苏拉威西度假', '印尼潜水旅游', '万鸦老一日游', 'manado tours'],
+            'zh-CN': ['萬鴉老旅遊套裝', '布納肯浮潛之旅', '美娜多旅行套裝', '北蓇拉威西度假', '印尼潛水旅遊', '萬鴉老一日遊', 'manado tours'],
         },
     },
     hotels: {
         title: {
-            id: 'Hotel & Resort Terbaik di Manado - Booking Akomodasi | Maleosan Travel',
-            en: 'Best Hotels & Resorts in Manado - Accommodation Booking | Maleosan Travel',
-            zh: '万鸦老最佳酒店与度假村 - 住宿预订 | Maleosan Travel',
-            'zh-CN': '萬鴉老最佳酒店與度假村 - 住宿預訂 | Maleosan Travel',
+            id: 'Hotel & Resort Terbaik di Manado - Booking Akomodasi | Maleosan Tours Manado',
+            en: 'Best Hotels & Resorts in Manado - Accommodation Booking | Maleosan Tours',
+            zh: '万鸦老最佳酒店与度假村 - 住宿预订 | Maleosan Tours',
+            'zh-CN': '萬鴉老最佳酒店與度假村 - 住宿預訂 | Maleosan Tours',
         },
         description: {
             id: 'Temukan hotel & resort terbaik di Manado: hotel bintang 5, boutique hotel, beach resort, dan penginapan budget. Booking mudah dengan Maleosan Travel.',
@@ -106,10 +106,10 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     },
     'info-travel': {
         title: {
-            id: 'Info Travel Manado - Panduan Wisata Sulawesi Utara Lengkap | Maleosan Travel',
-            en: 'Manado Travel Guide - Complete North Sulawesi Tourism Info | Maleosan Travel',
-            zh: '万鸦老旅游指南 - 北苏拉威西完整旅游信息 | Maleosan Travel',
-            'zh-CN': '萬鴉老旅遊指南 - 北蘇拉威西完整旅遊資訊 | Maleosan Travel',
+            id: 'Info Travel Manado - Panduan Wisata Sulawesi Utara Lengkap | Maleosan Tours',
+            en: 'Manado Travel Guide - Complete North Sulawesi Tourism Info | Maleosan Tours',
+            zh: '万鸦老旅游指南 - 北苏拉威西完整旅游信息 | Maleosan Tours',
+            'zh-CN': '萬鴉老旅遊指南 - 北蘇拉威西完整旅遊資訊 | Maleosan Tours',
         },
         description: {
             id: 'Panduan wisata lengkap Manado & Sulawesi Utara: destinasi, sejarah, budaya Minahasa, kuliner khas, dan tips transportasi. Semua yang perlu Anda ketahui.',
@@ -126,10 +126,10 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     },
     transport: {
         title: {
-            id: 'Sewa Mobil & Transportasi di Manado - Rental Kendaraan | Maleosan Travel',
-            en: 'Car Rental & Transport Services in Manado | Maleosan Travel',
-            zh: '万鸦老租车与交通服务 | Maleosan Travel',
-            'zh-CN': '萬鴉老租車與交通服務 | Maleosan Travel',
+            id: 'Sewa Mobil & Transportasi di Manado - Rental Kendaraan | Maleosan Tours',
+            en: 'Car Rental & Transport Services in Manado | Maleosan Tours Manado',
+            zh: '万鸦老租车与交通服务 | Maleosan Tours',
+            'zh-CN': '萬鴉老租車與交通服務 | Maleosan Tours',
         },
         description: {
             id: 'Sewa mobil, bus pariwisata, antar jemput bandara & motor rental di Manado. Supir berpengalaman, kendaraan nyaman, harga terjangkau. Pesan sekarang!',
@@ -146,10 +146,10 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     },
     testimoni: {
         title: {
-            id: 'Testimoni Pelanggan - Review Wisata Manado | Maleosan Travel',
-            en: 'Customer Testimonials - Manado Travel Reviews | Maleosan Travel',
-            zh: '客户评价 - 万鸦老旅游评论 | Maleosan Travel',
-            'zh-CN': '客戶評價 - 萬鴉老旅遊評論 | Maleosan Travel',
+            id: 'Testimoni Pelanggan - Review Wisata Manado | Maleosan Tours',
+            en: 'Customer Testimonials - Manado Tours Reviews | Maleosan Tours Manado',
+            zh: '客户评价 - 万鸦老旅游评论 | Maleosan Tours',
+            'zh-CN': '客戶評價 - 萬鴉老旅遊評論 | Maleosan Tours',
         },
         description: {
             id: 'Baca testimoni pelanggan Maleosan Travel. Pengalaman wisata nyata di Bunaken, Likupang, Minahasa dari traveler Indonesia dan internasional.',
@@ -166,10 +166,10 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     },
     kontak: {
         title: {
-            id: 'Hubungi Kami - Kontak Maleosan Travel Manado | Booking & Informasi',
-            en: 'Contact Us - Maleosan Travel Manado | Booking & Information',
-            zh: '联系我们 - Maleosan Travel 万鸦老 | 预订与咨询',
-            'zh-CN': '聯繫我們 - Maleosan Travel 萬鴉老 | 預訂與諮詢',
+            id: 'Hubungi Kami - Kontak Maleosan Tours Manado | Booking & Informasi',
+            en: 'Contact Us - Maleosan Tours Manado | Booking & Information',
+            zh: '联系我们 - Maleosan Tours 万鸦老 | 预订与咨询',
+            'zh-CN': '聯繫我們 - Maleosan Tours 萬鴉老 | 預訂與諮詢',
         },
         description: {
             id: 'Hubungi Maleosan Travel untuk booking tour, hotel, dan transportasi di Manado. WhatsApp, email, atau kunjungi kantor kami di Manado, Sulawesi Utara.',
@@ -241,6 +241,10 @@ export function generatePageMetadata(
         creator: SITE_NAME,
         publisher: SITE_NAME,
         metadataBase: new URL(SITE_URL),
+        icons: {
+            icon: '/logo.png',
+            apple: '/logo.png',
+        },
         alternates: {
             canonical: canonicalUrl,
             languages: alternates,
@@ -296,10 +300,10 @@ export function generateTourDetailMetadata(
     const canonicalUrl = `${SITE_URL}/${locale}/${path}`;
 
     const titleSuffix: Record<Locale, string> = {
-        id: `${tour.name} - Paket Tour Manado | Maleosan Travel`,
-        en: `${tour.name} - Manado Tour Package | Maleosan Travel`,
-        zh: `${tour.name} - 万鸦老旅游套餐 | Maleosan Travel`,
-        'zh-CN': `${tour.name} - 萬鴉老旅遊套裝 | Maleosan Travel`,
+        id: `${tour.name} - Paket Tour Manado | Maleosan Tours`,
+        en: `${tour.name} - Manado Tour Package | Maleosan Tours`,
+        zh: `${tour.name} - 万鸦老旅游套餐 | Maleosan Tours`,
+        'zh-CN': `${tour.name} - 萬鴉老旅遊套裝 | Maleosan Tours`,
     };
 
     const alternates: Record<string, string> = {};
@@ -314,6 +318,10 @@ export function generateTourDetailMetadata(
         title: titleSuffix[locale],
         description,
         metadataBase: new URL(SITE_URL),
+        icons: {
+            icon: '/logo.png',
+            apple: '/logo.png',
+        },
         alternates: {
             canonical: canonicalUrl,
             languages: alternates,
@@ -367,10 +375,10 @@ export function generateHotelDetailMetadata(
     const canonicalUrl = `${SITE_URL}/${locale}/${path}`;
 
     const titleSuffix: Record<Locale, string> = {
-        id: `${hotel.name} - Hotel di Manado | Maleosan Travel`,
-        en: `${hotel.name} - Hotel in Manado | Maleosan Travel`,
-        zh: `${hotel.name} - 万鸦老酒店 | Maleosan Travel`,
-        'zh-CN': `${hotel.name} - 萬鴉老酒店 | Maleosan Travel`,
+        id: `${hotel.name} - Hotel di Manado | Maleosan Tours`,
+        en: `${hotel.name} - Hotel in Manado | Maleosan Tours`,
+        zh: `${hotel.name} - 万鸦老酒店 | Maleosan Tours`,
+        'zh-CN': `${hotel.name} - 萬鴉老酒店 | Maleosan Tours`,
     };
 
     const alternates: Record<string, string> = {};
@@ -385,6 +393,10 @@ export function generateHotelDetailMetadata(
         title: titleSuffix[locale],
         description,
         metadataBase: new URL(SITE_URL),
+        icons: {
+            icon: '/logo.png',
+            apple: '/logo.png',
+        },
         alternates: {
             canonical: canonicalUrl,
             languages: alternates,
@@ -495,13 +507,9 @@ export function generateWebsiteSchema() {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         name: SITE_NAME,
+        alternateName: ['Maleosan Tours Manado', 'Manado Tours', 'Maleosan Tours'],
         url: SITE_URL,
         inLanguage: ['id', 'en', 'zh-Hans', 'zh-Hant'],
-        potentialAction: {
-            '@type': 'SearchAction',
-            target: `${SITE_URL}/search?q={search_term_string}`,
-            'query-input': 'required name=search_term_string',
-        },
     };
 }
 

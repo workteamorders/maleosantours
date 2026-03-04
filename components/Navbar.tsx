@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { X, Menu as MenuIcon } from 'lucide-react';
 import LanguageSwitcher from './LanguageSwitcher';
 import { CurrencySelector } from './CurrencyProvider';
@@ -77,7 +78,17 @@ export default function Navbar() {
     return (
         <header className="relative z-50">
             <nav className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 md:px-10 py-6 transition-colors duration-300 pointer-events-none ${useDarkText ? 'text-black' : 'text-white'}`}>
-                <Link href="/" className="font-serif font-bold text-xl tracking-tighter hover:text-gray-500 z-50 pointer-events-auto">MT.</Link>
+                <Link href="/" className="flex items-center gap-3 font-serif font-bold text-xl tracking-tighter hover:text-gray-500 z-50 pointer-events-auto">
+                    <Image
+                        src="/logo.png"
+                        alt="Logo"
+                        width={40}
+                        height={40}
+                        className="object-contain"
+                        priority
+                    />
+                    MT.
+                </Link>
 
                 {/* Desktop Desktop Menu - Hidden on Mobile */}
                 <div className="hidden md:flex gap-6 text-sm font-bold font-sans uppercase tracking-widest pointer-events-auto">
