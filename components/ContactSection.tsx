@@ -56,7 +56,7 @@ export default function ContactSection() {
         address = companyInfo?.addressZhCn || address;
     }
 
-    const googleMapsUrl = companyInfo?.googleMaps || 'https://www.google.com/maps/search/?api=1&query=Swiss-Belhotel+Maleosan+Manado+Arcade';
+    const googleMapsUrl = companyInfo?.googleMaps || 'https://maps.google.com/maps?q=1.4883964,124.8465346&z=17&output=embed';
 
     return (
         <section id="contact" className="relative z-10 bg-background py-16 md:py-20">

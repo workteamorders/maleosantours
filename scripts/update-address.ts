@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 async function main() {
     const address = 'Swiss-Belhotel Maleosan Manado Arcade.';
-    const googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=Swiss-Belhotel+Maleosan+Manado+Arcade';
+    const googleMapsUrl = 'https://maps.google.com/maps?q=1.4883964,124.8465346&z=17&output=embed';
 
     const info = await prisma.companyInfo.findFirst();
 
@@ -19,7 +19,7 @@ async function main() {
                 googleMaps: googleMapsUrl
             }
         });
-        console.log('✅ Company info updated successfully with translations');
+        console.log('✅ Company info updated with new Google Maps URL');
     } else {
         console.log('❌ No company info found to update');
     }
