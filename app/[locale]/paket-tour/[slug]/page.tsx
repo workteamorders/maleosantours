@@ -28,6 +28,18 @@ interface PriceTier {
 interface ItineraryItem {
     time: string;
     activity: string;
+    bold?: boolean;
+    color?: string;
+}
+
+function getYouTubeEmbedUrl(url: string): string | null {
+    if (!url) return null;
+    if (url.includes('youtube.com/embed/')) return url;
+    const shortMatch = url.match(/youtu\.be\/([^?&]+)/);
+    if (shortMatch) return `https://www.youtube.com/embed/${shortMatch[1]}`;
+    const watchMatch = url.match(/[?&]v=([^&]+)/);
+    if (watchMatch) return `https://www.youtube.com/embed/${watchMatch[1]}`;
+    return null;
 }
 
 async function getTourBySlug(slug: string) {
@@ -218,6 +230,33 @@ export default async function TourDetailPage({
                                 </div>
                             )}
 
+                            {/* Video (YouTube embed or file) */}
+                            {tour.videoUrl && (
+                                <div className="mb-10">
+                                    <h3 className="text-2xl font-serif font-bold text-gray-900 mb-4">
+                                        {locale === 'id' ? 'Video' : 'Video'}
+                                    </h3>
+                                    {getYouTubeEmbedUrl(tour.videoUrl) ? (
+                                        <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+                                            <iframe
+                                                src={getYouTubeEmbedUrl(tour.videoUrl) || ''}
+                                                className="w-full aspect-video"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowFullScreen
+                                                title={name}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <video
+                                            src={tour.videoUrl}
+                                            controls
+                                            className="w-full rounded-xl border border-gray-200"
+                                            preload="metadata"
+                                        />
+                                    )}
+                                </div>
+                            )}
+
                             {/* Itinerary */}
                             {itinerary.length > 0 && (
                                 <div className="mb-10">
@@ -232,7 +271,15 @@ export default async function TourDetailPage({
                                             <div key={i} className="mb-8 relative">
                                                 <div className="absolute -left-[41px] top-1 w-4 h-4 rounded-full border-[3px] border-white bg-amber-500 shadow-sm" />
                                                 <span className="text-xs font-bold uppercase tracking-wider text-amber-600 block mb-1.5">{item.time}</span>
-                                                <p className="text-gray-700 leading-relaxed bg-gray-50 p-4 rounded-lg border border-gray-100">{item.activity}</p>
+                                                <p
+                                                    className="text-gray-700 leading-relaxed bg-gray-50 p-4 rounded-lg border border-gray-100"
+                                                    style={{
+                                                        fontWeight: item.bold ? 'bold' : undefined,
+                                                        color: item.color || undefined,
+                                                    }}
+                                                >
+                                                    {item.activity}
+                                                </p>
                                             </div>
                                         ))}
                                     </div>
