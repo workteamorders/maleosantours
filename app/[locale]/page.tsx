@@ -1,7 +1,7 @@
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import Hero from '../../components/Hero';
-import ContactSection from '../../components/ContactSection';
+
 import Philosophy from '../../components/Philosophy';
 import Destinations from '../../components/Destinations';
 
@@ -69,7 +69,7 @@ export default async function Home() {
     <main className="relative bg-white min-h-screen">
       <Navbar />
       <Hero heroImages={heroSlides} />
-      <ContactSection />
+
       <Philosophy />
       {/* Destinations (Horizontal Scroll) */}
       <div className="relative z-10 bg-background">
