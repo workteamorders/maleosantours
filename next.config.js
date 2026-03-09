@@ -46,6 +46,17 @@ const nextConfig = {
       },
     ],
   },
+  // www redirect - ensures canonical URL consistency (non-www -> www)
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'maleosantoursmanado.com' }],
+        destination: 'https://www.maleosantoursmanado.com/:path*',
+        permanent: true, // 301 redirect
+      },
+    ];
+  },
   // Security and SEO headers
   async headers() {
     return [
@@ -67,11 +78,10 @@ const nextConfig = {
         ],
       },
       {
-        // Allow search engines to fetch OG image and icons
-        source: '/(opengraph-image|icon|apple-icon|sitemap.xml|robots.txt|manifest.webmanifest)',
+        // Cache OG images and icons (remove noindex - sitemap/robots should be crawlable!)
+        source: '/(opengraph-image|icon|apple-icon|manifest.webmanifest)',
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=86400, s-maxage=604800' },
-          { key: 'X-Robots-Tag', value: 'noindex' },
         ],
       },
     ];
