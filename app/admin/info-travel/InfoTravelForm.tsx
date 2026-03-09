@@ -14,6 +14,20 @@ interface InfoTravelFormProps {
   infoTravel?: any;
 }
 
+function isYouTubeUrl(url: string) {
+  return /youtube\.com|youtu\.be/.test(url);
+}
+
+function getYouTubeEmbedUrl(url: string): string | null {
+  if (!url) return null;
+  if (url.includes('youtube.com/embed/')) return url;
+  const shortMatch = url.match(/youtu\.be\/([^?&]+)/);
+  if (shortMatch) return `https://www.youtube.com/embed/${shortMatch[1]}`;
+  const watchMatch = url.match(/[?&]v=([^&]+)/);
+  if (watchMatch) return `https://www.youtube.com/embed/${watchMatch[1]}`;
+  return null;
+}
+
 async function uploadFile(file: File, type: 'image' | 'video'): Promise<string> {
   const formData = new FormData();
   formData.append('file', file);
@@ -67,7 +81,14 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
     }
     return [];
   });
-  const [videoUrl, setVideoUrl] = useState<string>(infoTravel?.videoUrl || '');
+  const [videoUrl, setVideoUrl] = useState<string>(() => {
+    const url = infoTravel?.videoUrl || '';
+    return isYouTubeUrl(url) ? '' : url;
+  });
+  const [youtubeUrl, setYoutubeUrl] = useState<string>(() => {
+    const url = infoTravel?.videoUrl || '';
+    return isYouTubeUrl(url) ? url : '';
+  });
   const [uploadingImages, setUploadingImages] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -201,8 +222,8 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
       }
     });
 
-    // Set video URL
-    formData.set('videoUrl', videoUrl);
+    // Set video URL (YouTube takes priority over local file)
+    formData.set('videoUrl', youtubeUrl.trim() || videoUrl);
 
     // Inject translated values (from controlled state)
     formData.set('titleId', titleId);
@@ -444,13 +465,48 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
         </p>
       </div>
 
-      {/* ===== VIDEO (Upload — max 1, max 10MB) ===== */}
+      {/* ===== VIDEO (Upload + YouTube) ===== */}
       <div className="bg-gray-50 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
           <Video className="w-5 h-5 mr-2" />
           Video
-          <span className="ml-2 text-xs font-normal text-gray-500">(Maks 1 video, maks 10MB)</span>
+          <span className="ml-2 text-xs font-normal text-gray-500">(opsional)</span>
         </h3>
+
+        {/* YouTube URL Input */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">🎬 Link YouTube</label>
+          <div className="flex gap-2">
+            <input
+              type="url"
+              value={youtubeUrl}
+              onChange={(e) => { setYoutubeUrl(e.target.value); if (e.target.value) setVideoUrl(''); }}
+              placeholder="https://www.youtube.com/watch?v=..."
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 text-sm"
+            />
+            {youtubeUrl && (
+              <button type="button" onClick={() => setYoutubeUrl('')} className="px-3 py-2 text-red-500 hover:bg-red-50 rounded-lg border border-gray-300">
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+          {youtubeUrl && getYouTubeEmbedUrl(youtubeUrl) && (
+            <div className="mt-3 rounded-lg overflow-hidden border border-gray-200">
+              <iframe
+                src={getYouTubeEmbedUrl(youtubeUrl) || ''}
+                className="w-full aspect-video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          )}
+        </div>
+
+        <div className="flex items-center gap-3 my-4">
+          <div className="flex-1 h-px bg-gray-200" />
+          <span className="text-xs text-gray-400 font-medium">ATAU upload file video</span>
+          <div className="flex-1 h-px bg-gray-200" />
+        </div>
 
         {videoUrl ? (
           <div className="relative group">
@@ -469,41 +525,42 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
             <p className="text-xs text-gray-500 mt-2">Arahkan kursor ke video untuk melihat tombol hapus</p>
           </div>
         ) : (
-          <>
-            <div
-              onClick={() => !uploadingVideo && videoInputRef.current?.click()}
-              className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${uploadingVideo
-                  ? 'border-purple-300 bg-purple-50'
-                  : 'border-gray-300 hover:border-purple-400 hover:bg-purple-50/50'
-                }`}
-            >
-              {uploadingVideo ? (
-                <div className="flex flex-col items-center gap-2">
-                  <Loader2 className="w-8 h-8 text-purple-500 animate-spin" />
-                  <span className="text-sm text-purple-600 font-medium">Mengupload video...</span>
-                </div>
-              ) : (
-                <div className="flex flex-col items-center gap-2">
-                  <Video className="w-8 h-8 text-gray-400" />
-                  <span className="text-sm text-gray-600">
-                    Klik untuk upload video
-                  </span>
-                  <span className="text-xs text-gray-400">
-                    MP4, WebM, OGG — Maks 10MB
-                  </span>
-                </div>
-              )}
-            </div>
-
-            <input
-              ref={videoInputRef}
-              type="file"
-              accept="video/mp4,video/webm,video/ogg"
-              onChange={handleVideoUpload}
-              className="hidden"
-            />
-          </>
+          <div
+            onClick={() => !uploadingVideo && !youtubeUrl && videoInputRef.current?.click()}
+            className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+              youtubeUrl
+                ? 'border-gray-200 bg-gray-100 opacity-50 cursor-not-allowed'
+                : uploadingVideo
+                ? 'border-purple-300 bg-purple-50 cursor-wait'
+                : 'border-gray-300 hover:border-purple-400 hover:bg-purple-50/50 cursor-pointer'
+            }`}
+          >
+            {uploadingVideo ? (
+              <div className="flex flex-col items-center gap-2">
+                <Loader2 className="w-8 h-8 text-purple-500 animate-spin" />
+                <span className="text-sm text-purple-600 font-medium">Mengupload video...</span>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center gap-2">
+                <Video className="w-8 h-8 text-gray-400" />
+                <span className="text-sm text-gray-600">
+                  {youtubeUrl ? 'Upload dinonaktifkan (YouTube sudah diisi)' : 'Klik untuk upload video'}
+                </span>
+                <span className="text-xs text-gray-400">
+                  MP4, WebM, OGG — Maks 10MB
+                </span>
+              </div>
+            )}
+          </div>
         )}
+
+        <input
+          ref={videoInputRef}
+          type="file"
+          accept="video/mp4,video/webm,video/ogg"
+          onChange={handleVideoUpload}
+          className="hidden"
+        />
       </div>
 
       {/* ===== MULTI-LANGUAGE CONTENT (TEXT) ===== */}
