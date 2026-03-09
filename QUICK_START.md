@@ -3,8 +3,6 @@
 ## Installation & Setup (5 minutes)
 
 
-
-
 ### Step 1: Install Dependencies
 
 ```bash
