@@ -9,6 +9,8 @@ npm install prisma @prisma/client bcryptjs
 npm install -D tsx @types/bcryptjs
 ```
 
+
+
 ### Step 2: Setup Database & Admin User
 
 ```bash
