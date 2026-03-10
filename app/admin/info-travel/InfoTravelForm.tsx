@@ -67,7 +67,58 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
     }
     return [];
   });
-  const [videoUrl, setVideoUrl] = useState<string>(infoTravel?.videoUrl || '');
+
+  function isYouTubeUrl(url: string) {
+    return /youtube\.com|youtu\.be/.test(url);
+  }
+
+  function getYouTubeEmbedUrl(url: string): string | null {
+    if (!url) return null;
+    if (url.includes('youtube.com/embed/')) return url;
+    const shortMatch = url.match(/youtu\.be\/([^?&]+)/);
+    if (shortMatch) return `https://www.youtube.com/embed/${shortMatch[1]}`;
+    const watchMatch = url.match(/[?&]v=([^&]+)/);
+    if (watchMatch) return `https://www.youtube.com/embed/${watchMatch[1]}`;
+    return null;
+  }
+
+  const [videoUrl, setVideoUrl] = useState<string>(() => {
+    const url = infoTravel?.videoUrl || '';
+    return isYouTubeUrl(url) ? '' : url;
+  });
+  const [youtubeUrl, setYoutubeUrl] = useState<string>(() => {
+    const url = infoTravel?.videoUrl || '';
+    return isYouTubeUrl(url) ? url : '';
+  });
+
+  // Itinerary state
+  type ItinItem = { time: string; activity: string; bold?: boolean; color?: string };
+
+  const [itinerary, setItinerary] = useState<ItinItem[]>(() => {
+    if (infoTravel?.itineraryId) {
+      try { return JSON.parse(infoTravel.itineraryId); } catch { return []; }
+    }
+    return [];
+  });
+  const [itineraryEn, setItineraryEn] = useState<ItinItem[]>(() => {
+    if (infoTravel?.itineraryEn) {
+      try { return JSON.parse(infoTravel.itineraryEn); } catch { return []; }
+    }
+    return [];
+  });
+  const [itineraryZh, setItineraryZh] = useState<ItinItem[]>(() => {
+    if (infoTravel?.itineraryZh) {
+      try { return JSON.parse(infoTravel.itineraryZh); } catch { return []; }
+    }
+    return [];
+  });
+  const [itineraryZhCn, setItineraryZhCn] = useState<ItinItem[]>(() => {
+    if (infoTravel?.itineraryZhCn) {
+      try { return JSON.parse(infoTravel.itineraryZhCn); } catch { return []; }
+    }
+    return [];
+  });
+
   const [uploadingImages, setUploadingImages] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -130,7 +181,23 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
 
   function removeVideo() {
     setVideoUrl('');
+    setYoutubeUrl('');
   }
+
+  // Get current language specific states for arrays
+  const getCurrentItinerary = () => {
+    if (activeTab === 'en') return itineraryEn;
+    if (activeTab === 'zh') return itineraryZh;
+    if (activeTab === 'zh-cn') return itineraryZhCn;
+    return itinerary;
+  };
+
+  const setCurrentItinerary = (val: ItinItem[]) => {
+    if (activeTab === 'en') setItineraryEn(val);
+    else if (activeTab === 'zh') setItineraryZh(val);
+    else if (activeTab === 'zh-cn') setItineraryZhCn(val);
+    else setItinerary(val);
+  };
 
   async function handleTranslate() {
     const form = document.querySelector('form') as HTMLFormElement;
@@ -161,6 +228,28 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
         setDescEn(descTranslations['en'] || descId);
         setDescZh(descTranslations['zh-CN'] || descId);
         setDescZhCn(descTranslations['zh-TW'] || descId);
+      }
+
+      // Translate Itinerary
+      if (itinerary.length > 0) {
+        const enItin = [];
+        const zhItin = [];
+        const zhCnItin = [];
+        for (const item of itinerary) {
+          if (item.activity.trim()) {
+            const t = await translateText(item.activity);
+            enItin.push({ ...item, activity: t['en'] || item.activity });
+            zhItin.push({ ...item, activity: t['zh-CN'] || item.activity });
+            zhCnItin.push({ ...item, activity: t['zh-TW'] || item.activity });
+          } else {
+            enItin.push(item);
+            zhItin.push(item);
+            zhCnItin.push(item);
+          }
+        }
+        setItineraryEn(enItin);
+        setItineraryZh(zhItin);
+        setItineraryZhCn(zhCnItin);
       }
 
       setTranslated(true);
@@ -201,8 +290,14 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
       }
     });
 
-    // Set video URL
-    formData.set('videoUrl', videoUrl);
+    // Set video URL (YouTube prioritised)
+    formData.set('videoUrl', youtubeUrl.trim() || videoUrl);
+
+    // Set itinerary as JSON
+    formData.set('itineraryId', JSON.stringify(itinerary.filter(it => it.time || it.activity)));
+    formData.set('itineraryEn', JSON.stringify(itineraryEn.filter(it => it.time || it.activity)));
+    formData.set('itineraryZh', JSON.stringify(itineraryZh.filter(it => it.time || it.activity)));
+    formData.set('itineraryZhCn', JSON.stringify(itineraryZhCn.filter(it => it.time || it.activity)));
 
     // Inject translated values (from controlled state)
     formData.set('titleId', titleId);
@@ -277,8 +372,8 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
               type="button"
               onClick={() => setActiveTab(tab.key as any)}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === tab.key
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                ? 'border-blue-500 text-blue-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
             >
               {tab.label}
@@ -408,8 +503,8 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
         <div
           onClick={() => !uploadingImages && imageInputRef.current?.click()}
           className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${uploadingImages
-              ? 'border-blue-300 bg-blue-50'
-              : 'border-gray-300 hover:border-blue-400 hover:bg-blue-50/50'
+            ? 'border-blue-300 bg-blue-50'
+            : 'border-gray-300 hover:border-blue-400 hover:bg-blue-50/50'
             }`}
         >
           {uploadingImages ? (
@@ -444,20 +539,55 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
         </p>
       </div>
 
-      {/* ===== VIDEO (Upload — max 1, max 10MB) ===== */}
+      {/* ===== VIDEO (Upload + YouTube) ===== */}
       <div className="bg-gray-50 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
           <Video className="w-5 h-5 mr-2" />
-          Video
-          <span className="ml-2 text-xs font-normal text-gray-500">(Maks 1 video, maks 10MB)</span>
+          Video <span className="text-gray-400 text-sm ml-2">(opsional)</span>
         </h3>
 
+        {/* YouTube URL Input */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">🎬 Link YouTube</label>
+          <div className="flex gap-2">
+            <input
+              type="url"
+              value={youtubeUrl}
+              onChange={(e) => { setYoutubeUrl(e.target.value); if (e.target.value) setVideoUrl(''); }}
+              placeholder="https://www.youtube.com/watch?v=..."
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 text-sm"
+            />
+            {youtubeUrl && (
+              <button type="button" onClick={() => setYoutubeUrl('')} className="px-3 py-2 text-red-500 hover:bg-red-50 rounded-lg border border-gray-300">
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+          {youtubeUrl && getYouTubeEmbedUrl(youtubeUrl) && (
+            <div className="mt-3 rounded-lg overflow-hidden border border-gray-200">
+              <iframe
+                src={getYouTubeEmbedUrl(youtubeUrl) || ''}
+                className="w-full aspect-video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          )}
+        </div>
+
+        <div className="flex items-center gap-3 my-4">
+          <div className="flex-1 h-px bg-gray-200" />
+          <span className="text-xs text-gray-400 font-medium">ATAU upload file video</span>
+          <div className="flex-1 h-px bg-gray-200" />
+        </div>
+
         {videoUrl ? (
-          <div className="relative group">
+          <div className="relative inline-block group">
             <video
               src={videoUrl}
               controls
-              className="w-full max-h-64 rounded-lg border border-gray-200 bg-black"
+              className="w-80 rounded-lg border border-gray-200"
+              preload="metadata"
             />
             <button
               type="button"
@@ -466,44 +596,140 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
             >
               <X className="w-4 h-4" />
             </button>
-            <p className="text-xs text-gray-500 mt-2">Arahkan kursor ke video untuk melihat tombol hapus</p>
           </div>
         ) : (
-          <>
-            <div
-              onClick={() => !uploadingVideo && videoInputRef.current?.click()}
-              className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${uploadingVideo
-                  ? 'border-purple-300 bg-purple-50'
-                  : 'border-gray-300 hover:border-purple-400 hover:bg-purple-50/50'
-                }`}
-            >
-              {uploadingVideo ? (
-                <div className="flex flex-col items-center gap-2">
-                  <Loader2 className="w-8 h-8 text-purple-500 animate-spin" />
-                  <span className="text-sm text-purple-600 font-medium">Mengupload video...</span>
-                </div>
-              ) : (
-                <div className="flex flex-col items-center gap-2">
-                  <Video className="w-8 h-8 text-gray-400" />
-                  <span className="text-sm text-gray-600">
-                    Klik untuk upload video
-                  </span>
-                  <span className="text-xs text-gray-400">
-                    MP4, WebM, OGG — Maks 10MB
-                  </span>
-                </div>
-              )}
-            </div>
-
-            <input
-              ref={videoInputRef}
-              type="file"
-              accept="video/mp4,video/webm,video/ogg"
-              onChange={handleVideoUpload}
-              className="hidden"
-            />
-          </>
+          <div
+            onClick={() => !uploadingVideo && !youtubeUrl && videoInputRef.current?.click()}
+            className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${youtubeUrl
+              ? 'border-gray-200 bg-gray-100 opacity-50 cursor-not-allowed'
+              : uploadingVideo
+                ? 'border-blue-300 bg-blue-50 cursor-wait'
+                : 'border-gray-300 hover:border-blue-400 hover:bg-blue-50/50 cursor-pointer'
+              }`}
+          >
+            {uploadingVideo ? (
+              <div className="flex flex-col items-center">
+                <Loader2 className="w-8 h-8 text-blue-500 animate-spin mb-2" />
+                <p className="text-sm text-blue-600">Mengupload video...</p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center">
+                <Upload className="w-8 h-8 text-gray-400 mb-2" />
+                <p className="text-sm text-gray-600">{youtubeUrl ? 'Hapus link YouTube untuk upload file' : 'Klik untuk upload video'}</p>
+                <p className="text-xs text-gray-400 mt-1">MP4, WebM (maks 10MB)</p>
+              </div>
+            )}
+          </div>
         )}
+
+        <input
+          ref={videoInputRef}
+          type="file"
+          accept="video/*"
+          onChange={handleVideoUpload}
+          className="hidden"
+        />
+      </div>
+
+      {/* ===== ITINERARY / LIST ===== */}
+      <div className="bg-gray-50 rounded-lg p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+          🗓️ Itinerary / Highlights ({activeTab.toUpperCase()})
+        </h3>
+        {/* Color presets for itinerary */}
+        {(() => {
+          const colors = [
+            { value: '', label: 'Default', bg: '#6b7280' },
+            { value: '#1d4ed8', label: 'Biru', bg: '#1d4ed8' },
+            { value: '#dc2626', label: 'Merah', bg: '#dc2626' },
+            { value: '#16a34a', label: 'Hijau', bg: '#16a34a' },
+            { value: '#9333ea', label: 'Ungu', bg: '#9333ea' },
+            { value: '#d97706', label: 'Amber', bg: '#d97706' },
+          ];
+          return (
+            <div className="space-y-3">
+              {getCurrentItinerary().map((item, i) => (
+                <div key={i} className="bg-white border border-gray-200 rounded-lg p-3 space-y-2">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="text"
+                      value={item.time}
+                      onChange={(e) => {
+                        const updated = [...getCurrentItinerary()];
+                        updated[i] = { ...updated[i], time: e.target.value };
+                        setCurrentItinerary(updated);
+                      }}
+                      placeholder="cth: Jam / Poin"
+                      className="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    />
+                    <input
+                      type="text"
+                      value={item.activity}
+                      onChange={(e) => {
+                        const updated = [...getCurrentItinerary()];
+                        updated[i] = { ...updated[i], activity: e.target.value };
+                        setCurrentItinerary(updated);
+                      }}
+                      placeholder="Aktivitas / Informasi..."
+                      style={{ color: item.color || undefined, fontWeight: item.bold ? 'bold' : undefined }}
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updated = [...getCurrentItinerary()];
+                        updated[i] = { ...updated[i], bold: !item.bold };
+                        setCurrentItinerary(updated);
+                      }}
+                      title="Toggle Bold"
+                      className={`px-2.5 py-2 rounded-lg border text-sm font-bold transition-colors ${item.bold
+                          ? 'bg-gray-800 text-white border-gray-800'
+                          : 'bg-white text-gray-600 border-gray-300 hover:border-gray-500'
+                        }`}
+                    >
+                      B
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCurrentItinerary(getCurrentItinerary().filter((_, idx) => idx !== i))}
+                      className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                  {/* Color swatches */}
+                  <div className="flex items-center gap-2 pl-1">
+                    <span className="text-xs text-gray-400">Warna:</span>
+                    {colors.map((c) => (
+                      <button
+                        key={c.value}
+                        type="button"
+                        title={c.label}
+                        onClick={() => {
+                          const updated = [...getCurrentItinerary()];
+                          updated[i] = { ...updated[i], color: c.value || undefined };
+                          setCurrentItinerary(updated);
+                        }}
+                        className={`w-5 h-5 rounded-full border-2 transition-all ${(item.color || '') === c.value
+                            ? 'border-gray-900 scale-125'
+                            : 'border-transparent hover:scale-110'
+                          }`}
+                        style={{ backgroundColor: c.bg }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => setCurrentItinerary([...getCurrentItinerary(), { time: '', activity: '' }])}
+                className="flex items-center text-sm text-blue-600 hover:text-blue-800 mt-2"
+              >
+                <Plus className="w-4 h-4 mr-1" /> Tambah Item
+              </button>
+            </div>
+          );
+        })()}
       </div>
 
       {/* ===== MULTI-LANGUAGE CONTENT (TEXT) ===== */}

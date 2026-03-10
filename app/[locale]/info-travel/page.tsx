@@ -72,6 +72,14 @@ async function getInfoTravelItems(locale: string) {
     })(),
     videoUrl: item.videoUrl,
     featured: item.featured,
+    itinerary: (() => {
+      let raw = locale === 'id' ? item.itineraryId
+        : locale === 'zh' ? item.itineraryZh
+          : locale === 'zh-CN' ? item.itineraryZhCn
+            : item.itineraryEn;
+      if (!raw || raw === '[]' || raw === 'null') raw = item.itineraryId;
+      try { return JSON.parse(raw || '[]') as any[]; } catch { return []; }
+    })(),
   }));
 }
 
@@ -152,10 +160,10 @@ export default async function InfoTravelPage({
                     {/* Images Grid */}
                     {item.images.length > 0 && (
                       <div className={`mb-6 ${item.images.length === 1
-                          ? 'grid grid-cols-1'
-                          : item.images.length === 2
-                            ? 'grid grid-cols-2 gap-4'
-                            : 'grid grid-cols-2 md:grid-cols-3 gap-4'
+                        ? 'grid grid-cols-1'
+                        : item.images.length === 2
+                          ? 'grid grid-cols-2 gap-4'
+                          : 'grid grid-cols-2 md:grid-cols-3 gap-4'
                         }`}>
                         {item.images.map((imgUrl, imgIndex) => (
                           <div
@@ -206,11 +214,37 @@ export default async function InfoTravelPage({
                     )}
 
                     {/* Text Content */}
-                    <div className="prose prose-lg max-w-none text-gray-700">
+                    <div className="prose prose-lg max-w-none text-gray-700 mb-8">
                       {item.description.split('\n\n').map((paragraph: string, pIndex: number) => (
                         <p key={pIndex}>{paragraph}</p>
                       ))}
                     </div>
+
+                    {/* Itinerary / Highlights */}
+                    {item.itinerary && item.itinerary.length > 0 && (
+                      <div className="bg-gray-50 rounded-xl p-6 border border-gray-100">
+                        <div className="space-y-4">
+                          {item.itinerary.map((it: any, itIndex: number) => (
+                            <div key={itIndex} className="flex gap-4">
+                              {it.time && (
+                                <span className="text-sm font-bold text-amber-600 whitespace-nowrap min-w-[60px]">
+                                  {it.time}
+                                </span>
+                              )}
+                              <p
+                                className="text-gray-700 leading-relaxed"
+                                style={{
+                                  fontWeight: it.bold ? 'bold' : 'normal',
+                                  color: it.color || 'inherit'
+                                }}
+                              >
+                                {it.activity}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </article>
                 ))}
               </div>
