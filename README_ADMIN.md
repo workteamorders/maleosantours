@@ -7,8 +7,6 @@ Sistem lengkap untuk **Maleosan Travel** - Travel & Tour Operator di Manado.
 Proyek ini terdiri dari dua bagian utama:
 
 
-
-
 1. **Public Website** (`/app/[locale]/`)
    - Landing page dengan hero section
    - Halaman hotels, transport, paket tour
