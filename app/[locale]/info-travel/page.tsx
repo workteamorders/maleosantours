@@ -53,9 +53,11 @@ async function getInfoTravelItems(locale: string) {
     console.error('Database connection error:', error);
   }
 
-  // Auto-translate missing locale fields (caches to DB on first run)
+  // Auto-translate missing locale fields (sequential to avoid rate limiting)
   if (locale !== 'id') {
-    await Promise.all(items.map(item => ensureInfoTravelTranslations(item, locale)));
+    for (const item of items) {
+      await ensureInfoTravelTranslations(item, locale);
+    }
   }
 
   return items.map((item) => ({

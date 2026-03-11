@@ -35,9 +35,11 @@ async function getTourPackages(locale: string) {
     console.error('Database connection error:', error);
   }
 
-  // Auto-translate missing locale fields (caches to DB on first run)
+  // Auto-translate missing locale fields (sequential to avoid rate limiting)
   if (locale !== 'id') {
-    await Promise.all(packages.map(pkg => ensureTourTranslations(pkg, locale)));
+    for (const pkg of packages) {
+      await ensureTourTranslations(pkg, locale);
+    }
   }
 
   // Map to locale-specific content

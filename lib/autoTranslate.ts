@@ -7,33 +7,68 @@
 import { prisma } from './prisma';
 
 // ---------------------------------------------------------------------------
-// Core: Google Translate (same engine as /api/translate)
+// Core translators: Google primary, MyMemory fallback
 // ---------------------------------------------------------------------------
 
 async function translateWithGoogle(text: string, targetLang: string): Promise<string> {
   const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=id&tl=${encodeURIComponent(targetLang)}&dt=t&q=${encodeURIComponent(text)}`;
   const res = await fetch(url, {
     headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1)' },
-    signal: AbortSignal.timeout(10000),
+    signal: AbortSignal.timeout(15000),
   });
   if (!res.ok) throw new Error(`Google HTTP ${res.status}`);
   const data = await res.json();
   if (!Array.isArray(data) || !Array.isArray(data[0])) throw new Error('Invalid response');
-  return (data[0] as [string, ...unknown[]][])
+  const result = (data[0] as [string, ...unknown[]][])
     .filter((item) => item[0])
     .map((item) => item[0])
     .join('');
+  if (!result) throw new Error('Empty result');
+  return result;
 }
 
-/** Translate text (returns original on failure) */
-async function safeTranslate(text: string, googleLang: string): Promise<string> {
+async function translateWithMyMemory(text: string, targetLang: string): Promise<string> {
+  const target = (targetLang === 'zh-TW' || targetLang === 'zh-tw') ? 'zh-CN' : targetLang;
+  const shortText = text.slice(0, 490);
+  const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(shortText)}&langpair=id|${target}`;
+  const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+  const data = await res.json();
+  const t: string = data?.responseData?.translatedText ?? '';
+  if (
+    data.responseStatus === 200 &&
+    t &&
+    !t.includes('INVALID TARGET LANGUAGE') &&
+    !t.includes('MYMEMORY WARNING') &&
+    t.toLowerCase() !== shortText.toLowerCase()
+  ) {
+    return t;
+  }
+  throw new Error(`MyMemory failed (status ${data.responseStatus})`);
+}
+
+/**
+ * Translate text with Google → MyMemory fallback.
+ * Returns NULL on failure so callers know NOT to cache the bad result.
+ * IMPORTANT: Never return the source text as a "translation" — that causes
+ * the system to think the field is already translated and skip future retries.
+ */
+async function safeTranslate(text: string, googleLang: string): Promise<string | null> {
   if (!text?.trim()) return text || '';
   try {
     const result = await translateWithGoogle(text, googleLang);
-    return result || text;
-  } catch (err) {
-    console.warn(`[autoTranslate] Failed for "${text.slice(0, 40)}…" → ${googleLang}:`, err);
-    return text;
+    // Reject if result is identical to source (indicates translation failure)
+    if (result.trim().toLowerCase() === text.trim().toLowerCase()) return null;
+    return result;
+  } catch (googleErr) {
+    console.warn(`[autoTranslate] Google failed → ${googleLang}:`, googleErr);
+    try {
+      const result = await translateWithMyMemory(text, googleLang);
+      if (result.trim().toLowerCase() === text.trim().toLowerCase()) return null;
+      return result;
+    } catch (mmErr) {
+      console.warn(`[autoTranslate] MyMemory failed → ${googleLang}:`, mmErr);
+      return null; // Return null — caller should NOT cache this
+    }
   }
 }
 
@@ -51,39 +86,61 @@ const LOCALE_MAP: Record<string, { suffix: string; google: string }> = {
 const TARGET_LOCALES = Object.keys(LOCALE_MAP); // ['en', 'zh', 'zh-CN']
 
 // ---------------------------------------------------------------------------
-// JSON field translators
+// JSON field translators — sequential to avoid rate limiting
 // ---------------------------------------------------------------------------
 
-async function translateItinerary(json: string | null, googleLang: string): Promise<string> {
+/** Translate itinerary JSON sequentially (not parallel) to avoid rate-limit */
+async function translateItinerary(json: string | null, googleLang: string): Promise<string | null> {
   if (!json || json === '[]' || json === 'null') return '[]';
   try {
     const items = JSON.parse(json);
     if (!Array.isArray(items) || items.length === 0) return '[]';
-    const translated = await Promise.all(
-      items.map(async (item: any) => ({
-        ...item,
-        activity: item.activity?.trim()
-          ? await safeTranslate(item.activity, googleLang)
-          : (item.activity || ''),
-      }))
-    );
-    return JSON.stringify(translated);
+    const translated: any[] = [];
+    let anyTranslated = false;
+    for (const item of items) {
+      if (item.activity?.trim()) {
+        const result = await safeTranslate(item.activity, googleLang);
+        if (result !== null) {
+          translated.push({ ...item, activity: result });
+          anyTranslated = true;
+        } else {
+          translated.push(item); // keep original on failure
+        }
+      } else {
+        translated.push(item);
+      }
+    }
+    // Only return if at least one item was actually translated
+    return anyTranslated ? JSON.stringify(translated) : null;
   } catch {
-    return json;
+    return null;
   }
 }
 
-async function translateStringArray(json: string | null, googleLang: string): Promise<string> {
+/** Translate string array sequentially */
+async function translateStringArray(json: string | null, googleLang: string): Promise<string | null> {
   if (!json || json === '[]' || json === 'null') return '[]';
   try {
     const items = JSON.parse(json);
     if (!Array.isArray(items) || items.length === 0) return '[]';
-    const translated = await Promise.all(
-      items.map(async (item: string) => item?.trim() ? await safeTranslate(item, googleLang) : (item || ''))
-    );
-    return JSON.stringify(translated);
+    const translated: string[] = [];
+    let anyTranslated = false;
+    for (const item of items) {
+      if (item?.trim()) {
+        const result = await safeTranslate(item, googleLang);
+        if (result !== null) {
+          translated.push(result);
+          anyTranslated = true;
+        } else {
+          translated.push(item); // keep original on failure
+        }
+      } else {
+        translated.push(item || '');
+      }
+    }
+    return anyTranslated ? JSON.stringify(translated) : null;
   } catch {
-    return json;
+    return null;
   }
 }
 
@@ -99,10 +156,10 @@ export async function ensureTourTranslations(pkg: any, locale: string): Promise<
   if (locale === 'id' || !LOCALE_MAP[locale]) return pkg;
 
   const { suffix, google } = LOCALE_MAP[locale];
-  const updates: Record<string, string | null> = {};
+  const updates: Record<string, string> = {};
   let needsUpdate = false;
 
-  // Simple text fields
+  // Simple text fields — only cache if translation is non-null (i.e. actually translated)
   const textPairs = [
     { src: 'nameId', tgt: `name${suffix}` },
     { src: 'descId', tgt: `desc${suffix}` },
@@ -112,9 +169,14 @@ export async function ensureTourTranslations(pkg: any, locale: string): Promise<
   for (const { src, tgt } of textPairs) {
     if (isEmpty(pkg[tgt]) && !isEmpty(pkg[src])) {
       const translated = await safeTranslate(pkg[src], google);
-      pkg[tgt] = translated;
-      updates[tgt] = translated;
-      needsUpdate = true;
+      if (translated !== null) {
+        pkg[tgt] = translated;   // mutate for this request
+        updates[tgt] = translated; // cache to DB
+        needsUpdate = true;
+      } else {
+        // Translation failed — show source as fallback but do NOT cache
+        pkg[tgt] = pkg[src];
+      }
     }
   }
 
@@ -122,9 +184,13 @@ export async function ensureTourTranslations(pkg: any, locale: string): Promise<
   const itinTgt = `itinerary${suffix}`;
   if (isEmpty(pkg[itinTgt]) && !isEmpty(pkg.itineraryId)) {
     const translated = await translateItinerary(pkg.itineraryId, google);
-    pkg[itinTgt] = translated;
-    updates[itinTgt] = translated;
-    needsUpdate = true;
+    if (translated !== null) {
+      pkg[itinTgt] = translated;
+      updates[itinTgt] = translated;
+      needsUpdate = true;
+    } else {
+      pkg[itinTgt] = pkg.itineraryId; // show original, don't cache
+    }
   }
 
   // Inclusions/Exclusions (JSON arrays)
@@ -133,13 +199,17 @@ export async function ensureTourTranslations(pkg: any, locale: string): Promise<
     const tgt = `${base}${suffix}`;
     if (isEmpty(pkg[tgt]) && !isEmpty(pkg[src])) {
       const translated = await translateStringArray(pkg[src], google);
-      pkg[tgt] = translated;
-      updates[tgt] = translated;
-      needsUpdate = true;
+      if (translated !== null) {
+        pkg[tgt] = translated;
+        updates[tgt] = translated;
+        needsUpdate = true;
+      } else {
+        pkg[tgt] = pkg[src];
+      }
     }
   }
 
-  // Cache to DB so this only runs once per record per locale
+  // Cache to DB so this only runs once per record per locale (only for successful translations)
   if (needsUpdate) {
     prisma.tourPackage.update({ where: { id: pkg.id }, data: updates })
       .catch((e: unknown) => console.error('[autoTranslate] DB cache failed (tour):', e));
@@ -156,7 +226,7 @@ export async function ensureInfoTravelTranslations(item: any, locale: string): P
   if (locale === 'id' || !LOCALE_MAP[locale]) return item;
 
   const { suffix, google } = LOCALE_MAP[locale];
-  const updates: Record<string, string | null> = {};
+  const updates: Record<string, string> = {};
   let needsUpdate = false;
 
   // Text fields
@@ -167,9 +237,13 @@ export async function ensureInfoTravelTranslations(item: any, locale: string): P
   for (const { src, tgt } of textPairs) {
     if (isEmpty(item[tgt]) && !isEmpty(item[src])) {
       const translated = await safeTranslate(item[src], google);
-      item[tgt] = translated;
-      updates[tgt] = translated;
-      needsUpdate = true;
+      if (translated !== null) {
+        item[tgt] = translated;
+        updates[tgt] = translated;
+        needsUpdate = true;
+      } else {
+        item[tgt] = item[src];
+      }
     }
   }
 
@@ -177,9 +251,13 @@ export async function ensureInfoTravelTranslations(item: any, locale: string): P
   const itinTgt = `itinerary${suffix}`;
   if (isEmpty(item[itinTgt]) && !isEmpty(item.itineraryId)) {
     const translated = await translateItinerary(item.itineraryId, google);
-    item[itinTgt] = translated;
-    updates[itinTgt] = translated;
-    needsUpdate = true;
+    if (translated !== null) {
+      item[itinTgt] = translated;
+      updates[itinTgt] = translated;
+      needsUpdate = true;
+    } else {
+      item[itinTgt] = item.itineraryId;
+    }
   }
 
   if (needsUpdate) {
@@ -191,52 +269,14 @@ export async function ensureInfoTravelTranslations(item: any, locale: string): P
 }
 
 // ---------------------------------------------------------------------------
-// Server-side: translate ALL missing locale fields at once (for save actions)
+// Server-side: auto-translate on save
 // ---------------------------------------------------------------------------
-
-export async function autoTranslateAllFields(
-  data: Record<string, any>,
-  fieldMap: { src: string; targets: { suffix: string }[]; type: 'text' | 'itinerary' | 'array' }[]
-): Promise<Record<string, any>> {
-  // For each target locale, translate missing fields in parallel
-  await Promise.all(
-    TARGET_LOCALES.map(async (locale) => {
-      const { suffix, google } = LOCALE_MAP[locale];
-
-      for (const field of fieldMap) {
-        const srcVal = data[field.src];
-        if (isEmpty(srcVal)) continue;
-
-        const tgtKey = `${field.src.replace(/Id$/, '')}${suffix}`;
-        // Handle naming: descId → descEn, includedId → includedEn, etc.
-        const actualTgtKey = field.targets.length > 0
-          ? field.targets.find(t => t.suffix === suffix)
-            ? `${field.src.replace(/Id$/, '').replace(/^itinerary$/, 'itinerary').replace(/^included$/, 'included').replace(/^excluded$/, 'excluded')}${suffix}`
-            : tgtKey
-          : tgtKey;
-
-        if (!isEmpty(data[actualTgtKey])) continue; // already has translation
-
-        if (field.type === 'text') {
-          data[actualTgtKey] = await safeTranslate(srcVal, google);
-        } else if (field.type === 'itinerary') {
-          data[actualTgtKey] = await translateItinerary(srcVal, google);
-        } else if (field.type === 'array') {
-          data[actualTgtKey] = await translateStringArray(srcVal, google);
-        }
-      }
-    })
-  );
-
-  return data;
-}
 
 /** Auto-translate all missing fields for a TourPackage data object before DB save */
 export async function autoTranslateTourData(data: Record<string, any>): Promise<Record<string, any>> {
   for (const locale of TARGET_LOCALES) {
     const { suffix, google } = LOCALE_MAP[locale];
 
-    // Text fields: nameId→name{suffix}, descId→desc{suffix}, duration→duration{suffix}, priceUnit→priceUnit{suffix}
     const textPairs = [
       { src: 'nameId', tgt: `name${suffix}` },
       { src: 'descId', tgt: `desc${suffix}` },
@@ -245,22 +285,24 @@ export async function autoTranslateTourData(data: Record<string, any>): Promise<
     ];
     for (const { src, tgt } of textPairs) {
       if (!isEmpty(data[src]) && isEmpty(data[tgt])) {
-        data[tgt] = await safeTranslate(data[src], google);
+        const result = await safeTranslate(data[src], google);
+        if (result !== null) data[tgt] = result;
+        // If null: leave field empty so it retries on next save/view
       }
     }
 
-    // Itinerary
     const itinTgt = `itinerary${suffix}`;
     if (!isEmpty(data.itineraryId) && isEmpty(data[itinTgt])) {
-      data[itinTgt] = await translateItinerary(data.itineraryId, google);
+      const result = await translateItinerary(data.itineraryId, google);
+      if (result !== null) data[itinTgt] = result;
     }
 
-    // Inclusions/Exclusions
     for (const base of ['included', 'excluded']) {
       const src = `${base}Id`;
       const tgt = `${base}${suffix}`;
       if (!isEmpty(data[src]) && isEmpty(data[tgt])) {
-        data[tgt] = await translateStringArray(data[src], google);
+        const result = await translateStringArray(data[src], google);
+        if (result !== null) data[tgt] = result;
       }
     }
   }
@@ -272,21 +314,21 @@ export async function autoTranslateInfoTravelData(data: Record<string, any>): Pr
   for (const locale of TARGET_LOCALES) {
     const { suffix, google } = LOCALE_MAP[locale];
 
-    // Text fields
     const textPairs = [
       { src: 'titleId', tgt: `title${suffix}` },
       { src: 'descId', tgt: `desc${suffix}` },
     ];
     for (const { src, tgt } of textPairs) {
       if (!isEmpty(data[src]) && isEmpty(data[tgt])) {
-        data[tgt] = await safeTranslate(data[src], google);
+        const result = await safeTranslate(data[src], google);
+        if (result !== null) data[tgt] = result;
       }
     }
 
-    // Itinerary
     const itinTgt = `itinerary${suffix}`;
     if (!isEmpty(data.itineraryId) && isEmpty(data[itinTgt])) {
-      data[itinTgt] = await translateItinerary(data.itineraryId, google);
+      const result = await translateItinerary(data.itineraryId, google);
+      if (result !== null) data[itinTgt] = result;
     }
   }
   return data;
