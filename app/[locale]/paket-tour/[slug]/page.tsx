@@ -19,6 +19,7 @@ import {
     type Locale,
 } from '@/lib/seo';
 import type { Metadata } from 'next';
+import { ensureTourTranslations } from '@/lib/autoTranslate';
 
 interface PriceTier {
     label: string;
@@ -94,9 +95,12 @@ export default async function TourDetailPage({
         notFound();
     }
 
+    // Auto-translate missing locale fields (caches to DB)
+    await ensureTourTranslations(tour, locale);
+
     // Pick locale-specific content
-    const name = locale === 'id' ? tour.nameId : locale === 'zh' ? tour.nameZh : locale === 'zh-CN' ? tour.nameZhCn : tour.nameEn;
-    const desc = locale === 'id' ? tour.descId : locale === 'zh' ? tour.descZh : locale === 'zh-CN' ? tour.descZhCn : tour.descEn;
+    const name = (locale === 'id' ? tour.nameId : locale === 'zh' ? tour.nameZh : locale === 'zh-CN' ? tour.nameZhCn : tour.nameEn) || tour.nameId || tour.nameEn;
+    const desc = (locale === 'id' ? tour.descId : locale === 'zh' ? tour.descZh : locale === 'zh-CN' ? tour.descZhCn : tour.descEn) || tour.descId || tour.descEn;
 
     // Itinerary
     let itineraryRaw = locale === 'id' ? tour.itineraryId : locale === 'zh' ? tour.itineraryZh : locale === 'zh-CN' ? tour.itineraryZhCn : tour.itineraryEn;

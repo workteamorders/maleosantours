@@ -9,6 +9,7 @@ import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { autoTranslateInfoTravelData } from '@/lib/autoTranslate';
 
 function generateSlug(title: string): string {
   return title
@@ -58,6 +59,9 @@ export async function createInfoTravel(formData: FormData) {
     metaDescEn: (formData.get('metaDescEn') as string) || null,
   };
 
+  // Auto-translate any empty translated fields from Indonesian source
+  await autoTranslateInfoTravelData(data);
+
   await prisma.infoTravel.create({ data });
 
   revalidatePath('/admin/info-travel');
@@ -105,6 +109,9 @@ export async function updateInfoTravel(id: string, formData: FormData) {
     metaTitleEn: (formData.get('metaTitleEn') as string) || null,
     metaDescEn: (formData.get('metaDescEn') as string) || null,
   };
+
+  // Auto-translate any empty translated fields from Indonesian source
+  await autoTranslateInfoTravelData(data);
 
   await prisma.infoTravel.update({
     where: { id },

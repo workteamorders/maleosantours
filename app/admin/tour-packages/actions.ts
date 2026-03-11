@@ -9,6 +9,7 @@ import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { autoTranslateTourData } from '@/lib/autoTranslate';
 
 function generateSlug(name: string): string {
   return name
@@ -20,8 +21,9 @@ function generateSlug(name: string): string {
 export async function createTourPackage(formData: FormData) {
   await requireAuth();
 
+  const nameId = formData.get('nameId') as string;
   const nameEn = formData.get('nameEn') as string;
-  const slug = generateSlug(nameEn);
+  const slug = generateSlug(nameId || nameEn || 'paket-tour');
 
   // Collect images from form data
   const imageUrls: string[] = [];
@@ -37,7 +39,7 @@ export async function createTourPackage(formData: FormData) {
 
   const data = {
     slug,
-    nameId: formData.get('nameId') as string,
+    nameId,
     nameEn,
     nameZh: formData.get('nameZh') as string,
     nameZhCn: formData.get('nameZhCn') as string,
@@ -74,6 +76,9 @@ export async function createTourPackage(formData: FormData) {
     featured: formData.get('featured') === 'on',
     active: formData.get('active') === 'on',
   };
+
+  // Auto-translate any empty translated fields from Indonesian source
+  await autoTranslateTourData(data);
 
   const tourPackage = await prisma.tourPackage.create({ data });
 
@@ -85,8 +90,9 @@ export async function createTourPackage(formData: FormData) {
 export async function updateTourPackage(id: string, formData: FormData) {
   await requireAuth();
 
+  const nameId = formData.get('nameId') as string;
   const nameEn = formData.get('nameEn') as string;
-  const slug = generateSlug(nameEn);
+  const slug = generateSlug(nameId || nameEn || 'paket-tour');
 
   // Collect images from form data
   const imageUrls: string[] = [];
@@ -102,7 +108,7 @@ export async function updateTourPackage(id: string, formData: FormData) {
 
   const data = {
     slug,
-    nameId: formData.get('nameId') as string,
+    nameId,
     nameEn,
     nameZh: formData.get('nameZh') as string,
     nameZhCn: formData.get('nameZhCn') as string,
@@ -139,6 +145,9 @@ export async function updateTourPackage(id: string, formData: FormData) {
     featured: formData.get('featured') === 'on',
     active: formData.get('active') === 'on',
   };
+
+  // Auto-translate any empty translated fields from Indonesian source
+  await autoTranslateTourData(data);
 
   await prisma.tourPackage.update({
     where: { id },

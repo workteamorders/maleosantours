@@ -2,8 +2,47 @@ import { NextRequest, NextResponse } from 'next/server';
 
 /**
  * Translation API Route
- * Migrated to more stable providers (TranslateAI & MyMemory)
+ * Primary: Google Translate unofficial API (no key, no char limit, reliable zh-TW)
+ * Fallback: MyMemory API (500 char limit, poor zh-TW support — last resort only)
  */
+
+async function translateWithGoogle(text: string, targetLang: string): Promise<string> {
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=id&tl=${encodeURIComponent(targetLang)}&dt=t&q=${encodeURIComponent(text)}`;
+  const res = await fetch(url, {
+    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1)' },
+    signal: AbortSignal.timeout(10000),
+  });
+  if (!res.ok) throw new Error(`Google HTTP ${res.status}`);
+  const data = await res.json();
+  if (!Array.isArray(data) || !Array.isArray(data[0])) throw new Error('Google: invalid response');
+  const translated = (data[0] as [string, ...unknown[]][])
+    .filter((item) => item[0])
+    .map((item) => item[0])
+    .join('');
+  if (!translated) throw new Error('Google: empty result');
+  return translated;
+}
+
+async function translateWithMyMemory(text: string, targetLang: string): Promise<string> {
+  // zh-TW is unreliable on MyMemory — use zh-CN as best effort
+  const target = (targetLang === 'zh-TW' || targetLang === 'zh-tw') ? 'zh-CN' : targetLang;
+  const shortText = text.slice(0, 490); // stay under 500 char limit
+  const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(shortText)}&langpair=id|${target}`;
+  const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
+  const data = await res.json();
+  const t: string = data?.responseData?.translatedText ?? '';
+  if (
+    data.responseStatus === 200 &&
+    t &&
+    !t.includes('INVALID TARGET LANGUAGE') &&
+    !t.includes('MYMEMORY WARNING') &&
+    t.toLowerCase() !== shortText.toLowerCase()
+  ) {
+    return t;
+  }
+  throw new Error(`MyMemory failed (status ${data.responseStatus})`);
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { text, targetLangs } = await request.json();
@@ -12,39 +51,28 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No text provided' }, { status: 400 });
     }
 
-    const langs = targetLangs || ['en', 'zh-CN', 'zh-TW'];
+    const langs: string[] = targetLangs || ['en', 'zh-CN', 'zh-TW'];
     const results: Record<string, string> = {};
 
-    // Parallelize translation calls for better speed
-    await Promise.all(langs.map(async (lang: string) => {
-      try {
-        // Map common codes to MyMemory format (id|en, id|zh, id|zht)
-        let target = lang;
-        if (lang === 'zh-CN' || lang === 'zh') target = 'zh-CN'; // Simplified
-        if (lang === 'zh-TW' || lang === 'zh-tw') target = 'zh-TW'; // Traditional
-
-        const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=id|${target}`;
-        const res = await fetch(url);
-        const data = await res.json();
-
-        // MyMemory sometimes returns 200 with error message as translatedText
-        if (data.responseData &&
-          data.responseData.translatedText &&
-          !data.responseData.translatedText.includes('INVALID TARGET LANGUAGE') &&
-          data.responseStatus === 200) {
-          results[lang] = data.responseData.translatedText;
-        } else {
-          results[lang] = text;
+    await Promise.all(
+      langs.map(async (lang) => {
+        try {
+          results[lang] = await translateWithGoogle(text, lang);
+        } catch (googleErr) {
+          console.warn(`[translate] Google failed for ${lang}:`, googleErr);
+          try {
+            results[lang] = await translateWithMyMemory(text, lang);
+          } catch (mmErr) {
+            console.error(`[translate] All providers failed for ${lang}:`, mmErr);
+            results[lang] = text; // absolute last resort
+          }
         }
-      } catch (err) {
-        console.error(`Translation to ${lang} failed:`, err);
-        results[lang] = text;
-      }
-    }));
+      })
+    );
 
     return NextResponse.json({ translations: results });
   } catch (error) {
-    console.error('Translation error:', error);
+    console.error('[translate] Unhandled error:', error);
     return NextResponse.json({ error: 'Translation failed' }, { status: 500 });
   }
 }

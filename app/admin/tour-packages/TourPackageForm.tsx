@@ -317,11 +317,6 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
   };
 
   async function handleTranslate() {
-    const form = document.querySelector('form') as HTMLFormElement;
-    const formData = new FormData(form);
-    const nameId = (formData.get('nameId') as string) || '';
-    const descId = (formData.get('descId') as string) || '';
-
     if (!nameId.trim() && !descId.trim()) {
       alert('Isi nama dan deskripsi dalam Bahasa Indonesia terlebih dahulu');
       return;
@@ -367,9 +362,9 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
         for (const item of itinerary) {
           if (item.activity.trim()) {
             const t = await translateText(item.activity);
-            enItin.push({ time: item.time, activity: t['en'] || item.activity });
-            zhItin.push({ time: item.time, activity: t['zh-CN'] || item.activity });
-            zhCnItin.push({ time: item.time, activity: t['zh-TW'] || item.activity });
+            enItin.push({ ...item, activity: t['en'] || item.activity });
+            zhItin.push({ ...item, activity: t['zh-CN'] || item.activity });
+            zhCnItin.push({ ...item, activity: t['zh-TW'] || item.activity });
           } else {
             enItin.push(item);
             zhItin.push(item);
@@ -538,9 +533,9 @@ export default function TourPackageForm({ tourPackage }: TourPackageFormProps) {
         for (const item of itinerary) {
           if (item.activity.trim()) {
             const t = await translateText(item.activity);
-            enItin.push({ time: item.time, activity: t['en'] || item.activity });
-            zhItin.push({ time: item.time, activity: t['zh-CN'] || item.activity });
-            zhCnItin.push({ time: item.time, activity: t['zh-TW'] || item.activity });
+            enItin.push({ ...item, activity: t['en'] || item.activity });
+            zhItin.push({ ...item, activity: t['zh-CN'] || item.activity });
+            zhCnItin.push({ ...item, activity: t['zh-TW'] || item.activity });
           } else {
             enItin.push(item); zhItin.push(item); zhCnItin.push(item);
           }

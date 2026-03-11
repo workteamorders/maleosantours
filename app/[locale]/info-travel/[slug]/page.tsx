@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { prisma } from '@/lib/prisma';
 import { getLocale } from 'next-intl/server';
+import { ensureInfoTravelTranslations } from '@/lib/autoTranslate';
 
 function getYouTubeEmbedUrl(url: string): string | null {
     if (!url) return null;
@@ -44,6 +45,9 @@ export default async function InfoTravelDetailPage({ params }: { params: Promise
     if (!item || !item.published) {
         notFound();
     }
+
+    // Auto-translate missing locale fields (caches to DB)
+    await ensureInfoTravelTranslations(item, locale);
 
     const title = getLocalizedField(item, 'title', locale);
     const description = getLocalizedField(item, 'desc', locale);

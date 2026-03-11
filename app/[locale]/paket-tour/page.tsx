@@ -12,6 +12,7 @@ import TourPackagesClient from './TourPackagesClient';
 import { generatePageMetadata, type Locale } from '@/lib/seo';
 import type { Metadata } from 'next';
 import { getPageHeaderImage } from '@/lib/pageHeaders';
+import { ensureTourTranslations } from '@/lib/autoTranslate';
 
 export async function generateMetadata({
   params,
@@ -34,12 +35,17 @@ async function getTourPackages(locale: string) {
     console.error('Database connection error:', error);
   }
 
+  // Auto-translate missing locale fields (caches to DB on first run)
+  if (locale !== 'id') {
+    await Promise.all(packages.map(pkg => ensureTourTranslations(pkg, locale)));
+  }
+
   // Map to locale-specific content
   return packages.map((pkg) => ({
     id: pkg.id,
     slug: pkg.slug,
-    name: locale === 'id' ? pkg.nameId : locale === 'zh' ? pkg.nameZh : locale === 'zh-CN' ? pkg.nameZhCn : pkg.nameEn,
-    description: locale === 'id' ? pkg.descId : locale === 'zh' ? pkg.descZh : locale === 'zh-CN' ? pkg.descZhCn : pkg.descEn,
+    name: (locale === 'id' ? pkg.nameId : locale === 'zh' ? pkg.nameZh : locale === 'zh-CN' ? pkg.nameZhCn : pkg.nameEn) || pkg.nameId || pkg.nameEn,
+    description: (locale === 'id' ? pkg.descId : locale === 'zh' ? pkg.descZh : locale === 'zh-CN' ? pkg.descZhCn : pkg.descEn) || pkg.descId || pkg.descEn,
     duration: (locale === 'id' ? pkg.duration : locale === 'zh' ? pkg.durationZh : locale === 'zh-CN' ? pkg.durationZhCn : pkg.durationEn) || pkg.duration,
     type: pkg.type,
     price: pkg.price,

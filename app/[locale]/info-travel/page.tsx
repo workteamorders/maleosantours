@@ -11,6 +11,7 @@ import { prisma } from '@/lib/prisma';
 import { generatePageMetadata, type Locale } from '@/lib/seo';
 import type { Metadata } from 'next';
 import { getPageHeaderImage } from '@/lib/pageHeaders';
+import { ensureInfoTravelTranslations } from '@/lib/autoTranslate';
 
 export async function generateMetadata({
   params,
@@ -52,21 +53,26 @@ async function getInfoTravelItems(locale: string) {
     console.error('Database connection error:', error);
   }
 
+  // Auto-translate missing locale fields (caches to DB on first run)
+  if (locale !== 'id') {
+    await Promise.all(items.map(item => ensureInfoTravelTranslations(item, locale)));
+  }
+
   return items.map((item) => ({
     id: item.id,
     slug: item.slug,
     category: item.category,
     icon: item.icon,
     title:
-      locale === 'id' ? item.titleId
+      (locale === 'id' ? item.titleId
         : locale === 'zh' ? item.titleZh
           : locale === 'zh-CN' ? item.titleZhCn
-            : item.titleEn,
+            : item.titleEn) || item.titleId || item.titleEn,
     description:
-      locale === 'id' ? item.descId
+      (locale === 'id' ? item.descId
         : locale === 'zh' ? item.descZh
           : locale === 'zh-CN' ? item.descZhCn
-            : item.descEn,
+            : item.descEn) || item.descId || item.descEn,
     images: (() => {
       try { return JSON.parse(item.images) as string[]; } catch { return []; }
     })(),
