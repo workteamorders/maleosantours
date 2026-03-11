@@ -10,7 +10,7 @@ import type { Metadata } from 'next';
 // SITE CONFIGURATION
 // ============================================================
 
-export const SITE_URL = 'https://maleosantoursmanado.com';
+export const SITE_URL = 'https://www.maleosantoursmanado.com';
 export const SITE_NAME = 'Maleosan Travel';
 
 export const LOCALES = ['id', 'en', 'zh', 'zh-CN'] as const;
@@ -26,11 +26,12 @@ export const LOCALE_LANG_MAP: Record<Locale, string> = {
 };
 
 // Locale to hreflang attribute mapping (Google standard)
+// Google only accepts: language codes like 'id', 'en', 'zh-CN', 'zh-TW'
 export const LOCALE_HREFLANG_MAP: Record<Locale, string> = {
     id: 'id',
     en: 'en',
-    zh: 'zh-Hans',
-    'zh-CN': 'zh-Hant',
+    zh: 'zh-CN',      // Simplified Chinese (China) — Google standard
+    'zh-CN': 'zh-TW', // Traditional Chinese (Taiwan) — Google standard
 };
 
 // ============================================================

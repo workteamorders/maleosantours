@@ -6,11 +6,12 @@ import type { NextRequest } from 'next/server';
 const intlMiddleware = createMiddleware(routing);
 
 // Locale to lang mapping for Content-Language header
+// Must match LOCALE_HREFLANG_MAP in lib/seo.ts
 const LOCALE_LANG: Record<string, string> = {
   id: 'id',
   en: 'en',
-  zh: 'zh-Hans',
-  'zh-CN': 'zh-Hant',
+  zh: 'zh-CN',   // Simplified Chinese — Google standard
+  'zh-CN': 'zh-TW', // Traditional Chinese (Taiwan) — Google standard
 };
 
 export default function middleware(request: NextRequest) {

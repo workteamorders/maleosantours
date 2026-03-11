@@ -58,6 +58,12 @@ model InfoTravel {
   descZh      String   @db.Text
   descZhCn    String   @db.Text
   
+  // Itinerary / List Content (JSON)
+  itineraryId  String?  @db.Text
+  itineraryEn  String?  @db.Text
+  itineraryZh  String?  @db.Text
+  itineraryZhCn String?  @db.Text
+  
   images      String   @db.Text // JSON array of image URLs
   videoUrl    String?  @db.Text // YouTube/video embed URL
   icon        String?

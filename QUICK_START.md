@@ -2,15 +2,14 @@
 
 ## Installation & Setup (5 minutes)
 
-
-
-
 ### Step 1: Install Dependencies
 
 ```bash
 npm install prisma @prisma/client bcryptjs
 npm install -D tsx @types/bcryptjs
 ```
+
+
 
 ### Step 2: Setup Database & Admin User
 
