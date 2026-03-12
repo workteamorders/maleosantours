@@ -75,11 +75,11 @@ export default async function TestimoniPage() {
                             {testimonials.map((item) => (
                                 <div key={item.id} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
                                     {item.photo && (
-                                        <div className="relative h-48">
+                                        <div className="relative w-full aspect-[3/4] overflow-hidden">
                                             <img
                                                 src={item.photo}
                                                 alt={item.customerName}
-                                                className="w-full h-full object-cover"
+                                                className="w-full h-full object-cover object-top"
                                             />
                                         </div>
                                     )}
