@@ -9,8 +9,7 @@ Pastikan sudah terinstall di komputer Anda:
 - **MySQL** — database harus aktif (gunakan XAMPP, Laragon, atau MySQL langsung)
 - **Git** (opsional, untuk clone/pull repository)
 
----
-
+--
 
 
 ## Langkah-langkah
