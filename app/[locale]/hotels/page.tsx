@@ -1,9 +1,10 @@
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import Image from 'next/image';
+import Link from 'next/link';
 import { getTranslations, getLocale } from 'next-intl/server';
 import { prisma } from '@/lib/prisma';
-import { MapPin, ExternalLink } from 'lucide-react';
+import { MapPin, ExternalLink, Eye } from 'lucide-react';
 import { generatePageMetadata, type Locale } from '@/lib/seo';
 import type { Metadata } from 'next';
 import { getPageHeaderImage } from '@/lib/pageHeaders';
@@ -132,17 +133,26 @@ export default async function HotelsPage() {
                         {hotel.priceRange && (
                           <span className="text-emerald-600 font-bold text-lg">{hotel.priceRange}</span>
                         )}
-                        {hotel.bookingUrl && (
-                          <a
-                            href={hotel.bookingUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center text-sm text-blue-600 hover:underline"
+                        <div className="flex items-center gap-2 ml-auto">
+                          <Link
+                            href={`/${locale}/hotels/${hotel.slug}`}
+                            className="inline-flex items-center gap-1.5 text-sm bg-amber-500 hover:bg-amber-600 text-white font-semibold px-3 py-1.5 rounded-lg transition-colors"
                           >
-                            <ExternalLink className="w-3 h-3 mr-1" />
-                            {locale === 'id' ? 'Pesan' : locale === 'en' ? 'Book Now' : '预订'}
-                          </a>
-                        )}
+                            <Eye className="w-3.5 h-3.5" />
+                            {locale === 'id' ? 'Lihat Detail' : locale === 'zh' || locale === 'zh-CN' ? '查看详情' : 'View Detail'}
+                          </Link>
+                          {hotel.bookingUrl && (
+                            <a
+                              href={hotel.bookingUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center text-sm text-blue-600 hover:underline"
+                            >
+                              <ExternalLink className="w-3 h-3 mr-1" />
+                              {locale === 'id' ? 'Pesan' : locale === 'en' ? 'Book Now' : '预订'}
+                            </a>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
