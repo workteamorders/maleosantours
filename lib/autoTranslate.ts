@@ -272,6 +272,17 @@ export async function ensureInfoTravelTranslations(item: any, locale: string): P
 // Server-side: auto-translate on save
 // ---------------------------------------------------------------------------
 
+/**
+ * Translate a single text string for a given app locale.
+ * Returns the original text if translation fails.
+ * Used by page.tsx to translate homepage items on-the-fly.
+ */
+export async function translateForLocale(text: string, locale: string): Promise<string> {
+  if (!text?.trim() || locale === 'id' || !LOCALE_MAP[locale]) return text;
+  const { google } = LOCALE_MAP[locale];
+  const result = await safeTranslate(text, google);
+  return result ?? text;
+}
 /** Auto-translate all missing fields for a TourPackage data object before DB save */
 export async function autoTranslateTourData(data: Record<string, any>): Promise<Record<string, any>> {
   for (const locale of TARGET_LOCALES) {
