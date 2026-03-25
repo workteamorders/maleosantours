@@ -77,6 +77,26 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
 
   const isEdit = !!infoTravel;
 
+  function getEmbeddedVideoUrl(url: string): string {
+    const trimmed = url.trim();
+    if (!trimmed) return '';
+
+    if (trimmed.includes('youtube.com/embed/')) return trimmed;
+
+    const youtubeMatch = trimmed.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
+    if (youtubeMatch) return `https://www.youtube.com/embed/${youtubeMatch[1]}`;
+
+    const vimeoMatch = trimmed.match(/vimeo\.com\/(\d+)/);
+    if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+
+    return trimmed;
+  }
+
+  function isLocalVideoUrl(url: string): boolean {
+    const trimmed = url.trim();
+    return trimmed.startsWith('/uploads/') || trimmed.startsWith('/videos/') || trimmed.startsWith('blob:');
+  }
+
   function removeImage(index: number) {
     setImages(images.filter((_, i) => i !== index));
   }
@@ -447,13 +467,41 @@ export default function InfoTravelForm({ infoTravel }: InfoTravelFormProps) {
           <span className="ml-2 text-xs font-normal text-gray-500">(Maks 1 video, maks 10MB)</span>
         </h3>
 
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Link YouTube / Vimeo (Opsional)
+          </label>
+          <input
+            type="text"
+            value={videoUrl}
+            onChange={(e) => setVideoUrl(e.target.value)}
+            placeholder="https://www.youtube.com/watch?v=..."
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            Tempel link video atau upload file video di bawah. Jika keduanya diisi, nilai terakhir yang dipilih akan disimpan.
+          </p>
+        </div>
+
         {videoUrl ? (
           <div className="relative group">
-            <video
-              src={videoUrl}
-              controls
-              className="w-full max-h-64 rounded-lg border border-gray-200 bg-black"
-            />
+            <div className="relative w-full aspect-video rounded-lg border border-gray-200 overflow-hidden bg-black">
+              {isLocalVideoUrl(videoUrl) ? (
+                <video
+                  src={videoUrl}
+                  controls
+                  className="absolute inset-0 w-full h-full object-contain"
+                />
+              ) : (
+                <iframe
+                  src={getEmbeddedVideoUrl(videoUrl)}
+                  title="Preview video"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
+                />
+              )}
+            </div>
             <button
               type="button"
               onClick={removeVideo}
