@@ -6,6 +6,7 @@ import Philosophy from '../../components/Philosophy';
 import Destinations from '../../components/Destinations';
 
 import Journal from '../../components/Journal';
+import ContactSection from '../../components/ContactSection';
 import { prisma } from '@/lib/prisma';
 import { generatePageMetadata, type Locale } from '@/lib/seo';
 import type { Metadata } from 'next';
@@ -84,6 +85,7 @@ export default async function Home({
       </div>
 
       <Journal items={journals} />
+      <ContactSection />
       <Footer />
     </main>
   );
