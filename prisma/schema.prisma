@@ -299,6 +299,21 @@ model CompanyInfo {
   @@map("companyinfo")
 }
 
+// 6️⃣ VISITOR COMMENTS (public, moderated)
+model VisitorComment {
+  id        String   @id @default(cuid())
+  name      String   @db.VarChar(80)
+  content   String   @db.Text
+  status    String   @default("pending") @db.VarChar(20) // 'pending', 'approved', 'rejected'
+  ipHash    String?  @db.VarChar(64) // hashed IP for server-side rate limiting
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([ipHash, createdAt])
+  @@map("visitorcomment")
+}
+
 model ContactSubmission {
   id         String   @id @default(cuid())
   

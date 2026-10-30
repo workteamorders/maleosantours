@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
-import { X, Menu as MenuIcon } from 'lucide-react';
+import { X } from 'lucide-react';
 import LanguageSwitcher from './LanguageSwitcher';
 import { CurrencySelector } from './CurrencyProvider';
 import { useTranslations } from 'next-intl';
@@ -68,7 +68,7 @@ export default function Navbar() {
     const menuItems = [
         { href: '/', label: t('home') },
         { href: '/info-travel', label: t('infoTravel') },
-        { href: '/paket-tour', label: t('paketTour') },
+        { href: '/#paket-tour', label: t('paketTour') },
         { href: '/hotels', label: t('hotels') },
         { href: '/transport', label: t('transport') },
         { href: '/testimoni', label: t('testimoni') },

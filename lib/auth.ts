@@ -185,6 +185,16 @@ export async function authenticateAdmin(
 }
 
 /**
+ * Require a real admin session. Unlike requireAuth(), this never creates a
+ * session automatically and is used for sensitive moderation operations.
+ */
+export async function requireAdminSession(): Promise<AdminUser> {
+  const admin = await getCurrentAdmin();
+  if (!admin) throw new Error('Unauthorized');
+  return admin;
+}
+
+/**
  * Require authentication - throw if not authenticated
  */
 export async function requireAuth(): Promise<AdminUser> {

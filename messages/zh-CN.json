@@ -129,6 +129,30 @@
     "review5": "定制旅遊套裝符合我的預算。團隊非常靈活，幫助規劃了完美的行程。謝謝Maleosan Travel！",
     "review6": "優秀的服務！酒店推薦非常完美，交通非常舒適。一定會再來的！"
   },
+  "comments": {
+    "title": "訪客留言",
+    "subtitle": "分享您與我們同行的體驗或疑問。",
+    "name": "姓名",
+    "namePlaceholder": "您的姓名",
+    "comment": "留言",
+    "commentPlaceholder": "在此輸入您的留言...",
+    "submit": "發送留言",
+    "submitting": "發送中...",
+    "success": "謝謝！您的留言將在管理員審核後顯示。",
+    "loadMore": "載入更多",
+    "loading": "正在載入留言...",
+    "loadingMore": "載入中...",
+    "noComments": "暫無留言。",
+    "loadError": "載入留言失敗。",
+    "submitError": "留言發送失敗，請重試。",
+    "retry": "重試",
+    "validation": {
+      "nameTooShort": "姓名必須為 2–80 個字元。",
+      "nameTooLong": "姓名最多 80 個字元。",
+      "contentTooShort": "留言必須為 5–1,000 個字元。",
+      "contentTooLong": "留言最多 1,000 個字元。"
+    }
+  },
   "kontak": {
     "title": "聯繫我們",
     "titleDesc": "聯繫我們",

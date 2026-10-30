@@ -11,7 +11,6 @@ import { SITE_URL, LOCALES, DEFAULT_LOCALE, LOCALE_HREFLANG_MAP, type Locale } f
 // Static pages with their change frequencies and priorities
 const STATIC_PAGES = [
     { path: '', changeFrequency: 'daily' as const, priority: 1.0 },
-    { path: '/paket-tour', changeFrequency: 'daily' as const, priority: 0.9 },
     { path: '/hotels', changeFrequency: 'daily' as const, priority: 0.9 },
     { path: '/info-travel', changeFrequency: 'weekly' as const, priority: 0.8 },
     { path: '/transport', changeFrequency: 'weekly' as const, priority: 0.8 },

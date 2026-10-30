@@ -129,6 +129,30 @@
     "review5": "Custom tour package fits my budget. The team is very flexible and helps plan the perfect itinerary. Thank you Maleosan Travel!",
     "review6": "Excellent service! The hotel recommendations were perfect and transportation was very comfortable. Will definitely come back!"
   },
+  "comments": {
+    "title": "Visitor Comments",
+    "subtitle": "Share your experience or questions about travelling with us.",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "comment": "Comment",
+    "commentPlaceholder": "Write your comment here...",
+    "submit": "Send Comment",
+    "submitting": "Sending...",
+    "success": "Thank you! Your comment will appear after admin approval.",
+    "loadMore": "Load more",
+    "loading": "Loading comments...",
+    "loadingMore": "Loading...",
+    "noComments": "No comments yet.",
+    "loadError": "Failed to load comments.",
+    "submitError": "Failed to send your comment. Please try again.",
+    "retry": "Retry",
+    "validation": {
+      "nameTooShort": "Name must be 2–80 characters.",
+      "nameTooLong": "Name must be at most 80 characters.",
+      "contentTooShort": "Comment must be 5–1,000 characters.",
+      "contentTooLong": "Comment must be at most 1,000 characters."
+    }
+  },
   "kontak": {
     "title": "Contact Us",
     "titleDesc": "CONTACT US",

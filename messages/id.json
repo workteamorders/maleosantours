@@ -129,6 +129,30 @@
     "review5": "Paket custom tour sesuai budget saya. Timnya sangat fleksibel dan membantu merencanakan itinerary yang pas. Terima kasih Maleosan Travel!",
     "review6": "Pelayanan luar biasa! Rekomendasi hotelnya sempurna dan transportasinya sangat nyaman. Pasti akan kembali lagi!"
   },
+  "comments": {
+    "title": "Komentar Pengunjung",
+    "subtitle": "Bagikan pengalaman atau pertanyaan Anda tentang perjalanan bersama kami.",
+    "name": "Nama",
+    "namePlaceholder": "Nama Anda",
+    "comment": "Komentar",
+    "commentPlaceholder": "Tulis komentar Anda di sini...",
+    "submit": "Kirim Komentar",
+    "submitting": "Mengirim...",
+    "success": "Terima kasih! Komentar Anda akan tampil setelah disetujui admin.",
+    "loadMore": "Muat lebih banyak",
+    "loading": "Memuat komentar...",
+    "loadingMore": "Memuat...",
+    "noComments": "Belum ada komentar.",
+    "loadError": "Gagal memuat komentar.",
+    "submitError": "Gagal mengirim komentar. Silakan coba lagi.",
+    "retry": "Coba lagi",
+    "validation": {
+      "nameTooShort": "Nama harus 2–80 karakter.",
+      "nameTooLong": "Nama maksimal 80 karakter.",
+      "contentTooShort": "Komentar harus 5–1.000 karakter.",
+      "contentTooLong": "Komentar maksimal 1.000 karakter."
+    }
+  },
   "kontak": {
     "title": "Hubungi Kami",
     "titleDesc": "HUBUNGI KAMI",

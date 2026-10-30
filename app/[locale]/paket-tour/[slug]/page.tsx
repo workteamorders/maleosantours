@@ -9,7 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
-import { getTranslations, getLocale } from 'next-intl/server';
+import type { TourPackage } from '@prisma/client';
 import { Clock, MapPin, ArrowLeft, Check, X, Phone, Info, Users } from 'lucide-react';
 import {
     generateTourDetailMetadata,
@@ -43,8 +43,8 @@ function getYouTubeEmbedUrl(url: string): string | null {
     return null;
 }
 
-async function getTourBySlug(slug: string) {
-    return prisma.tourPackage.findUnique({ where: { slug } }) as any;
+async function getTourBySlug(slug: string): Promise<TourPackage | null> {
+    return prisma.tourPackage.findUnique({ where: { slug } });
 }
 
 function parseJSON<T>(str: string | null | undefined, fallback: T): T {
@@ -52,11 +52,11 @@ function parseJSON<T>(str: string | null | undefined, fallback: T): T {
     try { return JSON.parse(str); } catch { return fallback; }
 }
 
-function getLocalizedName(tour: any, locale: string): string {
+function getLocalizedName(tour: TourPackage, locale: string): string {
     return locale === 'id' ? tour.nameId : locale === 'zh' ? tour.nameZh : locale === 'zh-CN' ? tour.nameZhCn : tour.nameEn;
 }
 
-function getLocalizedDesc(tour: any, locale: string): string {
+function getLocalizedDesc(tour: TourPackage, locale: string): string {
     return locale === 'id' ? tour.descId : locale === 'zh' ? tour.descZh : locale === 'zh-CN' ? tour.descZhCn : tour.descEn;
 }
 
@@ -88,7 +88,6 @@ export default async function TourDetailPage({
     params: Promise<{ locale: string; category: string; slug: string }>;
 }) {
     const { locale, slug } = await params;
-    const t = await getTranslations('paketTour');
     const tour = await getTourBySlug(slug);
 
     if (!tour || !tour.active) {
@@ -153,7 +152,7 @@ export default async function TourDetailPage({
 
     const breadcrumbSchema = generateBreadcrumbSchema([
         { name: locale === 'id' ? 'Beranda' : 'Home', url: `${SITE_URL}/${locale}` },
-        { name: locale === 'id' ? 'Paket Tour' : 'Tour Packages', url: `${SITE_URL}/${locale}/paket-tour` },
+        { name: locale === 'id' ? 'Paket Tour' : 'Tour Packages', url: `${SITE_URL}/${locale}` },
         { name, url: `${SITE_URL}/${locale}/paket-tour/${tour.slug}` },
     ]);
 
@@ -182,7 +181,7 @@ export default async function TourDetailPage({
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
                     <div className="container mx-auto max-w-6xl">
-                        <Link href={`/${locale}/paket-tour`} className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm font-medium mb-4 transition-colors">
+                        <Link href={`/${locale}#paket-tour`} className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm font-medium mb-4 transition-colors">
                             <ArrowLeft size={16} />
                             {locale === 'id' ? 'Kembali ke Paket Tur' : 'Back to Tour Packages'}
                         </Link>

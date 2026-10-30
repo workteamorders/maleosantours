@@ -207,7 +207,7 @@ export function generatePageMetadata(
     if (!seo) return {};
 
     const lang = LOCALE_LANG_MAP[locale];
-    const path = options?.path || (pageKey === 'home' ? '' : pageKey);
+    const path = options?.path !== undefined ? options.path : pageKey === 'home' ? '' : pageKey;
     const canonicalUrl = `${SITE_URL}/${locale}${path ? `/${path}` : ''}`;
 
     // Generate alternate language URLs for hreflang

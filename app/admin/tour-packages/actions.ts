@@ -80,10 +80,11 @@ export async function createTourPackage(formData: FormData) {
   // Auto-translate any empty translated fields from Indonesian source
   await autoTranslateTourData(data);
 
-  const tourPackage = await prisma.tourPackage.create({ data });
+  await prisma.tourPackage.create({ data });
 
   revalidatePath('/admin/tour-packages');
   revalidatePath('/paket-tour');
+  revalidatePath('/');
   redirect('/admin/tour-packages');
 }
 
@@ -156,6 +157,7 @@ export async function updateTourPackage(id: string, formData: FormData) {
 
   revalidatePath('/admin/tour-packages');
   revalidatePath('/paket-tour');
+  revalidatePath('/');
   redirect('/admin/tour-packages');
 }
 
@@ -168,6 +170,7 @@ export async function deleteTourPackage(id: string) {
 
   revalidatePath('/admin/tour-packages');
   revalidatePath('/paket-tour');
+  revalidatePath('/');
 }
 
 export async function toggleTourPackageActive(id: string, active: boolean) {
@@ -180,4 +183,5 @@ export async function toggleTourPackageActive(id: string, active: boolean) {
 
   revalidatePath('/admin/tour-packages');
   revalidatePath('/paket-tour');
+  revalidatePath('/');
 }

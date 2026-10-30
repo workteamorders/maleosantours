@@ -1,62 +1,10 @@
 /**
- * Tour Packages Page - Public
- * REFACTORED: Now fetches data from database instead of hardcoded translations
+ * Legacy tour package listing URL.
+ * Tour packages are now the homepage, so keep shared links working with a
+ * permanent redirect. Detail URLs remain at /[locale]/paket-tour/[slug].
  */
 
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
-import Image from 'next/image';
-import { getTranslations } from 'next-intl/server';
-import { prisma } from '@/lib/prisma';
-import TourPackagesClient from './TourPackagesClient';
-import { generatePageMetadata, type Locale } from '@/lib/seo';
-import type { Metadata } from 'next';
-import { getPageHeaderImage } from '@/lib/pageHeaders';
-import { ensureTourTranslations } from '@/lib/autoTranslate';
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-  return generatePageMetadata('paket-tour', locale as Locale);
-}
-
-// Fetch active tour packages from database
-async function getTourPackages(locale: string) {
-  let packages: any[] = [];
-  try {
-    packages = await prisma.tourPackage.findMany({
-      where: { active: true },
-      orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
-    });
-  } catch (error) {
-    console.error('Database connection error:', error);
-  }
-
-  // Auto-translate missing locale fields (sequential to avoid rate limiting)
-  if (locale !== 'id') {
-    for (const pkg of packages) {
-      await ensureTourTranslations(pkg, locale);
-    }
-  }
-
-  // Map to locale-specific content
-  return packages.map((pkg) => ({
-    id: pkg.id,
-    slug: pkg.slug,
-    name: (locale === 'id' ? pkg.nameId : locale === 'zh' ? pkg.nameZh : locale === 'zh-CN' ? pkg.nameZhCn : pkg.nameEn) || pkg.nameId || pkg.nameEn,
-    description: (locale === 'id' ? pkg.descId : locale === 'zh' ? pkg.descZh : locale === 'zh-CN' ? pkg.descZhCn : pkg.descEn) || pkg.descId || pkg.descEn,
-    duration: (locale === 'id' ? pkg.duration : locale === 'zh' ? pkg.durationZh : locale === 'zh-CN' ? pkg.durationZhCn : pkg.durationEn) || pkg.duration,
-    type: pkg.type,
-    price: pkg.price,
-    priceUnit: (locale === 'id' ? pkg.priceUnit : locale === 'zh' ? pkg.priceUnitZh : locale === 'zh-CN' ? pkg.priceUnitZhCn : pkg.priceUnitEn) || pkg.priceUnit,
-    mainImage: pkg.mainImage,
-    videoUrl: pkg.videoUrl,
-    featured: pkg.featured,
-  }));
-}
+import { permanentRedirect } from 'next/navigation';
 
 export default async function PaketTourPage({
   params,
@@ -64,45 +12,5 @@ export default async function PaketTourPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const t = await getTranslations('paketTour');
-
-  // Fetch tour packages from database
-  const tourPackages = await getTourPackages(locale);
-  const headerImage = await getPageHeaderImage('paket-tour');
-
-  // Separate by type
-  const dayTours = tourPackages.filter((pkg) => pkg.type === 'day-tour');
-  const multiDayTours = tourPackages.filter((pkg) => pkg.type === 'multi-day' || pkg.type === 'custom');
-
-  return (
-    <main className="relative bg-background">
-      <Navbar />
-      <div className="min-h-screen pt-32 px-10">
-        <div className="relative h-96 mb-12 rounded-lg overflow-hidden">
-          <Image
-            src={headerImage}
-            alt="Tour Package"
-            fill
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <h1 className="font-serif text-6xl text-white">{t('title')}</h1>
-          </div>
-        </div>
-
-        <div className="max-w-6xl">
-          <p className="text-xl text-gray-600 mb-12">
-            {t('description')}
-          </p>
-
-          <TourPackagesClient
-            locale={locale}
-            dayTours={dayTours}
-            multiDayTours={multiDayTours}
-          />
-        </div>
-      </div>
-      <Footer />
-    </main>
-  );
+  permanentRedirect(`/${locale}#paket-tour`);
 }
